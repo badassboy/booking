@@ -1,0 +1,159 @@
+*,
+*::before,
+*::after{
+	box-sizing:border-box;
+}
+
+html, body, div, span, applet,
+ object, iframe, h1, h2, h3, h4,
+  h5, h6, p, blockquote, pre, a, 
+  abbr, acronym, address, big, cite, code, del, 
+  dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, 
+  tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, 
+  form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, 
+  article, aside, canvas, details, embed,  figure, figcaption, footer, header, hgroup,  menu, nav, output, ruby, section, summary, time, mark, audio, video {  
+   margin: 0;  
+   padding: 0;  
+   border: 0;  
+	font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.top {
+  background-color:transparent;
+  height: 900px;
+}
+
+.first {
+  background-color:#ffffff;
+  height: 90px;
+}
+
+.first h1 {
+    padding-left: 6%;
+    padding-top: 2%;
+    font-weight: bolder;
+}
+
+.main {
+  background-color:#f2f2f2;
+  height: 600px;
+  padding-top: 3%;
+}
+
+.inside {
+  background-color: rgb(255, 255, 255);
+  height: 500px;
+}
+
+.left {
+  background-color:rgb(255, 255, 255);
+  height: 200px;
+}
+
+.right {
+  background-color:  rgb(255, 255, 255);
+  height: 500px;
+  border-left: 1px solid #333333;
+}
+
+
+form {
+  background-color: green;
+  height: 300px;
+  padding-left: 15%;
+  padding-top: 6%;
+}
+
+form label {
+    color:#000000;
+    font-weight: bold;
+}
+
+input[type=text],input[type=password] {
+
+    width: 35%;
+}
+
+.btn-primary {
+  background-color:#009933;
+  font-weight: bold;
+  margin-left: 3%;
+  width: 33%;
+}
+
+#addUser {
+  background-color:#f2f2f2;
+  margin-top: 2%;
+}
+
+#changePassword {
+  background-color:#f2f2f2;
+  margin-top: 2%;
+
+}
+
+
+
+#addButton {
+  
+  width: 50%;
+  height: 40px;
+  margin-left: 20%;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  background-color:#009933; 
+  font-size: 17px;
+}
+
+#allBtn {
+  width: 50%;
+  height: 40px;
+  margin-left: 20%;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  background-color:#009933; 
+  font-size: 17px;
+
+}
+
+#changeButton {
+  width: 60%;
+  height: 40px;
+  margin-left: 20%;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  background-color:#009933; 
+  font-size: 17px;
+}
+
+.default {
+  margin-left: 5%;
+  width: 35%;
+  border-radius: 2%;
+  background-color:rgb(255, 255, 255);
+  color:#1a1a1a;
+  font-weight: bolder;
+}
+
+#change {
+
+    width: 35%;
+    height: 40px;
+    margin-left: 2%;
+    background-color: #009933;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+}
+
+#clear{
+  background-color:#009933;
+  color:  rgb(255, 255, 255);
+  width: 100%; 
+  height: 40px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.list-group {
+  margin-top: 4%;
+}

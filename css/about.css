@@ -1,0 +1,72 @@
+.about {
+
+		background-color: #f9f9f9;
+		height: 1200px;
+
+		
+}
+
+article {
+	padding-top: -20%;
+}
+
+article h1,article h2 {
+	padding-top: 3%;
+	text-align: center;
+	font-weight: bolder;
+}
+
+.explain {
+	padding: 2% 7%;
+	font-size: 18px;
+}
+
+
+.contact_div {
+	background-color:red;
+	height: 550px;
+}
+
+.contact_div h3 {
+	padding-left: 25%;
+	padding-top: 2%;
+	font-weight: bolder;
+}
+
+
+
+
+input[type=text]{
+	margin-left: 2%;
+	margin-top: 2%;
+}
+
+input[type=text],input[type=email]{
+	width: 40%;
+	height: 50px;
+}
+
+form label {
+	padding-left: 10%;
+}
+
+#exampleFormControlTextarea1 {
+	width: 40%;
+	height: 200px;
+	margin-left: 2%;
+}
+
+.label_one {
+	padding-top: 2%;
+}
+
+.default {
+	margin-left: 16%;
+	background-color: green;
+	color: white;
+	 font-weight: bolder;
+	 width: 32%;
+	 height: 40px;
+	 border: 1px solid green;
+	 font-size: 20px;
+}
