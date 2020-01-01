@@ -8,6 +8,7 @@ error_reporting(E_ALL);
 
 require("../functions.php");
 $ch = new Church();
+$dbh = DB();
 
 $msg = "";
 $info = "";
@@ -28,6 +29,13 @@ if (isset($_POST['add'])) {
 		
 	}
 }
+
+
+
+
+// Displaying admin info into the table
+$stmt = $dbh->prepare("SELECT * FROM church_admin");
+$stmt->execute();
 
 ?>
 
@@ -170,31 +178,24 @@ if (isset($_POST['add'])) {
 			   	  </thead>
 
 			   	  <tbody>
-			   	    <tr>
-			   	      <th scope="row"><i class="fa fa-trash" aria-hidden="true"></i></th>
-			   	      <td>Mark</td>
-			   	      <td>Otto</td>
-			   	      <td>@mdo</td>
-			   	      <td>@mdo</td>
-			   	    </tr>
+
+			   	  	<?php  while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { ?>
 
 			   	    <tr>
-			   	      <th scope="row"><i class="fa fa-trash" aria-hidden="true"></i></th>
-			   	      <td>Jacob</td>
-			   	      <td>Thornton</td>
-			   	      <td>@fat</td>
-			   	      <td>@fat</td>
+			   	      <th scope="row">
+			   	      	<a href="deleteAdmin.php?del=<?php echo $row['id'];?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
+			   	      </th>
+			   	      <td><?php echo $row['username'];?></td>
+			   	      <td><?php echo $row['fullname'];?></td>
+			   	      <td><?php echo $row['email'];?></td>
+			   	      <td><?php echo $row['JOINDATE'];?></td>
 			   	    </tr>
 
-			   	    <tr>
-			   	      <th scope="row"><i class="fa fa-trash" aria-hidden="true"></i></th>
-			   	      <td>Larry</td>
-			   	      <td>the Bird</td>
-			   	      <td>@twitter</td>
-			   	      <td>@twitter</td>
-			   	    </tr>
+			   	  
+			   	<?php } ?>
 
-			   	    <tr>
+			   	    <!-- end of tr -->
+					<tr>
 			   	    	<td></td>
 			   	    	<td></td>
 			   	    	<td></td>
@@ -202,15 +203,12 @@ if (isset($_POST['add'])) {
 			   	    	<td><button type="button" id="clear">Clear</button></td>
 			   	    </tr>
 			   	  
-
 			   	  </tbody>
-
-
-
 
 			   	</table>
 
-			   	<!-- end of table -->
+
+					<!-- end of table -->
 			   	  	
 
 			   </div>

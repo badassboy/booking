@@ -1,5 +1,6 @@
 <?php
 
+//require("../database.php");
 include("../functions.php");
 $ch = new Church();
 
@@ -10,6 +11,7 @@ if (isset($_POST['signup'])) {
 
 	$fullName = trim($_POST['full_name']);
 	$church = trim($_POST['ch_name']);
+	$short_name = trim($_POST['short_name']);
 	$location = trim($_POST['ch_location']);
 	$email = trim($_POST['email']);
 	$mobile = trim($_POST['tel']);
@@ -18,15 +20,48 @@ if (isset($_POST['signup'])) {
 	$password2 = trim($_POST['password2']);
 
 
-	if (!empty($fullName) || !empty($church) || !empty($location) || !empty($email) || !empty($mobile)
+	if (!empty($fullName) || !empty($church) || !empty($short_name) || !empty($location) || !empty($email) || !empty($mobile)
 		|| !empty($name) || !empty($password) || !empty($password2)) {
 
-		$adminSignUp = $ch->addChurchAdmin($fullName,$church,$location,$email,$mobile,$name,$password);
-		if ($adminSignUp) {
-			$msg = "registration successful";
-		}else{
-			$msg = "registration failed";
+		if (!filter_var($email,FILTER_VALIDATE_EMAIL)) {
+			$msg = "invalid email";
+		}else if ($password != $password2) {
+
+			$msg = "Password does not match";
+		}else {
+
+			$adminSignUp = $ch->registerChurchAdmin($fullName,$church,$short_name,$location,$email,$mobile,$name,$password);
+
+
+			if ($adminSignUp==1) {
+
+				$createDatabase = $ch->createDatabase($short_name);
+				if ($createDatabase==1) {
+					
+					$creatTables = $ch->creatTables($short_name);
+					if ($creatTables==1) {
+						$msg="Account Created Successfully";
+					}
+					else
+					{
+						$msg="Error creating tables for database";
+						print_r($creatTables);
+					}
+				}
+				else
+				{
+					$msg="Error creating database";
+					print_r($createDatabase);
+				}
+
+			}else{
+				$msg = "Error creating new account";
+				print_r($adminSignUp);
+			}
+
 		}
+
+		
 
 	}else {
 		$msg = "field are required";
@@ -74,7 +109,7 @@ if (isset($_POST['signup'])) {
 
 		.signup_form {
 			width: 40%;
-			height: 850px;
+			height: 950px;
 			background-color:rgb(255, 255, 255);
 			margin: 1% auto;
 		}
@@ -135,6 +170,11 @@ if (isset($_POST['signup'])) {
 				<div class="form-group">
 				  <label>Church Name</label>
 				  <input type="text" name="ch_name" class="form-control"  placeholder="Church Name" required="required">
+				</div>
+
+				<div class="form-group">
+				  <label>Church ShortName</label>
+				  <input type="text" name="short_name" class="form-control"  placeholder="Church ShortName" required="required">
 				</div>
 
 				<div class="form-group">

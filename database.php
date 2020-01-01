@@ -20,6 +20,16 @@ function DB()
 }
 
 
+function DBcreate()
+{
+	try{
+		$dbs = new PDO('mysql:host='.HOST,USER,PASSWORD);
+		return $dbs;
+	}catch(PDOException $e){
+		return "Error: " .$e->getMessage();
+		die();
+	}
+}
 
 
 

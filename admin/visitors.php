@@ -8,14 +8,17 @@
 
     <title>Collapsible sidebar using Bootstrap 4</title>
 
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="../bootstrap/dist/css/bootstrap.css">
+   
+
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="css/sidestyle.css">
 
-    <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" type="text/css" href="../font-awesome/css/font-awesome.css">
+    
+
 </head>
 
 <body>
@@ -59,22 +62,11 @@
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#">Portfolio</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
+
+
             </ul>
 
-            <ul class="list-unstyled CTAs">
-                <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-                </li>
-                <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
-            </ul>
+           
         </nav>
         <!-- end of sidebar -->
 
@@ -98,6 +90,65 @@
             </nav>
 
             <h2>Membership Page</h2>
+
+            <div id="visitor_div">
+
+                <form method="post" action="" id="visitor_form">
+
+                   <div class="form-row">
+                      <div class="form-group col-md-3">
+                        <label for="inputName">Name</label>
+                        <input type="text" class="form-control" id="inputName" placeholder="Event Name">
+                      </div>
+
+                      <div class="form-group col-md-3">
+                        <label for="inputPhone">Phone</label>
+                        <input type="tel" class="form-control" id="inputPhone" placeholder="Phone Number">
+                      </div>
+
+                      <div class="form-group col-md-3">
+                        <label for="inputEmail">Email</label>
+                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                      </div>
+
+                      <div class="form-group col-md-3">
+                        <label for="inputLocation">Location</label>
+                        <input type="text" class="form-control" id="inputLocation" placeholder="Location">
+
+                        
+                      </div>
+                    </div> 
+
+
+                    <div class="form-row">
+                       <div class="form-group col-md-3">
+                         <label for="inputName">Name</label>
+                         <input type="text" class="form-control" id="inputName" placeholder="Event Name">
+                       </div>
+
+                       <div class="form-group col-md-3">
+                         <label for="inputPhone">Phone</label>
+                         <input type="tel" class="form-control" id="inputPhone" placeholder="Phone Number">
+                       </div>
+
+                       <div class="form-group col-md-3">
+                         <label for="inputEmail">Email</label>
+                         <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                       </div>
+
+                       <div class="form-group col-md-3">
+                         <label for="inputLocation">Location</label>
+                         <input type="text" class="form-control" id="inputLocation" placeholder="Location">
+
+                         
+                       </div>
+                     </div> 
+
+
+
+                </form>
+                
+            </div>
 
         </div>
         <!-- end of  content -->

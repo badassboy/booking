@@ -1,0 +1,20 @@
+.event_form {
+	background-color: rgb(255, 255, 255);
+	height: 400px;
+}
+
+.btn-primary  {
+	margin-left: 30%;
+	width: 20%;
+	background-color: green;
+	color: white;
+	margin-top: 2%;
+}
+
+form {
+	margin-top: 1%;
+}
+
+header {
+	padding-top: 5%;
+}

@@ -5,9 +5,14 @@ error_reporting(E_ALL);
 
 require("database.php");
 
+
+
+
 class Church{
 
 
+	//is this working?
+	// yes but something else
 	public function registerUser($username,$email,$tel,$pass){
 			$dbh = DB();
 		// check  if user already exist
@@ -77,32 +82,162 @@ class Church{
 
 	}
 
-	function addChurchAdmin($fullName,$churchName,$location,$email,$tel,$username,$password){
-			$dbh = DB();
-			$join_date = date("m.d.y");
-		// check  if user already exist
+	// this is the code
+
+	function registerChurchAdmin($fullName,$churchName,$shortName,$location,$email,$tel,$username,$password){
+		// check  if record exist
+		//this is what is causin the failure
+		//the user already exists
+		$dbh = DB();
+		$join_date = date("m.d.y");
 		$stmt = $dbh->prepare("SELECT * FROM church_admin WHERE email = ?");
 		$stmt->execute([$email]);
 		$user = $stmt->fetch(PDO::FETCH_ASSOC);
 		if ($user >  0) {
-			return false;
+			return "This user already exists";
 		}else {
-			// $hashed = md5($password);
+
+
 			$hashed = password_hash($password,PASSWORD_BCRYPT);
-			$stmt = $dbh->prepare("INSERT INTO church_admin(fullname,church_name,location,email,mobile,
-				username,password,JOINDATE) VALUES(?,?,?,?,?,?,?,?)");
-			$stmt->execute([$fullName,$churchName,$location,$email,$tel,$username,$hashed,$join_date]);
+			$stmt = $dbh->prepare("INSERT INTO church_admin(fullname,church_name,short_name,location,email,mobile,
+				username,password,JOINDATE) VALUES(?,?,?,?,?,?,?,?,?)");
+			$stmt->execute([$fullName,$churchName,$shortName,$location,$email,$tel,$username,$hashed,$join_date]);
 			$inserted = $stmt->rowCount();
 			if ($inserted>0) {
 				return true;
 			}else {
-				return false;
+				return $dbh->errorInfo();
 			}
+			
 		}
 	}
 
 
-	public function loginAdmin($email,$password){
+	function createDatabase($name){
+		// check  if record exist
+		try {
+			
+				$conn = DBcreate();
+		// Create database and tables for the church automatically
+				$mydbase=$name;
+				$cretedb="CREATE DATABASE IF NOT EXISTS ".$mydbase;
+				$stmt = $conn->prepare($cretedb);
+				if ($stmt->execute()) {
+					return True;
+				}else {
+					return $conn->errorInfo();
+				}
+
+		} catch (Exception $e) {
+			return $e.getMessage();
+		}
+	}
+
+
+	function creatTables($database){
+		// check  if record exist
+		try {
+
+				$host = 'localhost';
+				// database user
+				$username ='root';
+				// user password
+				$password = "";
+				// database name
+				$db = $database;
+			
+		$mytables = new PDO("mysql:host=$host;dbname=$db", $username,$password);
+		$mytables->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	
+
+		
+					    $users = "CREATE TABLE IF NOT EXISTS `users` (
+						  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+						  `username` VARCHAR(150) ,
+						  `email` VARCHAR(255) ,
+						  `password` VARCHAR(255))";
+						$mytables->exec($users);
+
+					    $groups = "CREATE TABLE IF NOT EXISTS `groups` (
+						  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+						  `name` VARCHAR(150) ,
+						  `description` TEXT(60),
+						  `date_created` DATE NOT NULL)";
+						  $mytables->exec($groups);
+
+
+						 $calendar = "CREATE TABLE IF NOT EXISTS `calendar` (
+						  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+						  	  `event_name` VARCHAR(150) ,
+						  	  `theme` VARCHAR(255),
+						  	  `leader` VARCHAR(255),
+						  	  `schedule` VARCHAR(255),
+						  	  `description` TEXT(255),
+						  	  `event_date` DATE NOT NULL)";
+						  	  $mytables->exec($calendar);
+
+
+
+					    $contact = "CREATE TABLE IF NOT EXISTS `contact` (
+						  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+						  `username` VARCHAR(150) ,
+						  `email` VARCHAR(255) ,
+						  `message` TEXT(60))";
+
+						  $mytables->exec($contact);
+
+					$members = "CREATE TABLE IF NOT EXISTS `members` (
+						  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+						  `firstName` VARCHAR(150) ,
+						  `lastName` VARCHAR(255) ,
+						  `otherName` VARCHAR(255) ,
+						  `residence` VARCHAR(255) ,
+						  `emergency` VARCHAR(255) ,
+						  `phone` VARCHAR(20) ,
+						  `email` VARCHAR(255) ,
+						  `nationality` VARCHAR(255) ,
+						  `address` VARCHAR(255) ,
+						  `hometown` VARCHAR(255) ,
+						  `department` VARCHAR(255) ,
+						  `job` VARCHAR(255) ,
+						  `JOINDATE` DATE NOT NULL ,
+						  `date_joined` DATE NOT NULL ,
+						  `gender` VARCHAR(255) ,
+						  `child1` VARCHAR(255) ,
+						  `child2` VARCHAR(255) ,
+						  `child3` VARCHAR(255) ,
+						  `child4` VARCHAR(255) ,
+						  `status` VARCHAR(255))";
+						 
+
+						  $mytables->exec($members);
+
+					    $admin_table = "CREATE  TABLE `church_admin` (
+					  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+					  `username` VARCHAR(150) ,
+					  `password` VARCHAR(255) ,
+					  `email` VARCHAR(255) ,
+					  `mobile` VARCHAR(20) ,
+					  `fullname` VARCHAR(255) ,
+					  `shortName` VARCHAR(255) ,
+					  `church_name` VARCHAR(75))";
+
+					  $mytables->exec($admin_table);
+					    return True;
+				
+					
+					}catch(PDOException $ex){
+		die("Error:could not connect. " .$ex->getMessage());
+	}
+					
+
+
+		
+	}
+
+	
+		public function loginAdmin($email,$password){
+
 		$dbh = DB();
 		$stmt = $dbh->prepare("SELECT id,username,password FROM church_admin WHERE email = ?");
 
@@ -137,6 +272,90 @@ class Church{
 		}
 
 	}
+
+	public function deleteAdminInfo($id){
+		$dbh = DB();
+		$stmt =$dbh->prepare("DELETE FROM church_admin WHERE id = ?");
+		$stmt->execute([$id]);
+		$deleted = $stmt->rowCount();
+		if ($deleted > 0) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+
+	public function addMember($first,$second,$last,$phone,$email,$nation,$address,$hometown,$job,$date,$gender,
+								$status)
+	{
+		$dbh = DB();
+		// check  if user already exist
+		$stmt = $dbh->prepare("SELECT * FROM members WHERE email = ?");
+		$stmt->execute([$email]);
+		$user = $stmt->fetch(PDO::FETCH_ASSOC);
+		if ($user >  0) {
+			return false;
+		}else {
+			// $hashed = md5($password);
+			$stmt = $dbh->prepare("INSERT INTO members(firstName,lastName,otherName,phone,email,
+				nationality,address,hometown,job,JOINDATE,gender,status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
+			$stmt->execute([$first,$second,$last,$phone,$email,$nation,$address,$hometown,$job,$date,$gender,
+							$status]);
+			$inserted = $stmt->rowCount();
+			if ($inserted>0) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+
+	}
+
+
+	public function createGroup($name,$description){
+			// $dbh = DBcreate();
+		$dbh = DBcreate();
+		var_dump($dbh);
+			$group_date = date("m.d.y");
+
+		// check  if user already exist
+		$stmt = $dbh->prepare("SELECT * FROM groups WHERE name = ?");
+		$stmt->execute([$name]);
+		$user = $stmt->fetch(PDO::FETCH_ASSOC);
+		if ($user >  0) {
+			return false;
+		}
+
+		else {
+			$stmt = $dbh->prepare("INSERT INTO groups(name,description,date_created) 
+				VALUES(?,?,?)");
+			$stmt->execute([$name,$description,$group_date]);
+			$inserted = $stmt->rowCount();
+			if ($inserted>0) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+
+	}
+
+	public function createEvent($event,$theme,$leader,$schedule,$duration,$describe)
+	{	
+
+		$dbs = DBcreate();
+		$stmt = $dbs->prepare("INSERT INTO calendar(name,description,date_created) 
+			VALUES(?,?,?)");
+		$stmt->execute([$name,$description,$group_date]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
 
 
 
