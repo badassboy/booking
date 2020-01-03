@@ -1,3 +1,19 @@
+<?php
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+require("../database.php");
+$dbh = DBcreate();
+
+$stmt = $dbh->prepare("SELECT * FROM calendar");
+$stmt->execute();
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -33,42 +49,20 @@
                 <p>Dummy Heading</p>
 
                 <li>
-                    <a href="#">Create Event</a>
+                    <a href="#" id="event">Create Event</a>
                 </li>
 
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
+                <li> 
+                    <a href="#">All Event</a>
                 </li>
+
+            </ul>
+               
 
                
 
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li>
+             
                 
-            </ul>
 
             
         </nav>
@@ -110,10 +104,10 @@
 
             <h2>Collapsible Sidebar Using Bootstrap 4</h2>
 
-            <div class="container event_form">
+            <div class="container event_form"  style="display: none;">
                 <p id="response"></p>
                 <header>Create Event</header>
-                <form method="post" action="" id="calendar">
+                <form method="post" action="create_calendar.php" id="calendar">
 
                     <div class="form-row">
                <div class="form-group col-md-4">
@@ -166,6 +160,26 @@
 
                 </form>
             </div>
+
+            <!-- end of calendar event form -->
+
+            <!-- see alll events -->
+            <div class="container all_event">
+              <ul class="list-group">
+
+                <?php while($row = $stmt->fetch(PDO::FETCH_ASSOC)){ ?>
+
+                <li class="list-group-item">
+                <a href="event_details.php?id=<?php echo $row['id'];?>"><?php echo $row['event_name'];?></a>
+                </li>
+                
+              </ul>
+
+            <?php } ?>
+               
+              
+            </div>
+            <!-- see alll events -->
             
         </div>
     </div>
@@ -173,18 +187,28 @@
     <!-- jQuery CDN -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-   <script type="text/javascript" src="javascript/script.js"></script>
+   <!-- <script type="text/javascript" src="javascript/script.js"></script> -->
     
     <!-- Bootstrap JS -->
     <script type="text/javascript" src="../bootstrap/dist/js/bootstrap.js"></script>
 
 
     <script type="text/javascript">
+
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
             });
         });
+
+         $(document).ready(function(){
+          $("#event").on('click',function(){
+              $(".event_form").show();
+              
+          });
+
+        });
+
     </script>
 </body>
 

@@ -9,13 +9,22 @@
     <title>Collapsible sidebar using Bootstrap 4</title>
 
     <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../bootstrap/dist/css/bootstrap.min.css">
+
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="css/sidestyle.css">
 
     <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="../font-awesome/css/font-awesome.css">
+
+    <style type="text/css">
+        .sermon{
+            background-color:rgb(255, 255, 255);
+            height: 700px; 
+            padding-top: 3%;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -28,53 +37,15 @@
 
             <ul class="list-unstyled components">
                 <p>Dummy Heading</p>
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li>
+                
                 <li>
-                    <a href="#">About</a>
+                    <a href="#">Create Sermon</a>
                 </li>
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">Portfolio</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
+
+               
             </ul>
 
-            <ul class="list-unstyled CTAs">
-                <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-                </li>
-                <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
-            </ul>
+           
         </nav>
         <!-- end of sidebar -->
 
@@ -97,7 +68,57 @@
                 </div>
             </nav>
 
-            <h2>Membership Page</h2>
+            <h2>Sermon Page</h2>
+            <div class="container sermon">
+                <h5>Please fill below fields to create a sermon</h5>
+                <form method="post">
+
+                  <div class="form-group">
+                    <label>Preacher Name</label>
+                    <input type="text" class="form-control" placeholder="Preacher Name">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" class="form-control" placeholder="Title">
+                  </div>
+
+                 <div class="form-group">
+                    <label for="exampleFormControlSelect1">Type of event</label>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                      <option>Select</option>
+                      <option>Sunday Preaching</option>
+                      <option>Midweek</option>
+                      <option>All Night</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Date</label>
+                <input class="form-control" name="birth" type="date" id="example-date-input" required="required">
+                  </div>
+
+                    <div class="form-group">
+                      <label>Key Scriptures</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                      placeholder="Key Scriptures"></textarea>
+                    </div>
+
+                      <div class="form-group">
+                        <label>Extra Notes</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                        placeholder="Notes"></textarea>
+                      </div>
+
+
+
+
+
+
+
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
 
         </div>
         <!-- end of  content -->

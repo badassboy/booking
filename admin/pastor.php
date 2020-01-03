@@ -1,3 +1,11 @@
+<?php
+
+// ajax form submission foreach form
+// appointment form processing
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -8,14 +16,51 @@
 
     <title>Collapsible sidebar using Bootstrap 4</title>
 
-    <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" type="text/css" href="../bootstrap/dist/css/bootstrap.css">
+
+    
+
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="css/sidestyle.css">
 
-    <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="../font-awesome/css/font-awesome.css">
+
+    <style type="text/css">
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .appointment{
+                background-color:rgb(255, 255, 255);
+                height: 500px;
+                padding-top: 3%;
+                display: none;
+            }
+
+        .event{
+                background-color:rgb(255, 255, 255);
+                height: 500px;
+                padding-top: 3%;
+                display: none;
+            }
+
+        .counselling{
+
+            background-color:rgb(255, 255, 255);
+            height: 350px;
+            padding-top: 3%;
+            display: none;
+        }
+
+
+    </style>
+    
+
 </head>
 
 <body>
@@ -28,53 +73,30 @@
 
             <ul class="list-unstyled components">
                 <p>Dummy Heading</p>
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li>
+
+
                 <li>
-                    <a href="#">About</a>
+                    <a href="#" id="appointment">Preaching Appointment</a>
                 </li>
+
                 <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
+                    <a href="#" id="event">Event to attend</a>
                 </li>
+
+               <!--  <li>
+                    <a href="#" id="visit">People to visit</a>
+                </li> -->
+
                 <li>
-                    <a href="#">Portfolio</a>
+                    <a href="#" id="counsel">Counselling Appointment</a>
                 </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
+               
+
+
             </ul>
 
-            <ul class="list-unstyled CTAs">
-                <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-                </li>
-                <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
-            </ul>
+           
+
         </nav>
         <!-- end of sidebar -->
 
@@ -97,13 +119,111 @@
                 </div>
             </nav>
 
-            <h2>Finance Page</h2>
+            <h2>Pastor Page</h2>
+
+            <div class="container appointment">
+                    <h5>Preaching Appointment</h5>
+               <form method="post">
+                 <div class="form-group">
+                   <label>Host Church Name</label>
+                   <input type="text" class="form-control" placeholder="Branch Name">
+                 </div>
+
+                 <div class="form-group">
+                   <label>Location</label>
+                   <input type="text" class="form-control" placeholder="Location">
+                 </div>
+
+
+                 <div class="form-group">
+                   <label>Date</label>
+                  <input class="form-control" name="birth" type="date" id="example-date-input" required="required">
+                 </div>
+
+                 <div class="form-group">
+                     <label for="exampleFormControlSelect1">Schedule</label>
+                     <select class="form-control" id="exampleFormControlSelect1">
+                       <option>Select</option>
+                       <option>Morning</option>
+                       <option>Afternoon</option>
+                       <option>Evening</option>
+                     </select>
+                   </div>
+
+                 <button type="submit" class="btn btn-primary">Create Appointment
+                 </button>
+               </form> 
+            </div>
+
+
+                
+
+                
+
+
+            <div class="container event">
+                <h5>Event to attend</h5>
+               <form method="post">
+                 <div class="form-group">
+                   <label>Event Name</label>
+                   <input type="text" class="form-control" placeholder="Event Name" required="required">
+                 </div>
+
+                 <div class="form-group">
+                   <label>Date</label>
+                  <input class="form-control" name="birth" type="date" id="example-date-input" required="required">
+                 </div>
+
+
+               
+
+                 <div class="form-group">
+                   <label>Event Location</label>
+                   <input type="text" class="form-control" placeholder="Event Location" required="required">
+                 </div>
+
+                 <div class="form-group">
+                     <label for="exampleFormControlSelect1">Schedule</label>
+                     <select class="form-control" id="exampleFormControlSelect1">
+                       <option>Select</option>
+                       <option>Morning</option>
+                       <option>Afternoon</option>
+                       <option>Evening</option>
+                     </select>
+                   </div>
+
+                 <button type="submit" class="btn btn-primary">Create Event</button>
+               </form> 
+            </div>
+
+
+            <div class="container counselling">
+                    <h5>Counselling Appointment</h5>
+               <form method="post">
+                 <div class="form-group">
+                   <label>Date</label>
+                  <input class="form-control" name="birth" type="date" id="example-date-input" required="required">
+
+                 </div>
+
+                 <div class="form-group">
+                   <label>Time</label>
+                   <input class="form-control" type="time" value="13:45:00" id="example-time-input">
+                 </div>
+
+                 <button type="submit" class="btn btn-primary">Counsel</button>
+               </form> 
+            </div>
 
         </div>
         <!-- end of  content -->
            
     </div>
     <!-- end of wrapper -->
+
+                
+
+
            
 
           
@@ -115,11 +235,32 @@
    <script type="text/javascript" src="../bootstrap/dist/js/bootstrap.js"></script>
 
     <script type="text/javascript">
+
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
             });
         });
+
+        $(document).ready(function(){
+          $("#appointment").click(function(){
+              $(".appointment").show();
+          });
+        });
+
+        $(document).ready(function(){
+          $("#event").click(function(){
+              $(".event").show();
+          });
+        });
+
+        $(document).ready(function(){
+          $("#counsel").click(function(){
+              $(".counselling").show();
+          });
+        });
+
+
     </script>
 </body>
 

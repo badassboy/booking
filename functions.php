@@ -176,6 +176,32 @@ class Church{
 						  	  `event_date` DATE NOT NULL)";
 						  	  $mytables->exec($calendar);
 
+						  	$pastor =  "CREATE TABLE IF NOT EXISTS pastor (
+						  	     
+
+						  	      CREATE TABLE IF NOT EXISTS activity (
+						  	          activity_id INT AUTO_INCREMENT PRIMARY KEY,
+						  	          activity_name VARCHAR(255) NOT NULL,
+						  	          activity_date DATE,
+						  	          description TEXT,
+						  	      ),
+
+						  	      CREATE TABLE IF NOT EXISTS pastor_event (
+						  	          event_id INT AUTO_INCREMENT PRIMARY KEY,
+						  	          event_name VARCHAR(255) NOT NULL,
+						  	          event_date DATE,
+						  	          description TEXT,
+						  	      ),
+
+						  	      CREATE TABLE IF NOT EXISTS counselling (
+						  	          id INT AUTO_INCREMENT PRIMARY KEY,
+						  	          counsel_date DATE,
+						  	          counsel_time TIMESTAMP,
+						  	      ),
+
+						  	  )ENGINE=INNODB";
+						  	  $mytables->execute($pastor);
+
 
 
 					    $contact = "CREATE TABLE IF NOT EXISTS `contact` (
@@ -183,8 +209,19 @@ class Church{
 						  `username` VARCHAR(150) ,
 						  `email` VARCHAR(255) ,
 						  `message` TEXT(60))";
-
 						  $mytables->exec($contact);
+
+					      $sermon = "CREATE TABLE IF NOT EXISTS `sermon` (
+					  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+						  counsel_date DATE,
+					  	  `preacher` VARCHAR(150) ,
+					  	  `title` VARCHAR(255) ,
+					  	  `event_type` VARCHAR(255) ,
+						  	`key_scriptures` TEXT,
+					  	  `notes` TEXT(60))";
+					  	  $mytables->exec($sermon);
+
+
 
 					$members = "CREATE TABLE IF NOT EXISTS `members` (
 						  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
@@ -341,13 +378,14 @@ class Church{
 
 	}
 
-	public function createEvent($event,$theme,$leader,$schedule,$duration,$describe)
+	public function createEvent($event_name,$theme,$leader,$schedule,$duration,$describe,$event_date)
 	{	
 
 		$dbs = DBcreate();
-		$stmt = $dbs->prepare("INSERT INTO calendar(name,description,date_created) 
-			VALUES(?,?,?)");
-		$stmt->execute([$name,$description,$group_date]);
+		$event_date = date("m.d.y");
+		$stmt = $dbs->prepare("INSERT INTO calendar(event_name,theme,leader,schedule,description,event_date) 
+			VALUES(?,?,?,?,?,?,?)");
+		$stmt->execute([$event_name,$theme,$leader,$schedule,$duration,$describe,$event_date]);
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;
