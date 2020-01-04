@@ -1,3 +1,11 @@
+<?php
+
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html>
 
@@ -75,17 +83,17 @@
 
                   <div class="form-group">
                     <label>Preacher Name</label>
-                    <input type="text" class="form-control" placeholder="Preacher Name">
+                    <input type="text" name="preacher" class="form-control" placeholder="Preacher Name">
                   </div>
 
                   <div class="form-group">
                     <label>Title</label>
-                    <input type="text" class="form-control" placeholder="Title">
+                    <input type="text" name="title" class="form-control" placeholder="Title">
                   </div>
 
                  <div class="form-group">
                     <label for="exampleFormControlSelect1">Type of event</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
+                    <select class="form-control" name="schedule" id="exampleFormControlSelect1">
                       <option>Select</option>
                       <option>Sunday Preaching</option>
                       <option>Midweek</option>
@@ -100,21 +108,15 @@
 
                     <div class="form-group">
                       <label>Key Scriptures</label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                      <textarea class="form-control" name="scripture" id="exampleFormControlTextarea1" rows="3"
                       placeholder="Key Scriptures"></textarea>
                     </div>
 
                       <div class="form-group">
                         <label>Extra Notes</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                        <textarea class="form-control" name="note" id="exampleFormControlTextarea1" rows="3"
                         placeholder="Notes"></textarea>
                       </div>
-
-
-
-
-
-
 
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
@@ -125,6 +127,12 @@
            
     </div>
     <!-- end of wrapper -->
+
+
+
+
+
+
            
 
           

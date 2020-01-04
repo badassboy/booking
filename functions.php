@@ -176,6 +176,17 @@ class Church{
 						  	  `event_date` DATE NOT NULL)";
 						  	  $mytables->exec($calendar);
 
+				  	  $new_convert = "CREATE TABLE IF NOT EXISTS `new_convert` (
+				  	   	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+				  	   	  `name` VARCHAR(150) ,
+				  	   	  `invited_by` VARCHAR(255),
+				  	   	  	`date` DATE
+				  	   	  `mobile` VARCHAR(255),
+				  	   	  `email` VARCHAR(255),
+				  	   	  `address` VARCHAR(255),
+				  	   	  `baptism_date` DATE NOT NULL)";
+				  	   	  $mytables->exec($new_convert);
+
 						  	$pastor =  "CREATE TABLE IF NOT EXISTS pastor (
 						  	     
 

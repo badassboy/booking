@@ -9,13 +9,36 @@
     <title>Collapsible sidebar using Bootstrap 4</title>
 
     <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../bootstrap/dist/css/bootstrap.css">
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="css/sidestyle.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .convert {
+            background-color:rgb(255, 255, 255);
+            height: 400px; 
+            padding-top: 3%;
+        }
+
+        .btn-primary {
+
+            width: 25%;
+            margin-left: 30%;
+            margin-top: 2%;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -28,53 +51,15 @@
 
             <ul class="list-unstyled components">
                 <p>Dummy Heading</p>
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li>
+                
                 <li>
-                    <a href="#">About</a>
+                    <a href="#">Add New Convert</a>
                 </li>
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">Portfolio</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
+                
+                
             </ul>
 
-            <ul class="list-unstyled CTAs">
-                <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-                </li>
-                <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
-            </ul>
+            
         </nav>
         <!-- end of sidebar -->
 
@@ -97,7 +82,64 @@
                 </div>
             </nav>
 
-            <h2>Membership Page</h2>
+            <!-- <h2>Membership Page</h2> -->
+            <div class="container convert">
+                <h5>New Convert Form</h5>
+               <form>
+
+                   <div class="form-row">
+                       <div class="form-group col-md-3">
+                         <label>Name of Person</label>
+                         <input type="text" class="form-control" placeholder="Name of Person">
+                       </div>
+
+                       <div class="form-group col-md-3">
+                         <label>Date</label>
+                <input class="form-control" name="birth" type="date" id="example-date-input" required="required">
+                       </div>
+                         
+
+                       <div class="form-group col-md-3">
+                         <label for="inputZip">Baptism Date</label>
+                <input class="form-control" name="birth" type="date" id="example-date-input" required="required">
+                       </div>
+
+                              <div class="form-group col-md-3">
+                                <label for="inputZip">Invited By</label>
+                                <input type="text" class="form-control" placeholder="Invited By">
+                      
+                              </div>
+                     </div>
+
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                      <label>Phone</label>
+                      <input class="form-control" type="tel"  placeholder="Phone Number">
+                    </div>
+
+                    <div class="form-group col-md-4">
+                      <label>Email</label>
+                      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+            
+                    </div>
+                      
+
+                    <div class="form-group col-md-4">
+                      <label for="inputZip">Address</label>
+                        <input type="address" class="form-control" id="exampleFormControlInput1" placeholder="Address">
+                    </div>
+
+                </div>
+
+                <button type="button" class="btn btn-primary">Create</button>                
+
+
+                           
+
+
+               </form> 
+            </div>
 
         </div>
         <!-- end of  content -->
