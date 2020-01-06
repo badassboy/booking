@@ -36,6 +36,20 @@ class Church{
 
 	}
 
+	public function checks($fields){
+		$keys = array($fields);
+		if (isset($_POST)) {
+			foreach ($keys as $keys) {
+				if (array_key_exists($keys, $_POST)) {
+					return true;
+				}else{
+					return false;
+				}
+			}
+		}
+		
+	}
+
 	public function login_user($username,$password){
 		$dbh = DB();
 		$stmt = $dbh->prepare("SELECT username,password FROM users WHERE username = ?");
@@ -180,38 +194,49 @@ class Church{
 				  	   	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
 				  	   	  `name` VARCHAR(150) ,
 				  	   	  `invited_by` VARCHAR(255),
-				  	   	  	`date` DATE
+				  	   	  	`convert_date` DATE
 				  	   	  `mobile` VARCHAR(255),
 				  	   	  `email` VARCHAR(255),
 				  	   	  `address` VARCHAR(255),
 				  	   	  `baptism_date` DATE NOT NULL)";
 				  	   	  $mytables->exec($new_convert);
 
-						  	$pastor =  "CREATE TABLE IF NOT EXISTS pastor (
-						  	     
+				  	 $youth = "CREATE TABLE IF NOT EXISTS `youth_registration` (
+				  	  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+				  	  	  `name` VARCHAR(150) ,
+				  	  	  `gender` VARCHAR(255),
+				  	  	  `age` VARCHAR(255),
+				  	  	  `working_status` VARCHAR(255),
+				  	  	  `education` VARCHAR(255),
+				  	  	  `email` VARCHAR(255),
+				  	  	  `address` VARCHAR(255))";
+				  	  	  $mytables->exec($youth);
 
-						  	      CREATE TABLE IF NOT EXISTS activity (
-						  	          activity_id INT AUTO_INCREMENT PRIMARY KEY,
-						  	          activity_name VARCHAR(255) NOT NULL,
-						  	          activity_date DATE,
-						  	          description TEXT,
-						  	      ),
+					  	$pastor =  "CREATE TABLE IF NOT EXISTS pastor (
+					  	     
 
-						  	      CREATE TABLE IF NOT EXISTS pastor_event (
-						  	          event_id INT AUTO_INCREMENT PRIMARY KEY,
-						  	          event_name VARCHAR(255) NOT NULL,
-						  	          event_date DATE,
-						  	          description TEXT,
-						  	      ),
+					  	      CREATE TABLE IF NOT EXISTS activity (
+					  	          activity_id INT AUTO_INCREMENT PRIMARY KEY,
+					  	          activity_name VARCHAR(255) NOT NULL,
+					  	          activity_date DATE,
+					  	          description TEXT,
+					  	      ),
 
-						  	      CREATE TABLE IF NOT EXISTS counselling (
-						  	          id INT AUTO_INCREMENT PRIMARY KEY,
-						  	          counsel_date DATE,
-						  	          counsel_time TIMESTAMP,
-						  	      ),
+					  	      CREATE TABLE IF NOT EXISTS pastor_event (
+					  	          event_id INT AUTO_INCREMENT PRIMARY KEY,
+					  	          event_name VARCHAR(255) NOT NULL,
+					  	          event_date DATE,
+					  	          description TEXT,
+					  	      ),
 
-						  	  )ENGINE=INNODB";
-						  	  $mytables->execute($pastor);
+					  	      CREATE TABLE IF NOT EXISTS counselling (
+					  	          id INT AUTO_INCREMENT PRIMARY KEY,
+					  	          counsel_date DATE,
+					  	          counsel_time TIMESTAMP,
+					  	      ),
+
+					  	  )ENGINE=INNODB";
+					  	  $mytables->execute($pastor);
 
 
 
@@ -224,10 +249,10 @@ class Church{
 
 					      $sermon = "CREATE TABLE IF NOT EXISTS `sermon` (
 					  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
-						  counsel_date DATE,
 					  	  `preacher` VARCHAR(150) ,
 					  	  `title` VARCHAR(255) ,
 					  	  `event_type` VARCHAR(255) ,
+						  preparing_date DATE,
 						  	`key_scriptures` TEXT,
 					  	  `notes` TEXT(60))";
 					  	  $mytables->exec($sermon);
@@ -397,6 +422,54 @@ class Church{
 		$stmt = $dbs->prepare("INSERT INTO calendar(event_name,theme,leader,schedule,description,event_date) 
 			VALUES(?,?,?,?,?,?,?)");
 		$stmt->execute([$event_name,$theme,$leader,$schedule,$duration,$describe,$event_date]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+
+	public function registerYouth($name,$gender,$age,,$work_status,$education,$email,$address)
+	{	
+
+		$dbs = DBcreate();
+		$stmt = $dbs->prepare("INSERT INTO youth_registration(name,gender,age,working_status,education,email,address) 
+			VALUES(?,?,?,?,?,?,?)");
+		$stmt->execute([$name,$gender,$age,,$work_status,$education,$email,$address]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+
+	public function sermon($preacher,$title,$event_type,$scripture,$note)
+	{	
+
+		$dbs = DBcreate();
+		$stmt = $dbs->prepare("INSERT INTO sermon(preacher,title,event_type,key_scriptures,notes) 
+			VALUES(?,?,?,?,?)");
+		$stmt->execute([$preacher,$title,$event_type,$scripture,$note]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+
+	public function new_convert($person_name,$invited_by,$phone,$email,$address,$baptism,$convert_date)
+	{	
+
+		$dbs = DBcreate();
+		$stmt = $dbs->prepare("INSERT INTO new_convert(name,invited_by,mobile,email,address,baptism_date,
+			                 convert_date) VALUES(?,?,?,?,?,?,?)");
+		$stmt->execute([$person_name,$invited_by,$phone,$email,$address,$baptism,$convert_date]);
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;

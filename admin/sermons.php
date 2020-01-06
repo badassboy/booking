@@ -1,11 +1,3 @@
-<?php
-
-
-
-
-?>
-
-
 <!DOCTYPE html>
 <html>
 
@@ -78,8 +70,9 @@
 
             <h2>Sermon Page</h2>
             <div class="container sermon">
+              <div id="response"></div>
                 <h5>Please fill below fields to create a sermon</h5>
-                <form method="post">
+                <form method="post" id="sermon">
 
                   <div class="form-group">
                     <label>Preacher Name</label>
@@ -103,7 +96,7 @@
 
                   <div class="form-group">
                     <label>Date</label>
-                <input class="form-control" name="birth" type="date" id="example-date-input" required="required">
+                <input class="form-control" name="birth" type="date" required="required">
                   </div>
 
                     <div class="form-group">
@@ -118,7 +111,7 @@
                         placeholder="Notes"></textarea>
                       </div>
 
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary">Create</button>
                 </form>
             </div>
 
@@ -144,10 +137,31 @@
    <script type="text/javascript" src="../bootstrap/dist/js/bootstrap.js"></script>
 
     <script type="text/javascript">
+
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
             });
+        });
+
+        // ajax form submission
+        $("#sermon").submit(function(e){
+          e.preventDefault();
+          $.ajax({
+            type:"post",
+            url:"teen_register.php",
+            // Encode a set of form elements as a string for submission.
+            data:$("#sermon").serialize(),
+          })
+
+          .done(function(data){
+            $("#response").html(data);
+          })
+          .fail(function(data){
+            $("#response").html(data);
+
+          });
+
         });
     </script>
 </body>

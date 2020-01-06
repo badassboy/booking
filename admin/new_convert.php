@@ -84,55 +84,56 @@
 
             <!-- <h2>Membership Page</h2> -->
             <div class="container convert">
+              <div id="response"></div>
                 <h5>New Convert Form</h5>
-               <form>
+               <form method="post" id="convert">
 
                    <div class="form-row">
                        <div class="form-group col-md-3">
                          <label>Name of Person</label>
-                         <input type="text" class="form-control" placeholder="Name of Person">
+                         <input type="text" name="person" class="form-control" placeholder="Name of Person">
                        </div>
 
                        <div class="form-group col-md-3">
                          <label>Date</label>
-                <input class="form-control" name="birth" type="date" id="example-date-input" required="required">
+                        <input class="form-control" name="birth" type="date"  required="required">
                        </div>
                          
 
                        <div class="form-group col-md-3">
-                         <label for="inputZip">Baptism Date</label>
-                <input class="form-control" name="birth" type="date" id="example-date-input" required="required">
+                        <label>Baptism Date</label>
+                        <input class="form-control" name="baptism" type="date"  required="required">
                        </div>
 
-                              <div class="form-group col-md-3">
-                                <label for="inputZip">Invited By</label>
-                                <input type="text" class="form-control" placeholder="Invited By">
+                      <div class="form-group col-md-3">
+                        <label for="inputZip">Invited By</label>
+                        <input type="text" name="invited" class="form-control" placeholder="Invited By">
+                      </div>
                       
-                              </div>
                      </div>
 
 
                 <div class="form-row">
                     <div class="form-group col-md-4">
                       <label>Phone</label>
-                      <input class="form-control" type="tel"  placeholder="Phone Number">
+                      <input class="form-control" name="mobile" type="tel"  placeholder="Phone Number">
                     </div>
 
                     <div class="form-group col-md-4">
                       <label>Email</label>
-                      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                      <input type="email" name="email" class="form-control" placeholder="Email">
             
                     </div>
                       
 
                     <div class="form-group col-md-4">
-                      <label for="inputZip">Address</label>
-                        <input type="address" class="form-control" id="exampleFormControlInput1" placeholder="Address">
+                      <label>Address</label>
+                        <input type="address" name="address" class="form-control" placeholder="Address">
                     </div>
 
                 </div>
 
-                <button type="button" class="btn btn-primary">Create</button>                
+                <button type="submit" class="btn btn-primary">Create</button>                
 
 
                            
@@ -157,11 +158,34 @@
    <script type="text/javascript" src="../bootstrap/dist/js/bootstrap.js"></script>
 
     <script type="text/javascript">
+
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
             });
         });
+
+        // ajax form submission
+        $("#convert").submit(function(e){
+          e.preventDefault();
+          $.ajax({
+            type:"post",
+            url:"converts.php",
+            // Encode a set of form elements as a string for submission.
+            data:$("#sermon").serialize(),
+          })
+
+          .done(function(data){
+            $("#response").html(data);
+          })
+          .fail(function(data){
+            $("#response").html(data);
+
+          });
+
+        });
+
+
     </script>
 </body>
 

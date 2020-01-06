@@ -25,7 +25,7 @@
             box-sizing: border-box;
         }
 
-        .convert {
+        .youth {
             background-color:rgb(255, 255, 255);
             height: 400px; 
             padding-top: 3%;
@@ -83,19 +83,20 @@
             </nav>
 
             <!-- <h2>Membership Page</h2> -->
-            <div class="container convert">
+            <div class="container youth">
                 <h5>Youth Registration Form</h5>
-               <form>
+                <div id="response"></div>
+               <form method="post" id="youth">
 
                    <div class="form-row">
                        <div class="form-group col-md-3">
                          <label>Name of Person</label>
-                         <input type="text" class="form-control" placeholder="Name of Person">
+                         <input type="text" name="person" class="form-control" placeholder="Name of Person">
                        </div>
 
                        <div class="form-group col-md-3">
                          <label>Gender</label>
-                         <select class="form-control" id="exampleFormControlSelect1">
+                         <select class="form-control" id="exampleFormControlSelect1" name="gender">
                                <option>Select</option>
                                <option>Male</option>
                                <option>Female</option>
@@ -105,13 +106,13 @@
 
                        <div class="form-group col-md-3">
                          <label>Age</label>
-                         <input type="number" class="form-control" placeholder="Name of Person">
+                         <input type="number" name="age" class="form-control" placeholder="Name of Person">
 
                        </div>
 
                         <div class="form-group col-md-3">
                           <label>Working Status</label>
-                          <select class="form-control" onchange="">
+                          <select class="form-control" name="working_status">
                                 <option>Select</option>
                                 <option>Employed</option>
                                 <option>Self-Employed</option>
@@ -124,7 +125,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-4">
                       <label>Eductional Level</label>
-                      <select class="form-control" onchange="boardingStatus(this);">
+                      <select class="form-control" name="education" onchange="boardingStatus(this);">
                             <option>Select</option>
                             <option>Junior High School</option>
                             <option id="senior">Senior High School</option>
@@ -137,14 +138,14 @@
 
                     <div class="form-group col-md-4">
                       <label>Email</label>
-                      <input type="email" class="form-control" placeholder="name@example.com">
+                      <input type="email" name="email" class="form-control" placeholder="name@example.com">
             
                     </div>
                       
 
                     <div class="form-group col-md-4">
                       <label>Address</label>
-                        <input type="address" class="form-control" id="exampleFormControlInput1" placeholder="Address">
+                        <input type="address" name="address" class="form-control" id="exampleFormControlInput1" placeholder="Address">
                     </div>
 
                 </div>
@@ -159,7 +160,7 @@
                     </select>
                 </div>
 
-                <button type="button" class="btn btn-primary">Create</button>                
+                <button type="submit" class="btn btn-primary">Create</button>                
 
 
                            
@@ -203,6 +204,27 @@
 
           }
         }
+
+        // ajax form submission
+        $("#youth").submit(function(e){
+          e.preventDefault();
+          $.ajax({
+            type:"post",
+            url:"teen_register.php",
+            // Encode a set of form elements as a string for submission.
+            data:$("#youth").serialize(),
+          })
+
+          .done(function(data){
+            $("#response").html(data);
+          })
+          .fail(function(data){
+            $("#response").html(data);
+
+          });
+
+        });
+
     </script>
 </body>
 
