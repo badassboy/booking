@@ -17,6 +17,17 @@
 
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" type="text/css" href="../font-awesome/css/font-awesome.css">
+
+    <style type="text/css">
+
+      #visitor_div {
+
+          background-color:   rgb(255, 255, 255);
+          height: 500px;
+          padding-top: 3%;
+      }
+
+    </style>
     
 
 </head>
@@ -30,38 +41,15 @@
             </div>
 
             <ul class="list-unstyled components">
-                <p>Dummy Heading</p>
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li>
+                <!-- <p>Dummy Heading</p> -->
+
+                
+
                 <li>
-                    <a href="#">About</a>
+                    <a href="#">Visitor Form</a>
                 </li>
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li>
+
+               
 
 
             </ul>
@@ -89,60 +77,42 @@
                 </div>
             </nav>
 
-            <h2>Membership Page</h2>
+            <h2>Visitor Form</h2>
 
-            <div id="visitor_div">
+            <div id="visitor_div" class="container">
+                <div id="response"></div>
+                <form method="post" action="visitor_processing.php" id="visitor_form">
 
-                <form method="post" action="" id="visitor_form">
-
-                   <div class="form-row">
-                      <div class="form-group col-md-3">
-                        <label for="inputName">Name</label>
-                        <input type="text" class="form-control" id="inputName" placeholder="Event Name">
+                  
+                      <div class="form-group">
+                        <label>Visitor Name</label>
+                        <input type="text" name="person" class="form-control" placeholder="Visitor Name" required="required">
                       </div>
-
-                      <div class="form-group col-md-3">
-                        <label for="inputPhone">Phone</label>
-                        <input type="tel" class="form-control" id="inputPhone" placeholder="Phone Number">
-                      </div>
-
-                      <div class="form-group col-md-3">
-                        <label for="inputEmail">Email</label>
-                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                      </div>
-
-                      <div class="form-group col-md-3">
-                        <label for="inputLocation">Location</label>
-                        <input type="text" class="form-control" id="inputLocation" placeholder="Location">
-
                         
+                      <div class="form-group">
+                        <label>Mobile</label>
+                        <input type="tel" name="mobile" class="form-control" placeholder="Phone Number">
                       </div>
-                    </div> 
 
+                     
 
-                    <div class="form-row">
-                       <div class="form-group col-md-3">
-                         <label for="inputName">Name</label>
-                         <input type="text" class="form-control" id="inputName" placeholder="Event Name">
-                       </div>
+                      <div class="form-group">
+                        <label>Address</label>
+                        <input type="address" name="address" class="form-control" placeholder="Address">
+                      </div>
 
-                       <div class="form-group col-md-3">
-                         <label for="inputPhone">Phone</label>
-                         <input type="tel" class="form-control" id="inputPhone" placeholder="Phone Number">
-                       </div>
+                      <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" name="location" class="form-control" placeholder="Location" required="required">
+                      </div>
 
-                       <div class="form-group col-md-3">
-                         <label for="inputEmail">Email</label>
-                         <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                       </div>
+                      <div class="form-group">
+                        <label>Member Assigned To</label>
+                        <input type="text" name="member" class="form-control" placeholder="Location" required="required">
+                      </div>
 
-                       <div class="form-group col-md-3">
-                         <label for="inputLocation">Location</label>
-                         <input type="text" class="form-control" id="inputLocation" placeholder="Location">
-
-                         
-                       </div>
-                     </div> 
+                     
+                      <button type="submit" class="btn btn-primary">Submit</button>
 
 
 
@@ -166,10 +136,32 @@
    <script type="text/javascript" src="../bootstrap/dist/js/bootstrap.js"></script>
 
     <script type="text/javascript">
+
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
             });
+        });
+
+
+        // ajax form submission
+        $("#visitor_form").submit(function(e){
+          e.preventDefault();
+          $.ajax({
+            type:"post",
+            url:"visitor_processing.php",
+            // Encode a set of form elements as a string for submission.
+            data:$("#youth").serialize(),
+          })
+/
+          .done(function(data){
+            $("#response").html(data);
+          })
+          .fail(function(data){
+            $("#response").html(data);
+
+          });
+
         });
     </script>
 </body>

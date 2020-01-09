@@ -1,11 +1,3 @@
-<?php
-
-// ajax form submission foreach form
-// appointment form processing
-
-
-?>
-
 <!DOCTYPE html>
 <html>
 
@@ -123,26 +115,26 @@
 
             <div class="container appointment">
                     <h5>Preaching Appointment</h5>
-               <form method="post">
+               <form method="post" id="appointment" action="preaching.php">
                  <div class="form-group">
                    <label>Host Church Name</label>
-                   <input type="text" class="form-control" placeholder="Branch Name">
+                   <input type="text" name="host" class="form-control" placeholder="Branch Name">
                  </div>
 
                  <div class="form-group">
                    <label>Location</label>
-                   <input type="text" class="form-control" placeholder="Location">
+                   <input type="text" name="location" class="form-control" placeholder="Location">
                  </div>
 
 
                  <div class="form-group">
                    <label>Date</label>
-                  <input class="form-control" name="birth" type="date" id="example-date-input" required="required">
+                  <input class="form-control" name="preach_date" type="date" id="example-date-input" required="required">
                  </div>
 
                  <div class="form-group">
                      <label for="exampleFormControlSelect1">Schedule</label>
-                     <select class="form-control" id="exampleFormControlSelect1">
+                     <select class="form-control" id="exampleFormControlSelect1" name="schedule">
                        <option>Select</option>
                        <option>Morning</option>
                        <option>Afternoon</option>
@@ -163,15 +155,15 @@
 
             <div class="container event">
                 <h5>Event to attend</h5>
-               <form method="post">
+               <form method="post" action="pastor_event.php" id="pastor_event">
                  <div class="form-group">
                    <label>Event Name</label>
-                   <input type="text" class="form-control" placeholder="Event Name" required="required">
+                   <input type="text" name="evnt_name" class="form-control" placeholder="Event Name" required="required">
                  </div>
 
                  <div class="form-group">
                    <label>Date</label>
-                  <input class="form-control" name="birth" type="date" id="example-date-input" required="required">
+                  <input class="form-control" name="evnt_date" type="date" id="example-date-input" required="required">
                  </div>
 
 
@@ -179,12 +171,12 @@
 
                  <div class="form-group">
                    <label>Event Location</label>
-                   <input type="text" class="form-control" placeholder="Event Location" required="required">
+                   <input type="text" name="evnt_loc" class="form-control" placeholder="Event Location" required="required">
                  </div>
 
                  <div class="form-group">
                      <label for="exampleFormControlSelect1">Schedule</label>
-                     <select class="form-control" id="exampleFormControlSelect1">
+                     <select class="form-control" id="exampleFormControlSelect1" name="schedule">
                        <option>Select</option>
                        <option>Morning</option>
                        <option>Afternoon</option>
@@ -199,16 +191,16 @@
 
             <div class="container counselling">
                     <h5>Counselling Appointment</h5>
-               <form method="post">
+               <form method="post" action="counselling.php" id="counselling">
                  <div class="form-group">
                    <label>Date</label>
-                  <input class="form-control" name="birth" type="date" id="example-date-input" required="required">
+                  <input class="form-control" name="counsel_date" type="date" id="example-date-input" required="required">
 
                  </div>
 
                  <div class="form-group">
                    <label>Time</label>
-                   <input class="form-control" type="time" value="13:45:00" id="example-time-input">
+                   <input class="form-control" name="counsel_time" type="time" value="13:45:00" id="example-time-input">
                  </div>
 
                  <button type="submit" class="btn btn-primary">Counsel</button>
@@ -259,6 +251,45 @@
               $(".counselling").show();
           });
         });
+        // end of show/hide div upon  clicking
+
+        var form1 = document.getElementById("appointment");
+        var url = form1.attr("action");
+        ajaxCall(form1,url);
+
+        var form2 = document.getElementById("pastor_event");
+        var url = form1.attr("action");
+        ajaxCall(form2,url);
+
+        var form3  = document.getElementById("counselling");
+        var url = form1.attr("action");
+        ajaxCall(form3,url);
+
+
+
+
+
+        function ajaxCall(form,url){
+          var form = form;
+          form.submit(function(e){
+            e.preventDefault();
+            $.ajax({
+              type:"post",
+              url:"url",
+              data:form.serialize(),
+
+            })
+            .done(function(data){
+              $("#response").html(data);
+            })
+            .fail(function(data){
+              $("#response").html(data);
+            });
+            // to prevent refreshing the whole page
+            return false;
+          });
+
+        }
 
         
 

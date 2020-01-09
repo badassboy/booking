@@ -126,8 +126,62 @@ class Church{
 		}
 	}
 
+		public function loginAdmin($email,$password){
 
-	function createDatabase($name){
+		$dbh = DB();
+		$stmt = $dbh->prepare("SELECT id,username,password FROM church_admin WHERE email = ?");
+
+		$stmt->execute([$email]);
+		$data = $stmt->fetch(PDO::FETCH_ASSOC);
+		$count = $stmt->rowCount();
+		if ($count == 1) {
+			
+			if (password_verify($password, $data['password'])) {
+				$_SESSION['id'] = $data['id'];
+				$_SESSION['username'] = $data['username'];
+				return true;
+			}else{
+				return false;
+			}
+			
+		}else{
+			return false;
+		}
+		
+	}
+
+	public function addAdmin($username,$password){
+		$dbh = DBcreate();
+		$join_date = date("m.d.y");
+		$hashed = password_hash($password, PASSWORD_BCRYPT);
+		$stmt = $dbh->prepare("INSERT INTO admins(username,password,date_added) VALUES(?,?,?)");
+		$stmt->execute([$username,$hashed,$join_date]);
+		$added = $stmt->rowCount();
+		if ($added>0) {
+			return true;
+		}else{
+			return false;
+		}
+
+	}
+
+	public function updateAdminPassword($password,$id){
+		$password = password_hash($password, PASSWORD_BCRYPT);
+		$dbh = DB();
+		$stmt = $dbh->prepare("UPDATE admins SET password = ? WHERE id = ?");
+		$stmt->execute([$password,$id]);
+		$count = $stmt->rowCount();
+		if ($count > 0) {
+			return true;
+		}else {
+			return false;
+		}
+
+	}
+
+
+
+	public function createDatabase($name){
 		// check  if record exist
 		try {
 			
@@ -172,12 +226,51 @@ class Church{
 						  `password` VARCHAR(255))";
 						$mytables->exec($users);
 
+						    $admins = "CREATE TABLE IF NOT EXISTS `admins` (
+							  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+							  `username` VARCHAR(150) ,
+							  `password` VARCHAR(255) ,
+							  `date_added` DATE(NOT NULL))";
+							$mytables->exec($admins);
+
+
+					    $visitor = "CREATE TABLE IF NOT EXISTS `visitors` (
+						  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+						  `person` VARCHAR(150) ,
+						  `mobile` VARCHAR(255) ,
+						  `address` VARCHAR(255) ,
+						  `location` VARCHAR(255) ,
+						  `member` VARCHAR(255))";
+						$mytables->exec($visitor);
+
+					    $funeral = "CREATE TABLE IF NOT EXISTS `funeral` (
+						  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+						  `person` VARCHAR(150) ,
+						  `amount` VARCHAR(255) ,
+						  `paid_date` DATE(NOT NULL) ,
+						  `bereaved` VARCHAR(255) ,
+						  `leader` VARCHAR(255))";
+						$mytables->exec($funeral);
+
 					    $groups = "CREATE TABLE IF NOT EXISTS `groups` (
 						  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
 						  `name` VARCHAR(150) ,
 						  `description` TEXT(60),
 						  `date_created` DATE NOT NULL)";
 						  $mytables->exec($groups);
+
+				      $counselling = "CREATE TABLE IF NOT EXISTS `counselling` (
+				  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+				  	  `cnsel_date` DATE(NOT NULL) ,
+				  	  `cnsel_time` TIMESTAMP(NOT NULL))";
+				  	  $mytables->exec($counselling);
+
+			  	      $welfare = "CREATE TABLE IF NOT EXISTS `welfare` (
+			  	  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+			  	  	  `person` VARCHAR(255) ,
+			  	  	  `amount` VARCHAR(255) ,
+			  	  	  `date_paid` DATE(NOT NULL))";
+			  	  	  $mytables->exec($welfare);
 
 
 						 $calendar = "CREATE TABLE IF NOT EXISTS `calendar` (
@@ -211,6 +304,15 @@ class Church{
 				  	  	  `email` VARCHAR(255),
 				  	  	  `address` VARCHAR(255))";
 				  	  	  $mytables->exec($youth);
+
+
+				  	  	  $preaching = "CREATE TABLE IF NOT EXISTS `youth_registration` (
+				  	  	   	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+				  	  	   	  `host_church` VARCHAR(150) ,
+				  	  	   	  `location` VARCHAR(255),
+				  	  	   	  `preach_date` DATE(NOT NULL),
+				  	  	   	  `schedule` VARCHAR(255))";
+				  	  	   	  $mytables->exec($preaching);
 
 					  	$pastor =  "CREATE TABLE IF NOT EXISTS pastor (
 					  	     
@@ -304,48 +406,14 @@ class Church{
 	}
 					
 
+	}
 
 		
-	}
 
 	
-		public function loginAdmin($email,$password){
-
-		$dbh = DB();
-		$stmt = $dbh->prepare("SELECT id,username,password FROM church_admin WHERE email = ?");
-
-		$stmt->execute([$email]);
-		$data = $stmt->fetch(PDO::FETCH_ASSOC);
-		$count = $stmt->rowCount();
-		if ($count == 1) {
-			
-			if (password_verify($password, $data['password'])) {
-				$_SESSION['id'] = $data['id'];
-				return true;
-			}else{
-				return false;
-			}
-			
-		}else{
-			return false;
-		}
 		
-	}
 
-	public function changePassword($password,$id){
-		$password = password_hash($password, PASSWORD_BCRYPT);
-		$dbh = DB();
-		$stmt = $dbh->prepare("UPDATE church_admin SET password = ? WHERE id = ?");
-		$stmt->execute([$password,$id]);
-		$count = $stmt->rowCount();
-		if ($count > 0) {
-			return true;
-		}else {
-			return false;
-		}
-
-	}
-
+	
 	public function deleteAdminInfo($id){
 		$dbh = DB();
 		$stmt =$dbh->prepare("DELETE FROM church_admin WHERE id = ?");
@@ -431,13 +499,13 @@ class Church{
 	}
 
 
-	public function registerYouth($name,$gender,$age,,$work_status,$education,$email,$address)
+	public function registerYouth($name,$gender,$age,$work_status,$education,$email,$address)
 	{	
 
 		$dbs = DBcreate();
 		$stmt = $dbs->prepare("INSERT INTO youth_registration(name,gender,age,working_status,education,email,address) 
 			VALUES(?,?,?,?,?,?,?)");
-		$stmt->execute([$name,$gender,$age,,$work_status,$education,$email,$address]);
+		$stmt->execute([$name,$gender,$age,$work_status,$education,$email,$address]);
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;
@@ -470,6 +538,82 @@ class Church{
 		$stmt = $dbs->prepare("INSERT INTO new_convert(name,invited_by,mobile,email,address,baptism_date,
 			                 convert_date) VALUES(?,?,?,?,?,?,?)");
 		$stmt->execute([$person_name,$invited_by,$phone,$email,$address,$baptism,$convert_date]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+
+	public function visitor($person_name,$phone,$address,$location,$member)
+	{	
+
+		$dbs = DBcreate();
+		$stmt = $dbs->prepare("INSERT INTO visitor(person,mobile,address,location,
+			                 member) VALUES(?,?,?,?,?)");
+		$stmt->execute([$person_name,$phone,$address,$location,$member]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+
+	public function funeral($person,$amount,$paid_date,$bereaved,$leader)
+	{	
+
+		$dbs = DBcreate();
+		$stmt = $dbs->prepare("INSERT INTO funeral(person,amount,paid_date,bereaved,
+			                 leader) VALUES(?,?,?,?,?)");
+		$stmt->execute([$person,$amount,$paid_date,$bereaved,$leader]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	public function preaching($host_church,$location,$preach_date,$schedule)
+	{	
+
+		$dbs = DBcreate();
+		$stmt = $dbs->prepare("INSERT INTO preaching(host_church,location,preach_date,schedule) VALUES(?,?,?,?)");
+		$stmt->execute([$host_church,$location,$preach_date,$schedule]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	public function counselling($date,$time)
+	{	
+
+		$dbs = DBcreate();
+		$stmt = $dbs->prepare("INSERT INTO counselling(cnsel_date,cnsel_time) VALUES(?,?)");
+		$stmt->execute([$date,$time]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+
+	public function welfare($person,$amount,$date_paid)
+	{	
+
+		$dbs = DBcreate();
+
+		$stmt = $dbs->prepare("INSERT INTO welfare(person,amount,date_paid) VALUES(?,?,?)");
+		$stmt->execute([$person,$amount,$date_paid]);
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;
