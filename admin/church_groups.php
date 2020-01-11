@@ -9,13 +9,33 @@
     <title>Collapsible sidebar using Bootstrap 4</title>
 
     <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="../bootstrap/dist/css/bootstrap.css">
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="css/sidestyle.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+        #church_group {
+
+            background-color:rgb(255, 255, 255);
+            height: 350px;
+            padding-top: 3%;
+            display: none;
+        }
+
+        #group_listing {
+
+            background-color:rgb(255, 255, 255);
+            height: 350px;
+            padding-top: 3%;
+            display: none;
+        }
+
+
+    </style>
 </head>
 
 <body>
@@ -27,54 +47,19 @@
             </div>
 
             <ul class="list-unstyled components">
-                <p>Dummy Heading</p>
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li>
+               
                 <li>
-                    <a href="#">About</a>
+                    <a href="#" id="create_group">Create Group</a>
                 </li>
+               
                 <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
+                    <a href="#" id="view">View Groups</a>
                 </li>
-                <li>
-                    <a href="#">Portfolio</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
+
+               
             </ul>
 
-            <ul class="list-unstyled CTAs">
-                <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-                </li>
-                <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
-            </ul>
+           
         </nav>
         <!-- end of sidebar -->
 
@@ -97,7 +82,50 @@
                 </div>
             </nav>
 
-            <h2>Membership Page</h2>
+            <h2>Church Group</h2>
+            <div class="container" id="church_group">
+                <div id="response"></div>
+                <form method="post" action="chgroups_process.php" id="chgroup">
+
+                  <div class="form-group">
+                    <label>Group Name</label>
+                    <input type="text" name="group_name" class="form-control" placeholder="Group Name" required="required">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" name="description" rows="3" placeholder="Description"
+                    required="required"></textarea>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary">Create Group</button>
+                </form> 
+                 
+            </div>
+            <!-- end of church group divs -->
+
+            <div class="container" id="group_listing">
+                <h5>Church Groups</h5>
+                <ul class="list-group">
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="">Cras justo odio</a>
+                    <span>14</span>
+                </li>
+                  <li class="list-group-item"><a href="">Cras justo odio</a></li>
+                  <li class="list-group-item"><a href="">Cras justo odio</a></li>
+                  
+                </ul>
+
+            </div>
+                
+
+                
+                 
+
+                 
+
+
+                
 
         </div>
         <!-- end of  content -->
@@ -115,11 +143,48 @@
    <script type="text/javascript" src="../bootstrap/dist/js/bootstrap.js"></script>
 
     <script type="text/javascript">
+
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
             });
         });
+
+        // hide and show divs based on element clicked
+        $(document).ready(function(){
+            $("#create_group").click(function(){
+                $("#church_group").show();
+            })
+        })
+
+        $(document).ready(function(){
+            $("#view").click(function(){
+                $("#group_listing").show();
+            })
+        })
+
+        // ajax form submission
+                // ajax form submission
+                $("#chgroup").submit(function(e){
+                  e.preventDefault();
+                  $.ajax({
+                    type:"post",
+                    url:"chgroups_process.php",
+                    // Encode a set of form elements as a string for submission.
+                    data:$("#chgroup").serialize(),
+                  })
+        
+                  .done(function(data){
+                    $("#response").html(data);
+                  })
+                  .fail(function(data){
+                    $("#response").html(data);
+
+                  });
+
+                });
+
+
     </script>
 </body>
 

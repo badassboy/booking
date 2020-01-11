@@ -201,7 +201,7 @@ class Church{
 		}
 	}
 
-
+// start from here
 	function creatTables($database){
 		// check  if record exist
 		try {
@@ -226,119 +226,130 @@ class Church{
 						  `password` VARCHAR(255))";
 						$mytables->exec($users);
 
-						    $admins = "CREATE TABLE IF NOT EXISTS `admins` (
-							  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
-							  `username` VARCHAR(150) ,
-							  `password` VARCHAR(255) ,
-							  `date_added` DATE(NOT NULL))";
-							$mytables->exec($admins);
-
-
-					    $visitor = "CREATE TABLE IF NOT EXISTS `visitors` (
+					    $admins = "CREATE TABLE IF NOT EXISTS `admins` (
 						  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
-						  `person` VARCHAR(150) ,
-						  `mobile` VARCHAR(255) ,
-						  `address` VARCHAR(255) ,
-						  `location` VARCHAR(255) ,
-						  `member` VARCHAR(255))";
-						$mytables->exec($visitor);
+						  `username` VARCHAR(150) ,
+						  `password` VARCHAR(255) ,
+						  `date_added` DATE)";
+						$mytables->exec($admins);
 
-					    $funeral = "CREATE TABLE IF NOT EXISTS `funeral` (
-						  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
-						  `person` VARCHAR(150) ,
-						  `amount` VARCHAR(255) ,
-						  `paid_date` DATE(NOT NULL) ,
-						  `bereaved` VARCHAR(255) ,
-						  `leader` VARCHAR(255))";
-						$mytables->exec($funeral);
+						// $church_group = "CREATE TABLE IF NOT EXISTS `church_group`(
+						// 					id  INT AUTO_INCREMENT PRIMARY KEY,
+						// 					group_name VARCHAR(255),
+						// 					description VARCHAR(255))";
+						// $mytables->exec($church_group);
+
+						
+
+						
+
+
+
+					 //    $visitor = "CREATE TABLE IF NOT EXISTS `visitors` (
+						//   `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+						//   `person` VARCHAR(150) ,
+						//   `mobile` VARCHAR(255) ,
+						//   `address` VARCHAR(255) ,
+						//   `location` VARCHAR(255) ,
+						//   `member` VARCHAR(255))";
+						// $mytables->exec($visitor);
+
+					 //    $funeral = "CREATE TABLE IF NOT EXISTS `funeral` (
+						//   `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+						//   `person` VARCHAR(150) ,
+						//   `amount` VARCHAR(255) ,
+						//   `paid_date` DATE ,
+						//   `bereaved` VARCHAR(255) ,
+						//   `leader` VARCHAR(255))";
+						// $mytables->exec($funeral);
 
 					    $groups = "CREATE TABLE IF NOT EXISTS `groups` (
 						  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
 						  `name` VARCHAR(150) ,
 						  `description` TEXT(60),
-						  `date_created` DATE NOT NULL)";
+						  `date_created` DATE)";
 						  $mytables->exec($groups);
 
-				      $counselling = "CREATE TABLE IF NOT EXISTS `counselling` (
-				  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
-				  	  `cnsel_date` DATE(NOT NULL) ,
-				  	  `cnsel_time` TIMESTAMP(NOT NULL))";
-				  	  $mytables->exec($counselling);
+				   //    $counselling = "CREATE TABLE IF NOT EXISTS `counselling` (
+				  	//   `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+				  	//   `cnsel_date` DATE ,
+				  	//   `cnsel_time` TIMESTAMP)";
+				  	//   $mytables->exec($counselling);
 
-			  	      $welfare = "CREATE TABLE IF NOT EXISTS `welfare` (
-			  	  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
-			  	  	  `person` VARCHAR(255) ,
-			  	  	  `amount` VARCHAR(255) ,
-			  	  	  `date_paid` DATE(NOT NULL))";
-			  	  	  $mytables->exec($welfare);
-
-
-						 $calendar = "CREATE TABLE IF NOT EXISTS `calendar` (
-						  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
-						  	  `event_name` VARCHAR(150) ,
-						  	  `theme` VARCHAR(255),
-						  	  `leader` VARCHAR(255),
-						  	  `schedule` VARCHAR(255),
-						  	  `description` TEXT(255),
-						  	  `event_date` DATE NOT NULL)";
-						  	  $mytables->exec($calendar);
-
-				  	  $new_convert = "CREATE TABLE IF NOT EXISTS `new_convert` (
-				  	   	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
-				  	   	  `name` VARCHAR(150) ,
-				  	   	  `invited_by` VARCHAR(255),
-				  	   	  	`convert_date` DATE
-				  	   	  `mobile` VARCHAR(255),
-				  	   	  `email` VARCHAR(255),
-				  	   	  `address` VARCHAR(255),
-				  	   	  `baptism_date` DATE NOT NULL)";
-				  	   	  $mytables->exec($new_convert);
-
-				  	 $youth = "CREATE TABLE IF NOT EXISTS `youth_registration` (
-				  	  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
-				  	  	  `name` VARCHAR(150) ,
-				  	  	  `gender` VARCHAR(255),
-				  	  	  `age` VARCHAR(255),
-				  	  	  `working_status` VARCHAR(255),
-				  	  	  `education` VARCHAR(255),
-				  	  	  `email` VARCHAR(255),
-				  	  	  `address` VARCHAR(255))";
-				  	  	  $mytables->exec($youth);
+			  	 //      $welfare = "CREATE TABLE IF NOT EXISTS `welfare` (
+			  	 //  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+			  	 //  	  `person` VARCHAR(255) ,
+			  	 //  	  `amount` VARCHAR(255) ,
+			  	 //  	  `date_paid` DATE)";
+			  	 //  	  $mytables->exec($welfare);
 
 
-				  	  	  $preaching = "CREATE TABLE IF NOT EXISTS `youth_registration` (
-				  	  	   	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
-				  	  	   	  `host_church` VARCHAR(150) ,
-				  	  	   	  `location` VARCHAR(255),
-				  	  	   	  `preach_date` DATE(NOT NULL),
-				  	  	   	  `schedule` VARCHAR(255))";
-				  	  	   	  $mytables->exec($preaching);
+						 // $calendar = "CREATE TABLE IF NOT EXISTS `calendar` (
+						 //  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+						 //  	  `event_name` VARCHAR(150) ,
+						 //  	  `theme` VARCHAR(255),
+						 //  	  `leader` VARCHAR(255),
+						 //  	  `schedule` VARCHAR(255),
+						 //  	  `description` TEXT(255),
+						 //  	  `event_date` DATE)";
+						 //  	  $mytables->exec($calendar);
 
-					  	$pastor =  "CREATE TABLE IF NOT EXISTS pastor (
+				  	  // $new_convert = "CREATE TABLE IF NOT EXISTS `new_convert` (
+				  	  //  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+				  	  //  	  `name` VARCHAR(150) ,
+				  	  //  	  `invited_by` VARCHAR(255),
+				  	  //  	  	`convert_date` DATE,
+				  	  //  	  `mobile` VARCHAR(255),
+				  	  //  	  `email` VARCHAR(255),
+				  	  //  	  `address` VARCHAR(255),
+				  	  //  	  `baptism_date` DATE)";
+				  	  //  	  $mytables->exec($new_convert);
+
+				  	 // $youth = "CREATE TABLE IF NOT EXISTS `youth_registration` (
+				  	 //  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+				  	 //  	  `name` VARCHAR(150) ,
+				  	 //  	  `gender` VARCHAR(255),
+				  	 //  	  `age` VARCHAR(255),
+				  	 //  	  `working_status` VARCHAR(255),
+				  	 //  	  `education` VARCHAR(255),
+				  	 //  	  `email` VARCHAR(255),
+				  	 //  	  `address` VARCHAR(255))";
+				  	 //  	  $mytables->exec($youth);
+
+
+				  	 //  	  $preaching = "CREATE TABLE IF NOT EXISTS `youth_registration` (
+				  	 //  	   	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+				  	 //  	   	  `host_church` VARCHAR(150) ,
+				  	 //  	   	  `location` VARCHAR(255),
+				  	 //  	   	  `preach_date` DATE,
+				  	 //  	   	  `schedule` VARCHAR(255))";
+				  	 //  	   	  $mytables->exec($preaching);
+
+					  	// $pastor =  "CREATE TABLE IF NOT EXISTS pastor (
 					  	     
 
-					  	      CREATE TABLE IF NOT EXISTS activity (
-					  	          activity_id INT AUTO_INCREMENT PRIMARY KEY,
-					  	          activity_name VARCHAR(255) NOT NULL,
-					  	          activity_date DATE,
-					  	          description TEXT,
-					  	      ),
+					  	//       CREATE TABLE IF NOT EXISTS activity (
+					  	//           activity_id INT AUTO_INCREMENT PRIMARY KEY,
+					  	//           activity_name VARCHAR(255),
+					  	//           activity_date DATE,
+					  	//           description TEXT,
+					  	//       ),
 
-					  	      CREATE TABLE IF NOT EXISTS pastor_event (
-					  	          event_id INT AUTO_INCREMENT PRIMARY KEY,
-					  	          event_name VARCHAR(255) NOT NULL,
-					  	          event_date DATE,
-					  	          description TEXT,
-					  	      ),
+					  	//       CREATE TABLE IF NOT EXISTS pastor_event (
+					  	//           event_id INT AUTO_INCREMENT PRIMARY KEY,
+					  	//           event_name VARCHAR(255),
+					  	//           event_date DATE,
+					  	//           description TEXT,
+					  	//       ),
 
-					  	      CREATE TABLE IF NOT EXISTS counselling (
-					  	          id INT AUTO_INCREMENT PRIMARY KEY,
-					  	          counsel_date DATE,
-					  	          counsel_time TIMESTAMP,
-					  	      ),
+					  	//       CREATE TABLE IF NOT EXISTS counselling (
+					  	//           id INT AUTO_INCREMENT PRIMARY KEY,
+					  	//           counsel_date DATE,
+					  	//           counsel_time TIMESTAMP,
+					  	//       ),
 
-					  	  )ENGINE=INNODB";
-					  	  $mytables->execute($pastor);
+					  	//   )ENGINE=INNODB";
+					  	//   $mytables->execute($pastor);
 
 
 
@@ -349,15 +360,15 @@ class Church{
 						  `message` TEXT(60))";
 						  $mytables->exec($contact);
 
-					      $sermon = "CREATE TABLE IF NOT EXISTS `sermon` (
-					  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
-					  	  `preacher` VARCHAR(150) ,
-					  	  `title` VARCHAR(255) ,
-					  	  `event_type` VARCHAR(255) ,
-						  preparing_date DATE,
-						  	`key_scriptures` TEXT,
-					  	  `notes` TEXT(60))";
-					  	  $mytables->exec($sermon);
+					   //    $sermon = "CREATE TABLE IF NOT EXISTS `sermon` (
+					  	//   `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+					  	//   `preacher` VARCHAR(150) ,
+					  	//   `title` VARCHAR(255) ,
+					  	//   `event_type` VARCHAR(255) ,
+						  // preparing_date DATE,
+						  // 	`key_scriptures` TEXT,
+					  	//   `notes` TEXT(60))";
+					  	//   $mytables->exec($sermon); 
 
 
 
@@ -614,6 +625,21 @@ class Church{
 
 		$stmt = $dbs->prepare("INSERT INTO welfare(person,amount,date_paid) VALUES(?,?,?)");
 		$stmt->execute([$person,$amount,$date_paid]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	public function church_group($group_name,$description)
+	{	
+
+		$dbs = DBcreate();
+
+		$stmt = $dbs->prepare("INSERT INTO church_group(group_name,description) VALUES(?,?)");
+		$stmt->execute([$group_name,$description]);
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;
