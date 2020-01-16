@@ -19,7 +19,7 @@ function DB()
 	}
 }
 
-
+// this is the code for the new database creation
 function DBcreate()
 {
 	try{

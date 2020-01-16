@@ -30,14 +30,14 @@ if (isset($_POST['signup'])) {
 			$msg = "Password does not match";
 		}else {
 
-			$adminSignUp = $ch->registerChurchAdmin($fullName,$church,$short_name,$location,$email,$mobile,$name,$password);
+			$admin_id = $ch->registerChurchAdmin($fullName,$church,$short_name,$location,$email,$mobile,$name,$password);
 
+			
 
-			if ($adminSignUp==1) {
+			if ($admin_id==1) {
 
 				$createDatabase = $ch->createDatabase($short_name);
 				if ($createDatabase==1) {
-					
 					$creatTables = $ch->creatTables($short_name);
 					if ($creatTables==1) {
 						$msg="Account Created Successfully";
@@ -45,18 +45,36 @@ if (isset($_POST['signup'])) {
 					else
 					{
 						$msg="Error creating tables for database";
-						print_r($creatTables);
+						// print_r($creatTables);
 					}
+
 				}
+					
 				else
 				{
 					$msg="Error creating database";
-					print_r($createDatabase);
+					// print_r($createDatabase);
 				}
+
+				// user activation email sending script
+				$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"."activate_email.php?user_id=" . $admin_id;
+				$toEmail = $email;
+				$subject = "User Registration Activation Email";
+				$content = "Click this link to activate your account. <a href='" . $actual_link . "'>" . $actual_link . "</a>";
+				$mailHeaders = "From: Admin\r\n";
+				if (mail($toEmail, $subject, $content,$mailHeaders)) {
+					$msg = "You have registered and the activation mail is sent to your email. Click the activation link to activate you account.";
+				}else{
+					$msg = "email sending failed";
+				}
+
+
+
+
 
 			}else{
 				$msg = "Error creating new account";
-				print_r($adminSignUp);
+				// print_r($adminSignUp);
 			}
 
 		}

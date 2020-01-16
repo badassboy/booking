@@ -38,6 +38,16 @@ if (isset($_POST['save'])) {
         $registered = $ch->addMember($firstName,$lastName,$otherName,$mobile,$email,$nationality,$address,$homewtown,$job,$birth_day,$gender,$status);
         if ($registered) {
             $info = "member added successfully";
+            
+          // Generate random password for each user.
+          $characters = "0123456789abcdefghijklmnopqrstuvwxyz";
+          $random_password = substr(str_shuffle($characters), 0,10);
+
+          // send password and login link to member using mail function
+          $send_link = $ch->sendEmail($email,$random_password);
+          
+
+          
         }else{
             $info = "an error occured";
         }
@@ -203,7 +213,7 @@ $stmt->execute();
 
                 <div class="form-group col-md-3">
                   <label>Email</label>
-                  <input type="email" class="form-control" name="email" placeholder="Email">
+                  <input type="email" class="form-control" name="email" placeholder="Email" required="required">
                 </div>
 
                 <div class="form-group col-md-3">

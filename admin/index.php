@@ -1,10 +1,5 @@
 <?php
 
-session_start();
-session_unset();
-
-$_SESSION['id'] = "";
-
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 

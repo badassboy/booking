@@ -2,11 +2,22 @@
 
 session_start();
 
+// var_dump($_SESSION);
+
 
 if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
   header("Location: index.php");
   exit();
+}else{
+
+  $now = time();
+  if ($now>$_SESSION['expire']) {
+    session_destroy();
+    header("Location:admin/index.php");
+  }
+
 }
+
 
 
 
