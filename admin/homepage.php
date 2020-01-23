@@ -2,21 +2,12 @@
 
 session_start();
 
-// var_dump($_SESSION);
-
 
 if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
   header("Location: index.php");
-  exit();
-}else{
-
-  $now = time();
-  if ($now>$_SESSION['expire']) {
-    session_destroy();
-    header("Location:admin/index.php");
-  }
-
+  exit;
 }
+
 
 
 
@@ -400,7 +391,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-info shadow h-100 py-2">
-                <a href=""><div class="card-body">
+                <a href="finance.php"><div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Finance</div>
@@ -460,7 +451,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-success shadow h-100 py-2">
-                <a href=""><div class="card-body">
+                <a href="pastor.php"><div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Pastor</div>
@@ -476,7 +467,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-info shadow h-100 py-2">
-                <a href=""><div class="card-body">
+                <a href="sermons.php"><div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Sermons</div>
@@ -492,7 +483,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
             <!-- Pending Requests Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-warning shadow h-100 py-2">
-                <a href=""><div class="card-body">
+                <a href="visitors.php"><div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Vistors</div>
@@ -514,7 +505,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
-                <a href="hello.html"><div class="card-body">
+                <a href="welfare.php"><div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Welfare</div>
@@ -531,7 +522,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-success shadow h-100 py-2">
-                <a href=""><div class="card-body">
+                <a href="new_convert.php"><div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">New Converts</div>
@@ -547,7 +538,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-info shadow h-100 py-2">
-                <a href=""><div class="card-body">
+                <a href="funeral.php"><div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Funeral Committee</div>
@@ -563,7 +554,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
             <!-- Pending Requests Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-warning shadow h-100 py-2">
-                <a href=""><div class="card-body">
+                <a href="sunday_school.php"><div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Sunday School</div>
@@ -602,7 +593,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-success shadow h-100 py-2">
-                <a href=""><div class="card-body">
+                <a href="church_groups.php"><div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Groups</div>
@@ -618,7 +609,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-info shadow h-100 py-2">
-                <a href=""><div class="card-body">
+                <a href="teen_youth.php"><div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Teen/Youth</div>
@@ -634,7 +625,7 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
             <!-- Pending Requests Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
               <div class="card border-left-warning shadow h-100 py-2">
-                <a href=""><div class="card-body">
+                <a href="children.php"><div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Children</div>
@@ -905,12 +896,72 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
   <script src="js/sb-admin-2.min.js"></script>
 
   <!-- Page level plugins -->
-  <script src="vendor/chart.js/Chart.min.js"></script>
+  <!-- <script src="vendor/chart.js/Chart.min.js"></script> -->
 
   <!-- Page level custom scripts -->
-  <script src="js/demo/chart-area-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
+  <!-- <script src="js/demo/chart-area-demo.js"></script> -->
+  <!-- <script src="js/demo/chart-pie-demo.js"></script> -->
 
+  <script type="text/javascript">
+
+    // this code logs out user after 20mins of Inactivity
+
+    function Inactivity(){
+      //The number of seconds that have passed
+         //since the user was active.
+         var secondsSinceLastActivity = 0;
+
+         //Five minutes. 60 x 5 = 300 seconds.
+         var maxInactivity = (60 * 20);
+
+         //Setup the setInterval method to run
+         //every second. 1000 milliseconds = 1 second.
+         setInterval(function(){
+             secondsSinceLastActivity++;
+             // console.log(secondsSinceLastActivity + ' seconds since the user was last active');
+             //if the user has been inactive or idle for longer
+             //then the seconds specified in maxInactivity
+             if(secondsSinceLastActivity > maxInactivity){
+                 // console.log('User has been inactive for more than ' + maxInactivity + ' seconds');
+                 //Redirect them to your logout.php page.
+                 location.href = 'logout.php';
+             }
+         }, 1000);
+
+         function activity(){
+                 //reset the secondsSinceLastActivity variable
+                 //back to 0
+                 secondsSinceLastActivity = 0;
+             }
+
+         // var element = document.getElementById("content");
+         window.addEventListener("mousedown",activity,true);
+         window.addEventListener("mousemove",activity,true);
+         window.addEventListener("keydown",activity,true);
+         window.addEventListener("scroll",activity,true);
+         window.addEventListener("touchstart",activity,true);
+
+    }
+
+    Inactivity();
+
+
+  </script>
+   
 </body>
 
 </html>
+
+   
+
+      
+
+       
+           
+     
+     
+
+  
+
+ 
+

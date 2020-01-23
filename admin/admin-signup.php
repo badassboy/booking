@@ -1,5 +1,5 @@
 <?php
-
+// this is the signup page
 //require("../database.php");
 include("../functions.php");
 $ch = new Church();
@@ -43,7 +43,7 @@ if (isset($_POST['signup'])) {
 						$msg="Account Created Successfully";
 					}
 					else
-					{
+					{ 
 						$msg="Error creating tables for database";
 						// print_r($creatTables);
 					}
@@ -57,6 +57,7 @@ if (isset($_POST['signup'])) {
 				}
 
 				// user activation email sending script
+				/*
 				$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"."activate_email.php?user_id=" . $admin_id;
 				$toEmail = $email;
 				$subject = "User Registration Activation Email";
@@ -67,7 +68,7 @@ if (isset($_POST['signup'])) {
 				}else{
 					$msg = "email sending failed";
 				}
-
+				*/
 
 
 

@@ -1,3 +1,11 @@
+<?php
+
+require("../functions.php");
+$ch = new Church();
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -56,6 +64,7 @@
                     <a href="#" id="view">View Groups</a>
                 </li>
 
+
                
             </ul>
 
@@ -105,18 +114,61 @@
             <!-- end of church group divs -->
 
             <div class="container" id="group_listing">
-                <h5>Church Groups</h5>
-                <ul class="list-group">
-                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="">Cras justo odio</a>
-                    <span>14</span>
+                <p id="msg"></p>
+            <h5>Church Groups</h5>
+
+                    <ul class="list-group">
+
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="memberchgroup.php?id=test">
+                        <?php echo $ch->displayChurchGroup();?>
+                    </a>
+                    <span><i class="fa fa-plus" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"
+                        data-toggle="tooltip" data-placement="bottom" title="Add Member"></i></span>
                 </li>
-                  <li class="list-group-item"><a href="">Cras justo odio</a></li>
-                  <li class="list-group-item"><a href="">Cras justo odio</a></li>
-                  
-                </ul>
+                    </ul>
+           
+
+            <!-- modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Member to Group</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <form method="post" id="memberchgroup" action="memberchgroup.php">
+                      <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="member_name" class="form-control" placeholder="Add by  Name">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Add Member</button>
+                    </form>
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- modal -->
+
+
+              
+
+           
+
 
             </div>
+
+                    
+
+                     
                 
 
                 
@@ -163,7 +215,6 @@
             })
         })
 
-        // ajax form submission
                 // ajax form submission
                 $("#chgroup").submit(function(e){
                   e.preventDefault();
@@ -183,6 +234,30 @@
                   });
 
                 });
+
+                    // ajax form submission
+                    $("#memberchgroup").submit(function(e){
+                      e.preventDefault();
+                      $.ajax({
+                        type:"post",
+                        url:"memberchgroup.php.php",
+                        // Encode a set of form elements as a string for submission.
+                        data:$("#memberchgroup").serialize(),
+                      })
+                    
+                      .done(function(data){
+                        $("#msg").html(data);
+                      })
+                      .fail(function(data){
+                        $("#msg").html(data);
+
+                      });
+
+                    });
+
+
+               
+
 
 
     </script>

@@ -1,23 +1,17 @@
 <?php
+
+session_start();
 require("../database.php");
 $dbh = DBCreate();
+
 // Displaying admin info into the table
-$stmt = $dbh->prepare("SELECT * FROM admins");
-$stmt->execute();
-
-
+$dbh = DB();
 
 ?>
 
 
-
-
-
-
-
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,6 +29,7 @@ $stmt->execute();
 
     <!-- Font Awesome -->
     <link rel="stylesheet" type="text/css" href="../font-awesome/css/font-awesome.css">
+
 
     <style type="text/css">
 
@@ -74,12 +69,34 @@ $stmt->execute();
 
 
     </style>
-    
 
 </head>
 
+<?php
+  
+  if (isset($_SESSION['msg'])) {
+     ?>
+     <body onload="alert('<?php echo $_SESSION['msg']; ?>');">
+     <?php
+   }
+   else
+   {
+     ?>
+     <body onload="alert('no message');">
+      <?php
+
+
+       
+   }
+
+   ?>
+
+
+  
+
+
 <body>
-    <div class="wrapper">
+      <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar">
             <div class="sidebar-header">
@@ -87,7 +104,6 @@ $stmt->execute();
             </div>
 
             <ul class="list-unstyled components">
-
 
                 <li>
                     <a href="#" id="addButton">Add Admin</a>
@@ -97,20 +113,21 @@ $stmt->execute();
                     <a href="#" id="password_change">Change Password</a>
                 </li>
 
-              
-
                 <li>
                     <a href="#" id="all_admin">All Admin</a>
                 </li>
                
-
-
             </ul>
+
+              
+        </nav>
+        <!-- end of sidebar -->
+
+
+
 
            
 
-        </nav>
-        <!-- end of sidebar -->
 
         <!-- Page Content  -->
         <div id="content">
@@ -131,7 +148,7 @@ $stmt->execute();
                 </div>
             </nav>
 
-            <h2>Settings</h2>
+            <h2>Admin Settings</h2>
 
             <div class="container" id="addUser">
               <div id="response"></div>
@@ -157,7 +174,6 @@ $stmt->execute();
                   
                  </div>
 
-                 </button>
                </form> 
             </div>
 
@@ -165,12 +181,20 @@ $stmt->execute();
                 
 
                 
-
-
+              <!-- start here -->
+              <!--where is the login script?-->
             <div class="container" id="changePassword">
+             
+
               <div id="response"></div>
                 <h5>Change Password</h5>
                <form method="post" action="change_password.php" id="change_password">
+
+                <div class="form-group">
+                  <label>Old Password</label>
+                  <input type="password" name="pwd3" class="form-control" required="required" id="myoldpass"
+                  placeholder="New Password">
+                </div>
 
                 <div class="form-group">
                   <label>New Password</label>
@@ -186,27 +210,20 @@ $stmt->execute();
                   
 
                 <div class="form-group row">
-
-
-                   <a href="change_password.php?update=hi">
-                     
-                <button type="submit" name="change" class="btn btn-primary" id="change">Change Password</button>
-                   </a> 
+                    
+                <button type="submit" class="btn btn-primary" id="change">Change Password</button>
                 <button type="submit" class="btn btn-primary" id="discard">Discard</button>
 
                 </div>
-
+                     
                </form>
 
             </div>
 
-
-               
-
-               
+            <!-- end here -->
 
 
-            <div class="container" id="admin_table">
+              <div class="container" id="admin_table">
               <h5>Administrators</h5>
               
                   <table class="table">
@@ -223,37 +240,31 @@ $stmt->execute();
 
                     <tbody>
 
-                      <?php  while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) { ?>
 
                       <tr>
                         <th scope="row">
-                          <a href="deleteAdmin.php?del=<?php echo $row['id'];?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                          <a><i class="fa fa-trash" aria-hidden="true"></i></a>
                         </th>
-                        <td><?php echo $row['username'];?></td>
-                        <td><?php echo $row['fullname'];?></td>
-                        <td><?php echo $row['email'];?></td>
-                        <td><?php echo $row['JOINDATE'];?></td>
+                        <td>hello</td>
+                        <td>hello</td>
+                        <td>hello</td>
+                        <td>hello</td>
+                        
                       </tr>
-
-                    
-                  <?php } ?>
-
-                      <!-- end of tr -->
-                  <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><button type="button" id="clear">Clear</button></td>
-                      </tr>
-                    
                     </tbody>
-
+                    
                   </table>
+                    
             </div>
+            <!-- end of table -->
 
         </div>
         <!-- end of  content -->
+
+
+
+                    
+
            
     </div>
     <!-- end of wrapper -->
@@ -312,41 +323,39 @@ $stmt->execute();
 
 
 
-        var form1 = document.getElementById("add_user");
-        var url = form1.getAttribute("action");
-        ajaxCall(form1,url);
+        // var form1 = document.getElementById("add_user");
+        // var url = form1.getAttribute("action");
+        // ajaxCall(form1,url);
 
-        var form2 = document.getElementById("change_password");
-        var url = form2.getAttribute("action");
-        ajaxCall(form2,url);
+        // var form2 = document.getElementById("change_password");
+        // var url = form2.getAttribute("action");
+        // ajaxCall(form2,url);
 
        
+        // function ajaxCall(form,url){
+        //   var form = form;
+        //   form.submit(function(e){
+        //     e.preventDefault();
+        //     $.ajax({
+        //       type:"post",
+        //       url:"url",
+        //       data:form.serialize(),
+
+        //     })
+        //     .done(function(data){
+        //       $("#response").html(data);
+        //     })
+        //     .fail(function(data){
+        //       $("#response").html(data);
+        //     });
+        //   });
+
+        // }
 
 
 
 
 
-        function ajaxCall(form,url){
-          var form = form;
-          form.submit(function(e){
-            e.preventDefault();
-            $.ajax({
-              type:"post",
-              url:"url",
-              data:form.serialize(),
-
-            })
-            .done(function(data){
-              $("#response").html(data);
-            })
-            .fail(function(data){
-              $("#response").html(data);
-            });
-            // to prevent refreshing the whole page
-            return false;
-          });
-
-        }
 
         
 

@@ -96,7 +96,7 @@ class Church{
 
 	}
 
-	// this is the code
+	// this is the signup code to register user
 
 	function registerChurchAdmin($fullName,$churchName,$shortName,$location,$email,$tel,$username,$password){
 		
@@ -124,6 +124,7 @@ class Church{
 		}
 	}
 
+		// login function here
 		public function loginAdmin($email,$password){
 
 		$dbh = DB();
@@ -136,10 +137,6 @@ class Church{
 			
 			if (password_verify($password, $data['password'])) {
 				$_SESSION['id'] = $data['id'];
-				$_SESSION['username'] = $data['username'];
-				// Taking now logged in time
-				$_SESSION['start'] = time();
-				$_SESSION['expire'] = $_SESSION['start'] + (10 * 60);
 				return true;
 			}else{
 				return false;
@@ -166,13 +163,18 @@ class Church{
 
 	}
 
-	public function updateAdminPassword($password,$id){
+	public function updateAdminPassword($oldpwd,$password,$email){
 		$password = password_hash($password, PASSWORD_BCRYPT);
+		$oldpassword =$oldpwd;
+		if (!($oldpassword==$_SESSION['adimn_pass'])) {
+			$messg="Old Password Is Incorect";
+			return $messg;
+		}
 		$dbh = DB();
-		$stmt = $dbh->prepare("UPDATE admins SET password = ? WHERE id = ?");
-		$stmt->execute([$password,$id]);
+		$stmt = $dbh->prepare("UPDATE church_admin SET password = ? WHERE email = ?");
+		$statuz=$stmt->execute([$password,$email]);
 		$count = $stmt->rowCount();
-		if ($count > 0) {
+		if ($count ==1) {
 			return true;
 		}else {
 			return false;
@@ -181,6 +183,7 @@ class Church{
 	}
 
 
+	//  we need to start here
 
 	public function createDatabase($name){
 		try {
@@ -218,7 +221,7 @@ class Church{
 		$mytables = new PDO("mysql:host=$host;dbname=$db", $username,$password);
 		// Set the PDO error mode to exception
 		$mytables->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+					// talking about theis one
 					$sql = " CREATE TABLE MyGuests (
 					id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 					firstname VARCHAR(30) NOT NULL,
@@ -226,7 +229,21 @@ class Church{
 					email VARCHAR(50),
 					reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 					)";
-					echo($mytables->exec($sql));
+					$mytables->exec($sql);
+
+					$children = " CREATE TABLE children (
+					id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+					name VARCHAR(30) NOT NULL,
+					age VARCHAR(30) NOT NULL,
+					gender VARCHAR(30) NOT NULL,
+					bith DATE NOT NULL,
+					guardian VARCHAR(30) NOT NULL,
+					guard_mobile VARCHAR(30) NOT NULL,
+					guard_address VARCHAR(30))";
+					$mytables->exec($children);
+
+					
+
 
 						// $sql=$mytables->prepare("CREATE TABLE IF NOT EXISTS tasks (
 						// 	    task_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -342,11 +359,32 @@ class Church{
 				// 			)  ENGINE=INNODB";
 				// 			$mytables->exec($test);
 
-				// 		$church_group = "CREATE TABLE IF NOT EXISTS `church_group`(
-				// 							id  INT AUTO_INCREMENT PRIMARY KEY,
-				// 							group_name VARCHAR(255),
-				// 							description VARCHAR(255))";
-				// 		$mytables->exec($church_group);
+
+						$church_group = "CREATE TABLE IF NOT EXISTS `church_group`(
+											`group_id`  INT AUTO_INCREMENT PRIMARY KEY,
+											`group_name` VARCHAR(255),
+											`description` VARCHAR(255))";
+						$mytables->exec($church_group);
+
+							$group_members = "CREATE TABLE IF NOT EXISTS `group_members`(
+												`member_id`  INT AUTO_INCREMENT PRIMARY KEY,
+												`group_id` INT NOT NULL,
+												`member_name` VARCHAR(255),
+												CONSTRAINT fk_groups
+												FOREIGN KEY (group_id)
+												REFERENCES church_group(group_id))";
+							$mytables->exec($group_members);
+
+						$result_table = "SELECT 
+												'm.group_id', 
+											   'm.group_name', 
+											   'c.member_id', 
+											   'c.group_name'
+										 FROM
+										    church_group m
+										 INNER JOIN  group_members c
+										      ON  'c.group_id' = 'm.group_id'
+										"; 
 
 						
 
@@ -703,6 +741,32 @@ class Church{
 		}
 	}
 
+	public function displayChurchGroup(){
+		$dbs = DBcreate();
+		$stmt = $dbs->prepare("SELECT * FROM church_group");
+		$stmt->execute();
+		while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+					$group_name = $data['group_name'];
+				}
+
+				return $data;		
+
+	}
+
+	public function displayGroupMembers($id){
+		$dbs = DBcreate();
+		$stmt = $dbs->prepare("SELECT * FROM group_members WHERE member_id = ?");
+		$stmt->execute([$id]);
+		while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+					$group_name = $data['group_name'];
+				}
+
+				return $data;		
+
+	}
+
+
+
 	public function sendEmail($email,$password){
 		// recepient
 		$to = $email;
@@ -733,6 +797,23 @@ class Church{
 			return false;
 		}
 
+	}
+
+
+	public function addChild($name,$age,$gender,$birth,$guardian,$guardian_number,$address)
+	{	
+
+		$dbs = DBcreate();
+
+		$stmt = $dbs->prepare("INSERT INTO children(name,age,gender,birth,guardian,guard_mobile,guard_address) 
+			VALUES(?,?,?,?,?,?,?)");
+		$stmt->execute([$name,$age,$gender,$birth,$guardian,$guardian_number,$guardian_number,$address]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 

@@ -17,7 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 		$user = $ch->loginAdmin($email,$pwd);
 		if ($user) {
-			
+			$_SESSION['email']=$email;
+			$_SESSION['adimn_pass']=$pwd;
 			header("Location: homepage.php");
 			// return;
 		}else{
@@ -57,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-
+<!-- login page here -->
 	<div class="container-fluid auth_page">
 
 		<header>

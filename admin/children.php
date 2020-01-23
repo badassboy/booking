@@ -16,6 +16,28 @@
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+        .parent {
+
+            background-color:rgb(255, 255, 255);
+            height: 350px;
+            padding-top: 5%;
+            /*display: none;*/
+        }
+
+        .btn-primary {
+
+            margin-left: 25%;
+            width: 40%;
+            font-weight: bold;
+
+        }
+        
+        #children {
+
+        }
+    </style>
 </head>
 
 <body>
@@ -27,54 +49,20 @@
             </div>
 
             <ul class="list-unstyled components">
-                <p>Dummy Heading</p>
-                <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li>
+                <!-- <p>Dummy Heading</p> -->
+
+             
                 <li>
-                    <a href="#">About</a>
+                    <a href="#">Add Child</a>
                 </li>
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">Portfolio</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li>
+
+               
+
+              
+
+
             </ul>
 
-            <ul class="list-unstyled CTAs">
-                <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-                </li>
-                <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
-            </ul>
         </nav>
         <!-- end of sidebar -->
 
@@ -97,7 +85,80 @@
                 </div>
             </nav>
 
-            <h2>Membership Page</h2>
+            <h2>Children Page</h2>
+            <div class="container parent">
+                <div id="response"></div>
+                <header>Please fill form below to child information</header>
+               <form method="post" action="child_process.php" id="children">
+
+                 <div class="form-row">
+
+                   <div class="form-group col-md-3">
+                     <label>Name</label>
+                     <input type="text" class="form-control" name="name" placeholder="Name">
+                   </div>
+
+                   <div class="form-group col-md-3">
+                     <label>Age</label>
+                     <input type="number" class="form-control" name="age" placeholder="Age">
+                   </div>
+
+                   <div class="form-group col-md-3">
+                     <label>Gender</label>
+                     <select class="form-control" name="gender">
+                         <option>Select</option>
+                         <option>Male</option>
+                         <option>Female</option>
+                        
+                       </select>
+                   </div>
+
+                   <div class="form-group col-md-3">
+                     <label>Date of Birth</label>
+                     <input class="form-control" type="date" name="birth">
+                   </div>
+
+                 </div>
+                 <!-- end of row1 -->
+
+                 <!-- row2 -->
+                 <div class="form-row">
+
+                   <div class="form-group col-md-3">
+                     <label>Guardian Name</label>
+                     <input type="text" class="form-control" name="guardian" placeholder="Name">
+                   </div>
+
+                   <div class="form-group col-md-3">
+                     <label>Guardian Contact</label>
+                     <input type="text" class="form-control" name="mobile" placeholder="Telephone">
+                   </div>
+                   
+                   <div class="form-group col-md-3">
+                     <label>Guardian Address(GPS)</label>
+                     <input type="text" class="form-control" name="address" placeholder="GPS Address">
+                   </div>
+
+                   <div class="form-group col-md-3">
+                     <label>Guardian in the church?</label>
+                     <select class="form-control" name="gender">
+                         <option>Select</option>
+                         <option>Yes</option>
+                         <option>No</option>
+                        
+                       </select>
+                   </div>
+                 </div>
+                 
+                 <!-- end of row2 -->
+
+
+
+                
+
+                 <button type="submit" class="btn btn-primary">Add Child</button>
+               </form> 
+            </div>
 
         </div>
         <!-- end of  content -->
@@ -115,11 +176,34 @@
    <script type="text/javascript" src="../bootstrap/dist/js/bootstrap.js"></script>
 
     <script type="text/javascript">
+
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
             });
         });
+
+        // ajax form submission
+        $("#children").submit(function(e){
+          e.preventDefault();
+          $.ajax({
+            type:"post",
+            url:"child_process.php",
+            // Encode a set of form elements as a string for submission.
+            data:$("#children").serialize(),
+          })
+
+          .done(function(data){
+            $("#response").html(data);
+          })
+          .fail(function(data){
+            $("#response").html(data);
+
+          });
+
+        });
+
+
     </script>
 </body>
 

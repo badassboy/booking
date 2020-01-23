@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 // $_SESSION['msg'] =  "";
 // var_dump($_SESSION['msg']);
 require("../functions.php");
