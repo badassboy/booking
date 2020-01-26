@@ -36,25 +36,27 @@ if (isset($_POST['signup'])) {
 
 			if ($admin_id==1) {
 
-				$createDatabase = $ch->createDatabase($short_name);
-				if ($createDatabase==1) {
-					$creatTables = $ch->creatTables($short_name);
-					if ($creatTables==1) {
-						$msg="Account Created Successfully";
-					}
-					else
-					{ 
-						$msg="Error creating tables for database";
-						// print_r($creatTables);
-					}
+				$msg = "Registration Successful";
 
-				}
+				// $createDatabase = $ch->createDatabase($short_name);
+				// if ($createDatabase==1) {
+				// 	$creatTables = $ch->creatTables($short_name);
+				// 	if ($creatTables==1) {
+				// 		$msg="Account Created Successfully";
+				// 	}
+				// 	else
+				// 	{ 
+				// 		$msg="Error creating tables for database";
+				// 		// print_r($creatTables);
+				// 	}
+
+				// }
 					
-				else
-				{
-					$msg="Error creating database";
-					// print_r($createDatabase);
-				}
+				// else
+				// {
+				// 	$msg="Error creating database";
+				// 	// print_r($createDatabase);
+				// }
 
 				// user activation email sending script
 				/*

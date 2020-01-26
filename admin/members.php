@@ -1,7 +1,5 @@
 <?php
-// session_start();
-// $_SESSION['msg'] =  "";
-// var_dump($_SESSION['msg']);
+
 require("../functions.php");
 $ch = new Church();
 $dbh = DB();

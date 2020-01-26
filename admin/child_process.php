@@ -1,24 +1,59 @@
 <?php
+session_start();
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 require("../functions.php");
 $ch = new Church();
 
-if ($ch->checks($_POST['name']) || $ch->checks($_POST['age']) || $ch->checks($_POST['gender']) || $ch->checks($_POST['birth']) || $ch->checks($_POST['guardian']) || $ch->checks($_POST['mobile'])
-	|| $ch->checks($_POST['address'])) {
+	$child_name = "";
+	// $child_age = "";
+	// $gender = "";
+	// $date_of_birth= "";
+	// $guardian_name = "";
+	// $guardian_mobile = "";
+	// $guardian_address= "";
 
-	$child_name = $_POST['name'];
-	$child_age = $_POST['age'];
-	$gender = $_POST["gender"];
-	$date_of_birth = $_POST['birth'];
-	$guardian_name = $_POST['guardian'];
-	$guardian_mobile = $_POST['mobile'];
-	$guardian_address = $_POST['address'];
+if (isset($_POST['name'])) {
+	$child_name = trim($_POST['name']);
+	echo $child_name;
+}
 
-	$children_added = $ch->addChild($child_name,$child_age,$gender,$date_of_birth,$guardian_name,$guardian_mobile,$guardian_address);
-	if ($children_added) {
-		return true;
+// if (isset($_POST['age'])) {
+	$child_age = trim($_POST['age']);
+	echo $child_age;
+// }
+
+// if (isset($_POST['gender'])) {
+	$gender = trim($_POST['gender']);
+	echo $gender;
+// }
+
+// if (isset($_POST['birth'])) {
+	$date_of_birth= trim($_POST['birth']);
+
+// }
+
+// if (isset($_POST['guardian'])) {
+	$guardian_name = trim($_POST['guardian']);
+// }
+
+// if (isset($_POST['mobile'])) {
+	$guardian_mobile = trim($_POST['mobile']);
+// }
+
+// if (isset($_POST['address'])) {
+	$guardian_address= trim($_POST['address']);
+// }
+
+
+
+$child = $ch->addChild($child_name,$child_age,$gender,$date_of_birth,$guardian_name,$guardian_mobile,$guardian_address);
+	if ($child == 1) {
+		$_SESSION['msg'] = "child added";
 	}else {
-		return false;
+		$_SESSION['msg'] = "failed in adding child";
 	}
 
 
@@ -27,7 +62,7 @@ if ($ch->checks($_POST['name']) || $ch->checks($_POST['age']) || $ch->checks($_P
 
 
 	
-}
+
 
 
 

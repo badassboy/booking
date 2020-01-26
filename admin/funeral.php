@@ -1,3 +1,8 @@
+<?php
+
+session_start();
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -73,8 +78,16 @@
 
             <h2>Funeral Contribution Form</h2>
             <div class="container" id="funeral">
-                <div id="response"></div>
-               <form  method="post" id="funeral">
+                <!-- <div id="response"></div> -->
+                <?php
+
+                if (isset($_SESSION['info'])) {
+                  echo $_SESSION['info'];
+                  unset($_SESSION['info']);
+                }
+
+                ?>
+               <form  method="post" id="funeral" action="funeral_processing.php">
 
                  <div class="form-group">
                    <label>Contributor Name</label>
@@ -137,15 +150,18 @@
           $.ajax({
             type:"post",
             url:"funeral_processing.php",
-            // Encode a set of form elements as a string for submission.
-            data:$("#youth").serialize(),
+            data:$("#funeral").serialize(),
           })
 
           .done(function(data){
-            $("#response").html(data);
+            // $("#response").html(data);
+            // console.log("success");
+            $("#funeral").find('input').val(" ");
+
           })
           .fail(function(data){
-            $("#response").html(data);
+            // $("#response").html(data);
+            console.log("failed");
 
           });
 

@@ -1,10 +1,4 @@
-<?php
 
-require("../functions.php");
-$ch = new Church();
-
-
-?>
 
 <!DOCTYPE html>
 <html>
@@ -121,7 +115,7 @@ $ch = new Church();
 
                       <li class="list-group-item d-flex justify-content-between align-items-center">
                         <a href="memberchgroup.php?id=test">
-                        <?php echo $ch->displayChurchGroup();?>
+                          <!-- php code to display all groups here -->
                     </a>
                     <span><i class="fa fa-plus" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"
                         data-toggle="tooltip" data-placement="bottom" title="Add Member"></i></span>
@@ -221,15 +215,16 @@ $ch = new Church();
                   $.ajax({
                     type:"post",
                     url:"chgroups_process.php",
-                    // Encode a set of form elements as a string for submission.
                     data:$("#chgroup").serialize(),
                   })
         
                   .done(function(data){
                     $("#response").html(data);
+                    console.log("hello");
                   })
                   .fail(function(data){
                     $("#response").html(data);
+                    console.log("hi");
 
                   });
 

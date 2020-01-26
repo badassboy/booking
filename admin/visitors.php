@@ -1,3 +1,8 @@
+<?php
+
+session_start();
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -80,13 +85,21 @@
             <h2>Visitor Form</h2>
 
             <div id="visitor_div" class="container">
-                <div id="response"></div>
+                <!-- <div id="response"></div> -->
+                <?php
+
+                if (isset($_SESSION['message'])) {
+                  echo $_SESSION['message'];
+                  unset($_SESSION['message']);
+                }
+
+                ?>
                 <form method="post" action="visitor_processing.php" id="visitor_form">
 
                   
                       <div class="form-group">
                         <label>Visitor Name</label>
-                        <input type="text" name="person" class="form-control" placeholder="Visitor Name" required="required">
+                        <input type="text" name="person" class="form-control" placeholder="Visitor Name" required="required" id="name">
                       </div>
                         
                       <div class="form-group">
@@ -150,12 +163,13 @@
           $.ajax({
             type:"post",
             url:"visitor_processing.php",
-            // Encode a set of form elements as a string for submission.
-            data:$("#youth").serialize(),
+            data:$("#visitor_form").serialize(),
           })
-/
+
           .done(function(data){
             $("#response").html(data);
+            $("#visitor_form").find('input').val(" ");
+
           })
           .fail(function(data){
             $("#response").html(data);
@@ -163,6 +177,8 @@
           });
 
         });
+
+
     </script>
 </body>
 

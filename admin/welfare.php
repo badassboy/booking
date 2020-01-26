@@ -1,3 +1,8 @@
+<?php
+
+session_start();
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -21,7 +26,7 @@
         .welfare {
 
             background-color:rgb(255, 255, 255);
-            height: 500px;
+            height: 350px;
             padding-top: 3%;
             /*display: none;*/
         }
@@ -70,7 +75,16 @@
 
             <h2>Welfare Page</h2>
             <div class="container welfare">
-                <div id="response"></div>
+                <!-- <div id="response"></div> -->
+                <?php
+
+                if (isset($_SESSION['msg'])) {
+                  echo $_SESSION['msg'];
+                  unset($_SESSION['msg']);
+                }
+
+
+                ?>
                <form method="post" action="welfare_process.php" id="welfare">
 
                  <div class="form-group">
@@ -128,10 +142,9 @@
                   $.ajax({
                     type:"post",
                     url:"welfare_process.php",
-                    // Encode a set of form elements as a string for submission.
                     data:$("#welfare").serialize(),
                   })
-        /
+        
                   .done(function(data){
                     $("#response").html(data);
                   })

@@ -36,19 +36,11 @@ class Church{
 
 	}
 
-	public function checks($fields){
-		$keys = array($fields);
-		if (isset($_POST)) {
-			foreach ($keys as $keys) {
-				if (array_key_exists($keys, $_POST)) {
-					return true;
-				}else{
-					return false;
-				}
-			}
-		}
-		
+	public function checks($test){
+			return array_key_exists($test, $_POST);
 	}
+		
+		
 
 	public function login_user($username,$password){
 		$dbh = DB();
@@ -185,82 +177,60 @@ class Church{
 
 	//  we need to start here
 
-	public function createDatabase($name){
-		try {
+	// public function createDatabase($name){
+	// 	try {
 			
-				$conn = DBcreate();
-		// Create database and tables for the church automatically
-				$mydbase=$name;
-				$cretedb="CREATE DATABASE IF NOT EXISTS ".$mydbase;
-				$stmt = $conn->prepare($cretedb);
-				if ($stmt->execute()) {
-					return True;
-				}else {
-					return $conn->errorInfo();
-				}
+	// 			$conn = DBcreate();
+	// 	// Create database and tables for the church automatically
+	// 			$mydbase=$name;
+	// 			$cretedb="CREATE DATABASE IF NOT EXISTS ".$mydbase;
+	// 			$stmt = $conn->prepare($cretedb);
+	// 			if ($stmt->execute()) {
+	// 				return True;
+	// 			}else {
+	// 				return $conn->errorInfo();
+	// 			}
 
-		} catch (Exception $e) {
-			return $e.getMessage();
-		}
-	}
+	// 	} catch (Exception $e) {
+	// 		return $e.getMessage();
+	// 	}
+	// }
 
 // start from here
-	public function creatTables($database){
+	// public function creatTables($database){
 		// check  if record exist
-		try {
+		// try {
 
-				$host = 'localhost';
-				// database user
-				$username ='root';
-				// user password
-				$password = "";
-				// database name
-				$db = $database;
+				// $host = 'localhost';
+				// // database user
+				// $username ='root';
+				// // user password
+				// $password = "";
+				// // database name
+				// $db = $database;
 
 			
-		$mytables = new PDO("mysql:host=$host;dbname=$db", $username,$password);
+		// $mytables = new PDO("mysql:host=$host;dbname=$db", $username,$password);
 		// Set the PDO error mode to exception
-		$mytables->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-					// talking about theis one
-					$sql = " CREATE TABLE MyGuests (
-					id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-					firstname VARCHAR(30) NOT NULL,
-					lastname VARCHAR(30) NOT NULL,
-					email VARCHAR(50),
-					reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-					)";
-					$mytables->exec($sql);
+		// $mytables->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-					$children = " CREATE TABLE children (
-					id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-					name VARCHAR(30) NOT NULL,
-					age VARCHAR(30) NOT NULL,
-					gender VARCHAR(30) NOT NULL,
-					bith DATE NOT NULL,
-					guardian VARCHAR(30) NOT NULL,
-					guard_mobile VARCHAR(30) NOT NULL,
-					guard_address VARCHAR(30))";
-					$mytables->exec($children);
+
+
+					// $children = " CREATE TABLE children (
+					// id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+					// name VARCHAR(30) NOT NULL,
+					// age VARCHAR(30) NOT NULL,
+					// gender VARCHAR(30) NOT NULL,
+					// bith DATE NOT NULL,
+					// guardian VARCHAR(30) NOT NULL,
+					// guard_mobile VARCHAR(30) NOT NULL,
+					// guard_address VARCHAR(30))";
+					// $mytables->exec($children);
 
 					
 
 
-						// $sql=$mytables->prepare("CREATE TABLE IF NOT EXISTS tasks (
-						// 	    task_id INT AUTO_INCREMENT PRIMARY KEY,
-						// 	    title VARCHAR(255) NOT NULL,
-						// 	    start_date DATE,
-						// 	    due_date DATE,
-						// 	    status TINYINT NOT NULL,
-						// 	    priority TINYINT NOT NULL,
-						// 	    description TEXT,
-						// 	    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-						// 	)  ENGINE=INNODB");
-
-							// echo(gettype($sql));
-
-
-					    // echo($conn->exec($sql));
-					    // echo($sql->execute());
+						
 	
 
 		
@@ -347,44 +317,34 @@ class Church{
 				// 			)";
 				// 			$mytables->exec($test);
 
-				// 		$test = "CREATE TABLE IF NOT EXISTS tasks (
-				// 			    task_id INT AUTO_INCREMENT PRIMARY KEY,
-				// 			    title VARCHAR(255) NOT NULL,
-				// 			    start_date DATE,
-				// 			    due_date DATE,
-				// 			    status TINYINT NOT NULL,
-				// 			    priority TINYINT NOT NULL,
-				// 			    description TEXT,
-				// 			    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-				// 			)  ENGINE=INNODB";
-				// 			$mytables->exec($test);
+				
 
 
-						$church_group = "CREATE TABLE IF NOT EXISTS `church_group`(
-											`group_id`  INT AUTO_INCREMENT PRIMARY KEY,
-											`group_name` VARCHAR(255),
-											`description` VARCHAR(255))";
-						$mytables->exec($church_group);
+						// $church_group = "CREATE TABLE IF NOT EXISTS `church_group`(
+						// 					`group_id`  INT AUTO_INCREMENT PRIMARY KEY,
+						// 					`group_name` VARCHAR(255),
+						// 					`description` VARCHAR(255))";
+						// $mytables->exec($church_group);
 
-							$group_members = "CREATE TABLE IF NOT EXISTS `group_members`(
-												`member_id`  INT AUTO_INCREMENT PRIMARY KEY,
-												`group_id` INT NOT NULL,
-												`member_name` VARCHAR(255),
-												CONSTRAINT fk_groups
-												FOREIGN KEY (group_id)
-												REFERENCES church_group(group_id))";
-							$mytables->exec($group_members);
+						// 	$group_members = "CREATE TABLE IF NOT EXISTS `group_members`(
+						// 						`member_id`  INT AUTO_INCREMENT PRIMARY KEY,
+						// 						`group_id` INT NOT NULL,
+						// 						`member_name` VARCHAR(255),
+						// 						CONSTRAINT fk_groups
+						// 						FOREIGN KEY (group_id)
+						// 						REFERENCES church_group(group_id))";
+						// 	$mytables->exec($group_members);
 
-						$result_table = "SELECT 
-												'm.group_id', 
-											   'm.group_name', 
-											   'c.member_id', 
-											   'c.group_name'
-										 FROM
-										    church_group m
-										 INNER JOIN  group_members c
-										      ON  'c.group_id' = 'm.group_id'
-										"; 
+						// $result_table = "SELECT 
+						// 						'm.group_id', 
+						// 					   'm.group_name', 
+						// 					   'c.member_id', 
+						// 					   'c.group_name'
+						// 				 FROM
+						// 				    church_group m
+						// 				 INNER JOIN  group_members c
+						// 				      ON  'c.group_id' = 'm.group_id'
+						// 				"; 
 
 						
 
@@ -444,6 +404,7 @@ class Church{
 				//   	   	  `address` VARCHAR(255),
 				//   	   	  `baptism_date` DATE)";
 				//   	   	  $mytables->exec($new_convert);
+	
 
 				//   	 $youth = "CREATE TABLE IF NOT EXISTS `youth_registration` (
 				//   	  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
@@ -492,25 +453,25 @@ class Church{
 				// 	  	  $mytables->execute($pastor);
 
 					  	
-				// 	      $sermon = "CREATE TABLE IF NOT EXISTS `sermon` (
-				// 	  	  `id` INT  AUTO_INCREMENT PRIMARY KEY ,
-				// 	  	  `preacher` VARCHAR(150) ,
-				// 	  	  `title` VARCHAR(255) ,
-				// 	  	  `event_type` VARCHAR(255) ,
-				// 		  preparing_date DATE,
-				// 		  	`key_scriptures` TEXT,
-				// 	  	  `notes` TEXT(60))";
-				// 	  	  $mytables->exec($sermon); 
+					   //    $sermon = "CREATE TABLE IF NOT EXISTS `sermon` (
+					  	//   `id` INT  AUTO_INCREMENT PRIMARY KEY ,
+					  	//   `preacher` VARCHAR(150) ,
+					  	//   `title` VARCHAR(255) ,
+					  	//   `event_type` VARCHAR(255) ,
+						  // preparing_date DATE,
+						  // 	`key_scriptures` TEXT,
+					  	//   `notes` TEXT(60))";
+					  	//   $mytables->exec($sermon); 
 
-					    return True;
+	// 				    return True;
 				
 					
-					}catch(PDOException $ex){
-		die("Error:could not connect. " .$ex->getMessage());
-	}
+	// 				}catch(PDOException $ex){
+	// 	die("Error:could not connect. " .$ex->getMessage());
+	// }
 					
 
-	}
+	// }
 
 		
 
@@ -622,7 +583,7 @@ class Church{
 	public function sermon($preacher,$title,$event_type,$scripture,$note)
 	{	
 
-		$dbs = DBcreate();
+		$dbs = DB();
 		$stmt = $dbs->prepare("INSERT INTO sermon(preacher,title,event_type,key_scriptures,notes) 
 			VALUES(?,?,?,?,?)");
 		$stmt->execute([$preacher,$title,$event_type,$scripture,$note]);
@@ -635,50 +596,52 @@ class Church{
 	}
 
 
-	public function new_convert($person_name,$invited_by,$phone,$email,$address,$baptism,$convert_date)
+	public function new_convert($person,$invite,$birth,$phone,$email,$address,$baptism)
 	{	
 
-		$dbs = DBcreate();
-		$stmt = $dbs->prepare("INSERT INTO new_convert(name,invited_by,mobile,email,address,baptism_date,
-			                 convert_date) VALUES(?,?,?,?,?,?,?)");
-		$stmt->execute([$person_name,$invited_by,$phone,$email,$address,$baptism,$convert_date]);
+		$dbs = DB();
+
+		$stmt = $dbs->prepare("INSERT INTO new_convert(name,invited_by,convert_date,mobile,email,address,baptism_date) VALUES(?,?,?,?,?,?,?)");
+		$stmt->execute([$person,$invite,$birth,$phone,$email,$address,$baptism]);
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;
 		}else {
-			return false;
+			return $dbs->errorInfo();
 		}
 	}
 
 
-	public function visitor($person_name,$phone,$address,$location,$member)
+	public function visitor($person,$phone,$address,$location,$member)
 	{	
 
-		$dbs = DBcreate();
-		$stmt = $dbs->prepare("INSERT INTO visitor(person,mobile,address,location,
+		$dbs = DB();
+		$stmt = $dbs->prepare("INSERT INTO visitors(person,mobile,address,location,
 			                 member) VALUES(?,?,?,?,?)");
-		$stmt->execute([$person_name,$phone,$address,$location,$member]);
+		$stmt->execute([$person,$phone,$address,$location,$member]);
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;
 		}else {
-			return false;
+			return $dbs->errorInfo();
 		}
 	}
 
 
-	public function funeral($person,$amount,$paid_date,$bereaved,$leader)
+	public function funeral($person,$amount,$bereaved,$leader)
 	{	
 
-		$dbs = DBcreate();
+		$dbs = DB();
+		$date = date("Y/m/d");
+
 		$stmt = $dbs->prepare("INSERT INTO funeral(person,amount,paid_date,bereaved,
 			                 leader) VALUES(?,?,?,?,?)");
-		$stmt->execute([$person,$amount,$paid_date,$bereaved,$leader]);
+		$stmt->execute([$person,$amount,$date,$bereaved,$leader]);
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;
 		}else {
-			return false;
+			return $dbs->errorInfo();
 		}
 	}
 
@@ -699,7 +662,7 @@ class Church{
 	public function counselling($date,$time)
 	{	
 
-		$dbs = DBcreate();
+		$dbs = DB();
 		$stmt = $dbs->prepare("INSERT INTO counselling(cnsel_date,cnsel_time) VALUES(?,?)");
 		$stmt->execute([$date,$time]);
 		$inserted = $stmt->rowCount();
@@ -711,25 +674,26 @@ class Church{
 	}
 
 
-	public function welfare($person,$amount,$date_paid)
+	public function welfare($person,$amount)
 	{	
 
-		$dbs = DBcreate();
+		$dbs = DB();
+		$date = date("Y/m/d");
 
 		$stmt = $dbs->prepare("INSERT INTO welfare(person,amount,date_paid) VALUES(?,?,?)");
-		$stmt->execute([$person,$amount,$date_paid]);
+		$stmt->execute([$person,$amount,$date]);
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;
 		}else {
-			return false;
+			return $dbs->errorInfo();
 		}
 	}
 
 	public function church_group($group_name,$description)
 	{	
 
-		$dbs = DBcreate();
+		$dbs = DB();
 
 		$stmt = $dbs->prepare("INSERT INTO church_group(group_name,description) VALUES(?,?)");
 		$stmt->execute([$group_name,$description]);
@@ -737,7 +701,7 @@ class Church{
 		if ($inserted>0) {
 			return true;
 		}else {
-			return false;
+			return $dbs->errorInfo();
 		}
 	}
 
@@ -803,16 +767,18 @@ class Church{
 	public function addChild($name,$age,$gender,$birth,$guardian,$guardian_number,$address)
 	{	
 
-		$dbs = DBcreate();
+		// $dbs = DBcreate();
+		$dbs = DB();
 
-		$stmt = $dbs->prepare("INSERT INTO children(name,age,gender,birth,guardian,guard_mobile,guard_address) 
-			VALUES(?,?,?,?,?,?,?)");
-		$stmt->execute([$name,$age,$gender,$birth,$guardian,$guardian_number,$guardian_number,$address]);
+		$stmt = "INSERT INTO children(name,age,gender,bith,guardian,guard_mobile,guard_address) 
+			VALUES(?,?,?,?,?,?,?)";
+			$stmt = $dbs->prepare($stmt);
+		$stmt->execute([$name,$age,$gender,$birth,$guardian,$guardian_number,$address]);
 		$inserted = $stmt->rowCount();
-		if ($inserted>0) {
+		if ($inserted == 1) {
 			return true;
 		}else {
-			return false;
+			return $dbs->errorInfo();
 		}
 	}
 

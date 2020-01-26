@@ -1,27 +1,51 @@
 <?php
 
+session_start();
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require("../functions.php");
-$ch = Church();
+$ch = new Church();
 
-if ($ch->checks($_POST['cnt_name']) || $ch->checks($_POST['amount']) || $ch->checks($_POST['cnt_date'])
-	|| $ch->checks($_POST['bereaved']) || $ch->checks($_POST['leader']) || $ch->checks($_POST['note']) {
+$person = "";
+$amount = "";
+$cnt_date = "";
+$bereaved= "";
+$leader = "";
+
+// if(isset($_POST['cnt_name'])){
+
+// 	$person = $_POST['cnt_name'];
 	
-	$person = $_POST['cnt_name'];
-	$amount = $_POST['amount'];
-	$cnt_date = $_POST['cnt_date'];
-	$bereaved = $_POST['bereaved'];
-	$leader = $_POST['leader'];
+// }
 
-}
+//   if(isset($_POST['amount'])){
 
-$paid = $ch->funeral($person,$amount,$cnt_date,$bereaved,$leader);
+// 	$amount = trim($_POST['amount']);
+// 	echo $amount;
+// }
+
+//   if(isset($_POST['cnt_date'])){
+
+// 	$cnt_date = trim($_POST['cnt_date']);
+//   } 
+
+//  if(isset($_POST['bereaved'])){
+
+// 	$bereaved = trim($_POST['bereaved']);
+//  }
+
+//  if(isset($_POST['leader'])){
+//  	$leader = trim($_POST['leader']);
+//  }
+
+
+$paid = $ch->funeral($person,$amount,$bereaved,$leader);
 if ($paid) {
-	return true;
+	$_SESSION['info'] = "paid successful";
 }else {
-	return false;
+	$_SESSION['info'] = "error occured";
 }
 
 ?>

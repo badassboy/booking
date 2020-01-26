@@ -84,9 +84,15 @@
 
             <!-- <h2>Membership Page</h2> -->
             <div class="container convert">
-              <div id="response"></div>
+              <!-- <div id="message"></div> -->
+              <?php
+                if (isset($_SESSION['response'])) {
+                  echo $_SESSION['response'];
+                  unset($_SESSION['response']);
+                }
+              ?>
                 <h5>New Convert Form</h5>
-               <form method="post" id="convert">
+               <form method="post" id="convert" action="converts.php">
 
                    <div class="form-row">
                        <div class="form-group col-md-3">
@@ -96,13 +102,13 @@
 
                        <div class="form-group col-md-3">
                          <label>Date</label>
-                        <input class="form-control" name="birth" type="date"  required="required">
+                        <input class="form-control" name="birth" type="date">
                        </div>
                          
 
                        <div class="form-group col-md-3">
                         <label>Baptism Date</label>
-                        <input class="form-control" name="baptism" type="date"  required="required">
+                        <input class="form-control" name="baptism" type="date">
                        </div>
 
                       <div class="form-group col-md-3">
@@ -166,24 +172,37 @@
         });
 
         // ajax form submission
-        $("#convert").submit(function(e){
-          e.preventDefault();
-          $.ajax({
-            type:"post",
-            url:"converts.php",
-            // Encode a set of form elements as a string for submission.
-            data:$("#sermon").serialize(),
-          })
+            $(document).ready(function(){
 
-          .done(function(data){
-            $("#response").html(data);
-          })
-          .fail(function(data){
-            $("#response").html(data);
+                $("#convert").submit(function(e){
+                  e.preventDefault();
+                  $.ajax({
+                    type:"post",
+                    url:"converts.php",
+                    data:$("#convert").serialize(),
+                  })
 
-          });
+                  .done(function(data){
+                    $('#message').html(data);
+                    $("#convert").find('input').val(" ");
 
-        });
+                  })
+                  .fail(function(data){
+                    $('#message').html(data);
+
+                  })
+
+
+                });
+
+            });
+
+           
+         
+
+
+
+       
 
 
     </script>

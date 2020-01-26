@@ -1,22 +1,37 @@
 <?php
+// session_start();
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+require("../functions.php");
 $ch = new Church();
 
-if ($ch->checks($_POST['person']) || $ch->checks($_POST['amount']) || $ch->checks($_POST['date_paid'])) {
-	
+$person = "";
+$amount = "";
+$date_paid = "";
+
+if (isset($_POST['person'])) {
 	$person = trim($_POST['person']);
+}
+
+if (isset($_POST['amount'])) {
 	$amount = trim($_POST['amount']);
+}
+
+if (isset($_POST['date_paid'])) {
 	$date_paid = trim($_POST['date_paid']);
 }
 
-$paid = $ch->welfare($person,$amount,$date_paid);
+
+
+$paid = $ch->welfare($person,$amount);
 if ($paid) {
-	return true;
+	// return true;
+	$_SESSION['msg'] = "amount paid";
 }else {
-	return false;
+	// return false;
+	$_SESSION['msg'] = "error occured";
 }
 
 

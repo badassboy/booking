@@ -76,7 +76,7 @@
 
                   <div class="form-group">
                     <label>Preacher Name</label>
-                    <input type="text" name="preacher" class="form-control" placeholder="Preacher Name">
+                    <input type="text" name="preacher" class="form-control" placeholder="Preacher Name" id="name">
                   </div>
 
                   <div class="form-group">
@@ -94,20 +94,16 @@
                     </select>
                   </div>
 
-                  <div class="form-group">
-                    <label>Date</label>
-                <input class="form-control" name="birth" type="date" required="required">
-                  </div>
-
+               
                     <div class="form-group">
                       <label>Key Scriptures</label>
-                      <textarea class="form-control" name="scripture" id="exampleFormControlTextarea1" rows="3"
+                      <textarea class="form-control" name="scripture" rows="3"
                       placeholder="Key Scriptures"></textarea>
                     </div>
 
                       <div class="form-group">
                         <label>Extra Notes</label>
-                        <textarea class="form-control" name="note" id="exampleFormControlTextarea1" rows="3"
+                        <textarea class="form-control" name="note" rows="3"
                         placeholder="Notes"></textarea>
                       </div>
 
@@ -149,18 +145,23 @@
           e.preventDefault();
           $.ajax({
             type:"post",
-            url:"teen_register.php",
+            url:"create_sermon.php",
             // Encode a set of form elements as a string for submission.
             data:$("#sermon").serialize(),
           })
 
           .done(function(data){
-            $("#response").html(data);
+            $("#response").append(data);
+            // console.log(typeof data);
+          $("#sermon").find('input,textarea,select').val(" ");
+
           })
           .fail(function(data){
-            $("#response").html(data);
+            // $("#response").html(data);
+            $("response").append(data);
 
           });
+
 
         });
     </script>

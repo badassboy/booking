@@ -1,3 +1,11 @@
+<?php
+
+session_start();
+// var_dump($_SESSION);
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -87,9 +95,24 @@
 
             <h2>Children Page</h2>
             <div class="container parent">
-                <div id="response"></div>
+                <!-- <div id="response"></div> -->
+                <p>
+                  
+
+                <?php
+
+                if (isset($_SESSION['msg'])) {
+                    echo $_SESSION['msg'];
+                    unset($_SESSION['msg']);
+                }
+
+
+                ?>
+               
+                </p>
+
                 <header>Please fill form below to child information</header>
-               <form method="post" action="child_process.php" id="children">
+               <form method="post" id="children" action="child_process.php">
 
                  <div class="form-row">
 
@@ -138,7 +161,7 @@
                      <label>Guardian Address(GPS)</label>
                      <input type="text" class="form-control" name="address" placeholder="GPS Address">
                    </div>
-
+<!-- 
                    <div class="form-group col-md-3">
                      <label>Guardian in the church?</label>
                      <select class="form-control" name="gender">
@@ -147,16 +170,12 @@
                          <option>No</option>
                         
                        </select>
-                   </div>
+                   </div> -->
+
                  </div>
-                 
-                 <!-- end of row2 -->
-
-
-
                 
-
                  <button type="submit" class="btn btn-primary">Add Child</button>
+
                </form> 
             </div>
 
@@ -165,6 +184,10 @@
            
     </div>
     <!-- end of wrapper -->
+                 
+
+
+
            
 
           
@@ -184,20 +207,21 @@
         });
 
         // ajax form submission
-        $("#children").submit(function(e){
+        $("#children").on("submit",function(e){
           e.preventDefault();
           $.ajax({
             type:"post",
             url:"child_process.php",
-            // Encode a set of form elements as a string for submission.
             data:$("#children").serialize(),
           })
 
           .done(function(data){
-            $("#response").html(data);
+            // $("#response").html(data);
+            console.log("success");
           })
           .fail(function(data){
-            $("#response").html(data);
+            // $("#response").html(data);
+            console.log("failed");
 
           });
 

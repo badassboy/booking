@@ -4,24 +4,34 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require("../functions.php");
-$ch = Church();
+$ch = new Church();
 
-if ($ch->checks($_POST['person']) || $ch->checks($_POST['mobile']) || $ch->checks($_POST['address'])
-	|| $ch->checks($_POST['location']) || $ch->checks($_POST['member'])) {
-	
-	$visitor = $_POST['person'];
+if (isset($_POST['person'])) {
+	$person = trim($_POST['person']);
+}
+
+if (isset($_POST['mobile'])) {
 	$phone = $_POST['mobile'];
-	$address = $_POST['address'];
-	$location = $_POST['location'];
-	$member = $_POST['member'];
 
 }
 
-$visitor = $ch->visitor($visitor,$phone,$address,$location,$member);
+if (isset($_POST['address'])) {
+	$address = trim($_POST['address']);
+}
+
+if (isset($_POST['location'])) {
+	$location = trim($_POST['location']);
+}
+
+if (isset($_POST['member'])) {
+	$member = $_POST['member'];
+}
+	
+$visitor = $ch->visitor($person,$phone,$address,$location,$member);
 if ($visitor) {
-	return true;
+	$_SESSION['message'] = "visitor created";
 }else {
-	return false;
+	$_SESSION['message'] = "error occured";
 }
 
 ?>
