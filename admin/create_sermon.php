@@ -1,5 +1,4 @@
 <?php
-
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -14,12 +13,10 @@ $note = "";
 
 if (isset($_POST['preacher'])) {
 	$preacher = trim($_POST['preacher']);
-	// echo $preacher;
 }
 
 if (isset($_POST['title'])) {
 	$title = trim($_POST['title']);
-		// echo $title;
 }
 
 if (isset($_POST['schedule'])) {
@@ -38,10 +35,9 @@ if (isset($_POST['note'])) {
 
 $my_sermon = $ch->sermon($preacher,$title,$schedule,$scripture,$note);
 if ($my_sermon) {
-	echo "sermon created";
+	echo "successful";
 }else {
-	// return false;
-	echo "error occured";
+	echo "failed";
 }
 
 ?>

@@ -42,8 +42,8 @@
                     <a href="#">Create Sermon</a>
                 </li>
 
-               
             </ul>
+               
 
            
         </nav>
@@ -70,23 +70,23 @@
 
             <h2>Sermon Page</h2>
             <div class="container sermon">
-              <div id="response"></div>
+              <div id="msg"></div>
                 <h5>Please fill below fields to create a sermon</h5>
                 <form method="post" id="sermon">
 
                   <div class="form-group">
                     <label>Preacher Name</label>
-                    <input type="text" name="preacher" class="form-control" placeholder="Preacher Name" id="name">
+                    <input type="text" name="preacher" class="form-control" placeholder="Preacher Name" required="required">
                   </div>
 
                   <div class="form-group">
                     <label>Title</label>
-                    <input type="text" name="title" class="form-control" placeholder="Title">
+                    <input type="text" name="title" class="form-control" placeholder="Title" required="required">
                   </div>
 
                  <div class="form-group">
-                    <label for="exampleFormControlSelect1">Type of event</label>
-                    <select class="form-control" name="schedule" id="exampleFormControlSelect1">
+                    <label>Type of event</label>
+                    <select class="form-control" name="schedule" required="required">
                       <option>Select</option>
                       <option>Sunday Preaching</option>
                       <option>Midweek</option>
@@ -98,7 +98,7 @@
                     <div class="form-group">
                       <label>Key Scriptures</label>
                       <textarea class="form-control" name="scripture" rows="3"
-                      placeholder="Key Scriptures"></textarea>
+                      placeholder="Key Scriptures" required="required"></textarea>
                     </div>
 
                       <div class="form-group">
@@ -141,29 +141,64 @@
         });
 
         // ajax form submission
-        $("#sermon").submit(function(e){
-          e.preventDefault();
-          $.ajax({
-            type:"post",
-            url:"create_sermon.php",
-            // Encode a set of form elements as a string for submission.
-            data:$("#sermon").serialize(),
-          })
 
-          .done(function(data){
-            $("#response").append(data);
-            // console.log(typeof data);
-          $("#sermon").find('input,textarea,select').val(" ");
+          $(document).ready(function(){
 
-          })
-          .fail(function(data){
-            // $("#response").html(data);
-            $("response").append(data);
+            $("#sermon").submit(function(e){
+
+              e.preventDefault();
+              $.ajax({
+                             url: 'create_sermon.php',
+                             dataType: 'text',
+                             type: 'post',
+                             data: $("#sermon").serialize(),
+                             success: function( data, textStatus, jQxhr ){
+                                 $('#msg').html( data );
+                                 console.log("hello");
+                             },
+                             error: function( jqXhr, textStatus, errorThrown ){
+                                 console.log( errorThrown );
+                             }
+                         });
+              // $.ajax({
+              //   type:"post",
+              //   url:"create_sermon.php",
+              //   dataType:"text",
+              //   data:$("#sermon").serialize(),
+              // success:function(data)
+              // {
+              //     $("#msg").html(data);
+              //     // console.log(typeof response);
+              //     console.log("hello");
+              // },
+              // error:function(data)
+              // {
+              //   $("#msg").html(data);
+              //   console.log("hi");
+              // }
+
+
+              // });
+          // end of ajax
+            $("#sermon").find('input,textarea,select').val(" ");
+
+            });
+            // end of form submission
 
           });
+          // end of ready function
 
 
-        });
+            
+                
+
+           
+
+
+
+          
+       
+
     </script>
 </body>
 

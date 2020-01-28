@@ -1,8 +1,3 @@
-<?php
-
-session_start();
-
-?>
 <!DOCTYPE html>
 <html>
 
@@ -78,20 +73,13 @@ session_start();
 
             <h2>Funeral Contribution Form</h2>
             <div class="container" id="funeral">
-                <!-- <div id="response"></div> -->
-                <?php
-
-                if (isset($_SESSION['info'])) {
-                  echo $_SESSION['info'];
-                  unset($_SESSION['info']);
-                }
-
-                ?>
-               <form  method="post" id="funeral" action="funeral_processing.php">
+                <div id="response"></div>
+               
+               <form  method="post" id="funeral">
 
                  <div class="form-group">
                    <label>Contributor Name</label>
-                   <input type="text" name="cnt_name" class="form-control" placeholder="Contributor Name" required="required">
+                   <input type="text" name="test" class="form-control" placeholder="Contributor Name" required="required">
                  </div>
 
                  <div class="form-group">
@@ -99,10 +87,7 @@ session_start();
                    <input type="number" name="amount" class="form-control" placeholder="Amount" required="required">
                  </div>
 
-                 <div class="form-group">
-                   <label>Date Paid</label>
-                   <input type="date" name="cnt_date" class="form-control" placeholder="Date" required="required">
-                 </div>
+            
 
                  <div class="form-group">
                    <label>Bereaved Name</label>
@@ -145,26 +130,29 @@ session_start();
         });
 
         // ajax form submission
-        $("#funeral").submit(function(e){
-          e.preventDefault();
-          $.ajax({
-            type:"post",
-            url:"funeral_processing.php",
-            data:$("#funeral").serialize(),
-          })
+        $(document).ready(function(){
 
-          .done(function(data){
-            // $("#response").html(data);
-            // console.log("success");
-            $("#funeral").find('input').val(" ");
+          $("#funeral").submit(function(e){
+            e.preventDefault();
+            $.ajax({
+              type:"post",
+              url:"funeral_processing.php",
+              data:$("#funeral").serialize(),
+            })
 
-          })
-          .fail(function(data){
-            // $("#response").html(data);
-            console.log("failed");
+            .done(function(data){
+              $("#response").html(data);
+              console.log("hello");
 
+            })
+            .fail(function(data){
+              $("#response").html(data);
+
+            });
+                // clear the form input after submission
+              $("#funeral").find('input').val(" ");
           });
-
+          // end of form submission
         });
 
 

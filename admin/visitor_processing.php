@@ -29,9 +29,9 @@ if (isset($_POST['member'])) {
 	
 $visitor = $ch->visitor($person,$phone,$address,$location,$member);
 if ($visitor) {
-	$_SESSION['message'] = "visitor created";
+	echo "success";
 }else {
-	$_SESSION['message'] = "error occured";
+	echo "failed";
 }
 
 ?>

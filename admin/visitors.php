@@ -1,8 +1,4 @@
-<?php
 
-session_start();
-
-?>
 <!DOCTYPE html>
 <html>
 
@@ -85,15 +81,8 @@ session_start();
             <h2>Visitor Form</h2>
 
             <div id="visitor_div" class="container">
-                <!-- <div id="response"></div> -->
-                <?php
-
-                if (isset($_SESSION['message'])) {
-                  echo $_SESSION['message'];
-                  unset($_SESSION['message']);
-                }
-
-                ?>
+                <div id="response"></div>
+                
                 <form method="post" action="visitor_processing.php" id="visitor_form">
 
                   
@@ -168,13 +157,14 @@ session_start();
 
           .done(function(data){
             $("#response").html(data);
-            $("#visitor_form").find('input').val(" ");
 
           })
           .fail(function(data){
             $("#response").html(data);
 
           });
+          // clear form input after submission
+            $("#visitor_form").find('input').val(" ");
 
         });
 

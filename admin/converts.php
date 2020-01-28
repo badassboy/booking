@@ -52,10 +52,10 @@ if (isset($_POST['baptism'])) {
 $converted = $ch->new_convert($person,$invite,$birth,$phone,$email,$address,$baptism);
 if ($converted) {
 	// return true;
-	$_SESSION['response'] = "convert added";
+	echo "successful";
 }else {
 	// return false;
-	$_SESSION['response'] = "error occured";
+	echo "failed";
 }
 
 ?>

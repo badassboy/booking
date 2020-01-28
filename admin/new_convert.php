@@ -84,13 +84,8 @@
 
             <!-- <h2>Membership Page</h2> -->
             <div class="container convert">
-              <!-- <div id="message"></div> -->
-              <?php
-                if (isset($_SESSION['response'])) {
-                  echo $_SESSION['response'];
-                  unset($_SESSION['response']);
-                }
-              ?>
+              <div id="message"></div>
+              
                 <h5>New Convert Form</h5>
                <form method="post" id="convert" action="converts.php">
 
@@ -184,13 +179,14 @@
 
                   .done(function(data){
                     $('#message').html(data);
-                    $("#convert").find('input').val(" ");
 
                   })
                   .fail(function(data){
                     $('#message').html(data);
 
-                  })
+                  });
+                    
+                    $("#convert").find('input').val(" ");
 
 
                 });

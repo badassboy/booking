@@ -2,7 +2,7 @@
 
 session_start();
 require("../database.php");
-$dbh = DBCreate();
+// $dbh = DBCreate();
 
 // Displaying admin info into the table
 $dbh = DB();
@@ -322,35 +322,43 @@ $dbh = DB();
         });
 
 
+        $(document).ready(function(){
+          const form1 = document.getElementById("add_user");
+          const url = form1.getAttribute("action");
+          ajaxCall(form1,url);
 
-        // var form1 = document.getElementById("add_user");
-        // var url = form1.getAttribute("action");
-        // ajaxCall(form1,url);
-
-        // var form2 = document.getElementById("change_password");
-        // var url = form2.getAttribute("action");
-        // ajaxCall(form2,url);
+          const form2 = document.getElementById("change_password");
+          const url = form2.getAttribute("action");
+          ajaxCall(form2,url);
+        });
+       
 
        
-        // function ajaxCall(form,url){
-        //   var form = form;
-        //   form.submit(function(e){
-        //     e.preventDefault();
-        //     $.ajax({
-        //       type:"post",
-        //       url:"url",
-        //       data:form.serialize(),
 
-        //     })
-        //     .done(function(data){
-        //       $("#response").html(data);
-        //     })
-        //     .fail(function(data){
-        //       $("#response").html(data);
-        //     });
-        //   });
+        function ajaxCall(form,url){
+          
+            
+              $.ajax({
+                type:"post",
+                url:"url",
+                data:form.serialize(),
 
-        // }
+              })
+              .done(function(data){
+                $("#response").html(data);
+              })
+              .fail(function(data){
+                $("#response").html(data);
+              });
+
+        }
+         
+    </script>
+</body>
+</html>
+
+
+
 
 
 
@@ -360,7 +368,3 @@ $dbh = DB();
         
 
 
-    </script>
-</body>
-
-</html>

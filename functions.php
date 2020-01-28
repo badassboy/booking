@@ -591,7 +591,7 @@ class Church{
 		if ($inserted>0) {
 			return true;
 		}else {
-			return false;
+			return $dbs->errorInfo();
 		}
 	}
 
@@ -632,11 +632,9 @@ class Church{
 	{	
 
 		$dbs = DB();
-		$date = date("Y/m/d");
 
-		$stmt = $dbs->prepare("INSERT INTO funeral(person,amount,paid_date,bereaved,
-			                 leader) VALUES(?,?,?,?,?)");
-		$stmt->execute([$person,$amount,$date,$bereaved,$leader]);
+		$stmt = $dbs->prepare("INSERT INTO funeral(person,amount,bereaved,leader) VALUES(?,?,?,?)");
+		$stmt->execute([$person,$amount,$bereaved,$leader]);
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;
