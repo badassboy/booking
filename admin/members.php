@@ -55,7 +55,7 @@ if (isset($_POST['save'])) {
 
 
 // displaying all groups
-$stmt = $dbh->prepare("SELECT * FROM  groups");
+$stmt = $dbh->prepare("SELECT * FROM  member_group");
 $stmt->execute();
 
 
@@ -115,9 +115,9 @@ $stmt->execute();
                         <li>
                             <a href="#" id="view_group">View Groups</a>
                         </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
+
+                       
+
                     </ul>
                 </li>
 
@@ -369,13 +369,13 @@ $stmt->execute();
                   </div>
                     
                 </div>
-                    
-
-                
               </form>
-                     
+                    
           </div>
           <!-- end of  group form-->
+
+                
+                     
 
           <div class="container group_table" style="display: none;">
             <header>Groups</header>
@@ -391,18 +391,17 @@ $stmt->execute();
                 <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {?>
                 <tr>
                   <th scope="row">
-                    <a href="edit_group.php?edit=<?php echo $row['id'];?>"><i class="fa fa-pencil fa-sm" aria-hidden="true"></i></a>
-                    <a href="delete_group.php?del=<?php echo $row['id'];?>"><i class="fa fa-trash fa-sm" aria-hidden="true"></i></a>
+                    <a href="edit_group.php?edit=<?php echo $row['group_id'];?>"><i class="fa fa-pencil fa-sm" aria-hidden="true"></i></a>
+                    <a href="delete_group.php?del=<?php echo $row['group_id'];?>"><i class="fa fa-trash fa-sm" aria-hidden="true"></i></a>
                   </th>
-                  <td><?php echo $row['name']; ?></td>
-                  <td><?php echo $row['date_created']; ?></td>
+                  <td><?php echo $row['group_name']; ?></td>
+                  <td><?php echo $row['description']; ?></td>
                 </tr>
 
                 
               <?php } ?>
               </tbody>
             </table>
-              <button type="button" class="btn btn-primary">DISCARD</button>
           </div>
 
             <!-- display member after search -->

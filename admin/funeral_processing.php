@@ -10,14 +10,12 @@ $amount =false;
 $bereaved = false;
 $leader = false;
 
-if (isset($_POST['test'])) {
-	$person = $_POST['test'];
-	echo $person;
+if (isset($_POST['person'])) {
+	$person = $_POST['person'];
 }
 
 if (isset($_POST['amount'])) {
 	$amount = $_POST['amount'];
-	echo $amount;
 }
 
 if (isset($_POST['bereaved'])) {

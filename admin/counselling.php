@@ -21,9 +21,9 @@ if (isset($_POST['counsel_time'])) {
 
 $counselling = $ch->counselling($cnsel_date,$cnsel_time);
 if ($counselling) {
-	return true;
+	echo "success";
 }else {
-	return false;
+	echo "failed";
 }
 
 ?>

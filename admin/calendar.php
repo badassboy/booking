@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require("../database.php");
-$dbh = DBcreate();
+$dbh = DB();
 
 $stmt = $dbh->prepare("SELECT * FROM calendar");
 $stmt->execute();
@@ -30,6 +30,7 @@ $stmt->execute();
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="css/sidestyle.css">
     <link rel="stylesheet" href="css/calendar.css">
+   
 
     <!-- Font Awesome JS -->
     <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.css">
@@ -53,8 +54,10 @@ $stmt->execute();
                 </li>
 
                 <li> 
-                    <a href="#">All Event</a>
+                    <a href="#" id="total_event">All Event</a>
                 </li>
+
+             
 
             </ul>
                
@@ -102,14 +105,15 @@ $stmt->execute();
                 </div>
             </nav>
 
-            <h2>Collapsible Sidebar Using Bootstrap 4</h2>
+            <h2>Calendar Page</h2>
 
-            <div class="container event_form"  style="display: none;">
-                <p id="response"></p>
+            <div class="container calend_form" style="display: none;">
+                <p id="msg"></p>
                 <header>Create Event</header>
-                <form method="post" action="create_calendar.php" id="calendar">
+                <form method="post"  id="calendar">
 
-                    <div class="form-row">
+                    
+                  <div class="form-row">
                <div class="form-group col-md-4">
                  <label for="inputName">Event Name</label>
                  <input type="text" class="form-control" id="inputName" placeholder="Event Name" required="required" name="event_name">
@@ -127,11 +131,13 @@ $stmt->execute();
                  <input type="text" class="form-control" id="leader" placeholder="Leader" required="required"
                  name="leader">
                </div>
+                  </div>
+                  <!-- end of row1 -->
 
-             </div>
-
-             <div class="form-row">
-                <div class="form-group col-md-2">
+             
+                  <div class="form-row">
+                    
+                <div class="form-group col-md-6">
                   <label>Schedule</label>
                   <select id="inputState" class="form-control" id="schedule" name="schedule">
                     <option selected>Choose...</option>
@@ -140,31 +146,31 @@ $stmt->execute();
                   </select>
                 </div>
 
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-6">
                   <label>Date</label>
-                 <input class="form-control" name="duration" type="datetime-local"  required="required">
+                 <input class="form-control" name="cal_date" type="date"  required="required">
                 </div>
                 
+                  </div>
 
-                <div class="form-group col-md-8">
+                <div class="form-group">
                   <label>Description</label>
                   <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
                   placeholder="event description" name="describe"></textarea>
                 </div>
-              </div>
 
               <button type="submit" class="btn  btn-primary">Create event</button>
 
-
-
-
                 </form>
             </div>
-
             <!-- end of calendar event form -->
 
+
+
+
+
             <!-- see alll events -->
-            <div class="container all_event">
+            <div class="container all_event" style="display: none;">
               <ul class="list-group">
 
                 <?php while($row = $stmt->fetch(PDO::FETCH_ASSOC)){ ?>
@@ -180,6 +186,8 @@ $stmt->execute();
               
             </div>
             <!-- see alll events -->
+
+           
             
         </div>
     </div>
@@ -191,6 +199,7 @@ $stmt->execute();
     
     <!-- Bootstrap JS -->
     <script type="text/javascript" src="../bootstrap/dist/js/bootstrap.js"></script>
+    
 
 
     <script type="text/javascript">
@@ -203,11 +212,48 @@ $stmt->execute();
 
          $(document).ready(function(){
           $("#event").on('click',function(){
-              $(".event_form").show();
+              $(".calend_form").show();
               
           });
 
         });
+
+          $(document).ready(function(){
+           $("#total_event").on('click',function(){
+               $(".all_event").show();
+               
+           });
+
+         });
+
+         
+
+
+          $(document).ready(function(){
+
+              $("#calendar").submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                  type:"post",
+                  url:"create_calendar.php",
+                  data:$("#calendar").serialize()
+                })
+
+                .done(function(data){
+                  $("#msg").html(data);
+                  console.log("hello");
+                })
+
+                .fail(function(data){
+                  $("#msg").html(data);
+                  console.log("hi");
+                });
+
+               $("#calendar").find('input').val(" ");
+                  
+              });
+
+          });
 
     </script>
 </body>

@@ -223,6 +223,8 @@
 
           });
 
+          $("#youth").find('input','select').val(" ");
+
         });
 
     </script>

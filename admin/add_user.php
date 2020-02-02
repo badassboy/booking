@@ -6,6 +6,9 @@ error_reporting(E_ALL);
 require("../functions.php");
 $ch = new Church();
 
+$username = false;
+$password =false;
+
 if (isset($_POST['username'])) {
 	$username = trim($_POST['username']);
 }
@@ -16,9 +19,9 @@ if (isset($_POST['password'])) {
 
 $user_added = $ch->addAdmin($username,$password);
 if ($user_added) {
-	return true;
+	echo "Admin added";
 }else {
-	return false;
+	echo "failed in addding admin";
 }
 
 

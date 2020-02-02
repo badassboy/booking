@@ -80,7 +80,7 @@
                 </li> -->
 
                 <li>
-                    <a href="#" id="counsel">Counselling Appointment</a>
+                    <a href="#" id="counselling">Counselling Appointment</a>
                 </li>
                
 
@@ -114,8 +114,9 @@
             <h2>Pastor Page</h2>
 
             <div class="container appointment">
-                    <h5>Preaching Appointment</h5>
-               <form method="post" id="appointment" action="preaching.php">
+              <div id="message"></div>
+                <h5>Preaching Appointment</h5>
+               <form method="post" id="appoint">
                  <div class="form-group">
                    <label>Host Church Name</label>
                    <input type="text" name="host" class="form-control" placeholder="Branch Name">
@@ -148,14 +149,10 @@
             </div>
 
 
-                
-
-                
-
-
-            <div class="container event">
+             <div class="container event">
+              <div id="response"></div>
                 <h5>Event to attend</h5>
-               <form method="post" action="pastor_event.php" id="pastor_event">
+               <form method="post" id="pastor_event">
                  <div class="form-group">
                    <label>Event Name</label>
                    <input type="text" name="evnt_name" class="form-control" placeholder="Event Name" required="required">
@@ -166,12 +163,9 @@
                   <input class="form-control" name="evnt_date" type="date" id="example-date-input" required="required">
                  </div>
 
-
-               
-
                  <div class="form-group">
                    <label>Event Location</label>
-                   <input type="text" name="evnt_loc" class="form-control" placeholder="Event Location" required="required">
+                   <input type="text" name="location" class="form-control" placeholder="Event Location" required="required">
                  </div>
 
                  <div class="form-group">
@@ -187,11 +181,11 @@
                  <button type="submit" class="btn btn-primary">Create Event</button>
                </form> 
             </div>
-
-
-            <div class="container counselling">
+               
+             <div class="container counselling">
+              <div id="msg"></div>
                     <h5>Counselling Appointment</h5>
-               <form method="post" action="counselling.php" id="counselling">
+               <form method="post" id="counsel">
                  <div class="form-group">
                    <label>Date</label>
                   <input class="form-control" name="counsel_date" type="date" id="example-date-input" required="required">
@@ -247,49 +241,103 @@
         });
 
         $(document).ready(function(){
-          $("#counsel").click(function(){
+          $("#counselling").click(function(){
               $(".counselling").show();
           });
         });
         // end of show/hide div upon  clicking
 
-        var form1 = document.getElementById("appointment");
-        var url = form1.attr("action");
-        ajaxCall(form1,url);
-
-        var form2 = document.getElementById("pastor_event");
-        var url = form1.attr("action");
-        ajaxCall(form2,url);
-
-        var form3  = document.getElementById("counselling");
-        var url = form1.attr("action");
-        ajaxCall(form3,url);
+       
 
 
 
 
+       // ajax form submission
+           $(document).ready(function(){
 
-        function ajaxCall(form,url){
-          var form = form;
-          form.submit(function(e){
-            e.preventDefault();
-            $.ajax({
-              type:"post",
-              url:"url",
-              data:form.serialize(),
+               $("#appoint").submit(function(e){
+                 e.preventDefault();
+                 $.ajax({
+                   type:"post",
+                   url:"preaching.php",
+                   data:$("#appoint").serialize()
+                 })
 
-            })
-            .done(function(data){
-              $("#response").html(data);
-            })
-            .fail(function(data){
-              $("#response").html(data);
-            });
-            // to prevent refreshing the whole page
-            return false;
-          });
+                 .done(function(data){
+                   $('#message').html(data);
+                   console.log("hello");
+                 })
 
-        }
+                 .fail(function(data){
+                   $('#message').html(data);
+                   console.log("hi");
+                 });
+
+                $("#appoint").find('input').val(" ");
+                   
+               });
+
+           });
+           // end of appointment
+
+           $(document).ready(function(){
+
+               $("#pastor_event").submit(function(e){
+                 e.preventDefault();
+                 $.ajax({
+                   type:"post",
+                   url:"pastor_event.php",
+                   data:$("#pastor_event").serialize()
+                 })
+
+                 .done(function(data){
+                   $("#response").html(data);
+                   console.log("hello");
+                 })
+
+                 .fail(function(data){
+                   $("#response").html(data);
+                   console.log("hi");
+                 });
+
+                $("#pastor_event").find('input').val(" ");
+                   
+               });
+
+           });
+           // end of event
+
+
+           $(document).ready(function(){
+
+               $("#counsel").submit(function(e){
+                 e.preventDefault();
+                 $.ajax({
+                   type:"post",
+                   url:"counselling.php",
+                   data:$("#counsel").serialize()
+                 })
+
+                 .done(function(data){
+                   $("#msg").html(data);
+                   console.log("hello");
+                 })
+
+                 .fail(function(data){
+                   $("#msg").html(data);
+                   console.log("hi");
+                 });
+
+                $("#counsel").find('input').val(" ");
+                   
+               });
+
+           });
+
+
+
+
+
 
         
 

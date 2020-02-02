@@ -166,16 +166,13 @@ $dbh = DB();
                    <input type="password" name="password" class="form-control" id="exampleInputPassword1" required="required" placeholder="password">
                  </div>
 
-                 <div class="form-group row">
 
                  <button type="submit" name="add" class="btn btn-primary">Add User</button>
 
-                 <button type="submit" class="btn btn-primary" id="delete">Discard</button>
-                  
-                 </div>
-
                </form> 
             </div>
+
+                  
 
 
                 
@@ -186,7 +183,7 @@ $dbh = DB();
             <div class="container" id="changePassword">
              
 
-              <div id="response"></div>
+              <!-- <div id="response"></div> -->
                 <h5>Change Password</h5>
                <form method="post" action="change_password.php" id="change_password">
 
@@ -302,12 +299,7 @@ $dbh = DB();
         });
         // end of show/hide div upon  clicking
 
-        // removing forms
-        $(document).ready(function(){
-          $("#delete").click(function(){
-            $(".addUser").remove();
-          });
-        });
+     
 
         $(document).ready(function(){
           $("#discard").click(function(){
@@ -322,36 +314,31 @@ $dbh = DB();
         });
 
 
+      // ajax form submission
         $(document).ready(function(){
-          const form1 = document.getElementById("add_user");
-          const url = form1.getAttribute("action");
-          ajaxCall(form1,url);
 
-          const form2 = document.getElementById("change_password");
-          const url = form2.getAttribute("action");
-          ajaxCall(form2,url);
+          $("#add_user").submit(function(e){
+            e.preventDefault();
+            $.ajax({
+              type:"post",
+              url:"add_user.php",
+              data:$("#add_user").serialize(),
+            })
+
+            .done(function(data){
+              $("#response").html(data);
+              console.log("hello");
+
+            })
+            .fail(function(data){
+              $("#response").html(data);
+
+            });
+                // clear the form input after submission
+              $("#add_user").find('input').val(" ");
+          });
+          // end of form submission
         });
-       
-
-       
-
-        function ajaxCall(form,url){
-          
-            
-              $.ajax({
-                type:"post",
-                url:"url",
-                data:form.serialize(),
-
-              })
-              .done(function(data){
-                $("#response").html(data);
-              })
-              .fail(function(data){
-                $("#response").html(data);
-              });
-
-        }
          
     </script>
 </body>

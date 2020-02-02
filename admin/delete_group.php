@@ -13,7 +13,7 @@ $id = $_GET['del'];
 if (isset($id)) {
 
 
-	$stmt = $dbh->prepare("DELETE FROM groups WHERE id = ?");
+	$stmt = $dbh->prepare("DELETE FROM member_group WHERE group_id = ?");
 	$stmt->execute([$id]);
 	$deleted = $stmt->rowCount();
 	if ($deleted > 0) {

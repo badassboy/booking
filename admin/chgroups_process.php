@@ -22,10 +22,14 @@ if (isset($_POST['description'])) {
 
 $groups = $ch->church_group($group_name,$description);
 if ($groups) {
-echo "inserted";
+echo "group created";
 }else {
-	echo "not inserted";
+	echo "error occured";
 }
+
+
+
+
 
 
 ?>

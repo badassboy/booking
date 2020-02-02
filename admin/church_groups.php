@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
 
@@ -28,7 +26,9 @@
             display: none;
         }
 
-        #group_listing {
+      
+
+        #add_member {
 
             background-color:rgb(255, 255, 255);
             height: 350px;
@@ -54,9 +54,11 @@
                     <a href="#" id="create_group">Create Group</a>
                 </li>
                
+               
                 <li>
-                    <a href="#" id="view">View Groups</a>
+                    <a href="#" id="group">Add member to group</a>
                 </li>
+
 
 
                
@@ -107,82 +109,39 @@
             </div>
             <!-- end of church group divs -->
 
-            <div class="container" id="group_listing">
-                <p id="msg"></p>
-            <h5>Church Groups</h5>
-
-                    <ul class="list-group">
-
-                      <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="memberchgroup.php?id=test">
-                          <!-- php code to display all groups here -->
-                    </a>
-                    <span><i class="fa fa-plus" aria-hidden="true" data-toggle="modal" data-target="#exampleModal"
-                        data-toggle="tooltip" data-placement="bottom" title="Add Member"></i></span>
-                </li>
-                    </ul>
            
 
-            <!-- modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Member to Group</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
+            <div class="container" id="add_member">
+              <div id="message"></div>
+              <header>Add member to group</header>
+              <form method="post">
 
-                    <form method="post" id="memberchgroup" action="memberchgroup.php">
-                      <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" name="member_name" class="form-control" placeholder="Add by  Name">
-                      </div>
-                      <button type="submit" class="btn btn-primary">Add Member</button>
-                    </form>
-
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  </div>
+                <div class="form-group">
+                  <label>Member Name</label>
+                  <input type="text" class="form-control" name="member_name" placeholder="Member Name">
                 </div>
-              </div>
+
+                <div class="form-group">
+                    <label>Group Name</label>
+                    <select class="form-control" id="existing_groups" name="groups">
+                      <option>Select</option>
+                    </select>
+                  </div>
+               
+                <button type="submit" class="btn btn-primary">Add Member</button>
+              </form>
             </div>
-            <!-- modal -->
-
-
-              
 
            
-
-
-            </div>
-
-                    
-
-                     
-                
-
-                
-                 
-
-                 
-
-
-                
 
         </div>
         <!-- end of  content -->
            
     </div>
     <!-- end of wrapper -->
-           
 
-          
 
-    <!-- jQuery CDN  -->
+              <!-- jQuery CDN  -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    
     <!-- Bootstrap JS -->
@@ -203,9 +162,11 @@
             })
         })
 
+     
+
         $(document).ready(function(){
-            $("#view").click(function(){
-                $("#group_listing").show();
+            $("#group").click(function(){
+                $("#add_member").show();
             })
         })
 
@@ -236,7 +197,6 @@
                       $.ajax({
                         type:"post",
                         url:"memberchgroup.php.php",
-                        // Encode a set of form elements as a string for submission.
                         data:$("#memberchgroup").serialize(),
                       })
                     
@@ -250,6 +210,36 @@
 
                     });
 
+
+
+                    // ajax for getting displaying groupsin select form
+                    $(document).ready(function(){
+
+                          $.ajax({
+                            url:"chgroupajax.php",
+                            type:"get",
+                            dataType:"JSON",
+                            success:function(response){
+                              console.log(response);
+                                var len = response.length;
+                                for (var i = 0; i < len; i++) {
+
+
+                                    var my_groups = response[i]["created_group"];
+
+                                    var option_string = "<option>" + my_groups + "</option>";
+
+                                     $("#existing_groups").append(option_string);
+
+                                   
+                                }
+                            },
+                            error:function(response){
+                                console.log("Error: "+ response);
+                            }
+                          });
+
+                    });
 
                
 

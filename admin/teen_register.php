@@ -4,7 +4,14 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require("../functions.php");
-$ch = Church();
+$ch = new Church();
+$person =false;
+$gender =false;
+$status =false;
+$education =false;
+$email =false;
+$address =false;
+
 
 
 if (isset($_POST['person'])) {
@@ -46,9 +53,9 @@ if (isset($_POST['address'])) {
 
 $registered = $ch->registerYouth($person,$gender,$age,$status,$education,$email,$address);
 if ($registered) {
-	return true;
+	echo "success";
 }else {
-	return false;
+	echo "false";
 }
 
 

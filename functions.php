@@ -36,10 +36,7 @@ class Church{
 
 	}
 
-	public function checks($test){
-			return array_key_exists($test, $_POST);
-	}
-		
+	
 		
 
 	public function login_user($username,$password){
@@ -141,8 +138,8 @@ class Church{
 	}
 
 	public function addAdmin($username,$password){
-		$dbh = DBcreate();
-		$join_date = date("m.d.y");
+		$dbh = DB();
+		$join_date = date("Y/m/d"); 
 		$hashed = password_hash($password, PASSWORD_BCRYPT);
 		$stmt = $dbh->prepare("INSERT INTO admins(username,password,date_added) VALUES(?,?,?)");
 		$stmt->execute([$username,$hashed,$join_date]);
@@ -150,7 +147,7 @@ class Church{
 		if ($added>0) {
 			return true;
 		}else{
-			return false;
+			return $dbh->errorInfo();
 		}
 
 	}
@@ -429,12 +426,13 @@ class Church{
 				// 	  	$pastor =  "CREATE TABLE IF NOT EXISTS pastor (
 					  	     
 
-				// 	  	      CREATE TABLE IF NOT EXISTS activity (
-				// 	  	          activity_id INT AUTO_INCREMENT PRIMARY KEY,
-				// 	  	          activity_name VARCHAR(255),
-				// 	  	          activity_date DATE,
-				// 	  	          description TEXT,
-				// 	  	      ),
+					  	      // CREATE TABLE IF NOT EXISTS preaching (
+					  	      //     id INT AUTO_INCREMENT PRIMARY KEY,
+					  	      //     host_church VARCHAR(255),
+					  	      //     location VARCHAR(255),
+					  	      //     preach_date DATE,
+					  	      //     schedule VARCHAR(255)
+					  	      // ),
 
 				// 	  	      CREATE TABLE IF NOT EXISTS pastor_event (
 				// 	  	          event_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -520,46 +518,44 @@ class Church{
 
 
 	public function createGroup($name,$description){
-			// $dbh = DBcreate();
-		$dbh = DBcreate();
-		var_dump($dbh);
-			$group_date = date("m.d.y");
+		$dbh = DB();
+		// $group_date = date("Y/m/d");
 
 		// check  if user already exist
-		$stmt = $dbh->prepare("SELECT * FROM groups WHERE name = ?");
+		$stmt = $dbh->prepare("SELECT * FROM member_group WHERE group_name = ?");
 		$stmt->execute([$name]);
 		$user = $stmt->fetch(PDO::FETCH_ASSOC);
-		if ($user >  0) {
-			return false;
+		if ($user > 0) {
+			echo "group already exist";
 		}
 
 		else {
-			$stmt = $dbh->prepare("INSERT INTO groups(name,description,date_created) 
-				VALUES(?,?,?)");
-			$stmt->execute([$name,$description,$group_date]);
+			$stmt = $dbh->prepare("INSERT INTO member_group(group_name,description) 
+				VALUES(?,?)");
+			$stmt->execute([$name,$description]);
 			$inserted = $stmt->rowCount();
 			if ($inserted>0) {
 				return true;
 			}else {
-				return false;
+				return $dbh->errorInfo();
 			}
 		}
 
 	}
 
-	public function createEvent($event_name,$theme,$leader,$schedule,$duration,$describe,$event_date)
+	public function createEvent($event_name,$theme,$leader,$schedule,$describe,$event_date)
 	{	
 
-		$dbs = DBcreate();
-		$event_date = date("m.d.y");
+		$dbs = DB();
+		
 		$stmt = $dbs->prepare("INSERT INTO calendar(event_name,theme,leader,schedule,description,event_date) 
-			VALUES(?,?,?,?,?,?,?)");
-		$stmt->execute([$event_name,$theme,$leader,$schedule,$duration,$describe,$event_date]);
+			VALUES(?,?,?,?,?,?)");
+		$stmt->execute([$event_name,$theme,$leader,$schedule,$describe,$event_date]);
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;
 		}else {
-			return false;
+			return $dbs->errorInfo();
 		}
 	}
 
@@ -567,7 +563,7 @@ class Church{
 	public function registerYouth($name,$gender,$age,$work_status,$education,$email,$address)
 	{	
 
-		$dbs = DBcreate();
+		$dbs = DB();
 		$stmt = $dbs->prepare("INSERT INTO youth_registration(name,gender,age,working_status,education,email,address) 
 			VALUES(?,?,?,?,?,?,?)");
 		$stmt->execute([$name,$gender,$age,$work_status,$education,$email,$address]);
@@ -575,7 +571,7 @@ class Church{
 		if ($inserted>0) {
 			return true;
 		}else {
-			return false;
+			return $dbs->errorInfo();
 		}
 	}
 
@@ -632,7 +628,6 @@ class Church{
 	{	
 
 		$dbs = DB();
-
 		$stmt = $dbs->prepare("INSERT INTO funeral(person,amount,bereaved,leader) VALUES(?,?,?,?)");
 		$stmt->execute([$person,$amount,$bereaved,$leader]);
 		$inserted = $stmt->rowCount();
@@ -643,19 +638,37 @@ class Church{
 		}
 	}
 
+
+
 	public function preaching($host_church,$location,$preach_date,$schedule)
 	{	
 
-		$dbs = DBcreate();
+		$dbs = DB();
 		$stmt = $dbs->prepare("INSERT INTO preaching(host_church,location,preach_date,schedule) VALUES(?,?,?,?)");
 		$stmt->execute([$host_church,$location,$preach_date,$schedule]);
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;
 		}else {
-			return false;
+			return $dbs->errorInfo();
 		}
 	}
+
+
+	public function pastor_event($event_name,$event_date,$location,$schedule)
+	{	
+
+		$dbs = DB();
+		$stmt = $dbs->prepare("INSERT INTO pastor_event(event_name,event_date,location,schedule) VALUES(?,?,?,?)");
+		$stmt->execute([$event_name,$event_date,$location,$schedule]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return $dbs->errorInfo();
+		}
+	}
+
 
 	public function counselling($date,$time)
 	{	
@@ -667,7 +680,7 @@ class Church{
 		if ($inserted>0) {
 			return true;
 		}else {
-			return false;
+			return $dbs->errorInfo();
 		}
 	}
 
@@ -702,6 +715,40 @@ class Church{
 			return $dbs->errorInfo();
 		}
 	}
+
+
+	public function sunday_school($class_name,$teacher)
+	{	
+
+		$dbs = DB();
+
+		$stmt = $dbs->prepare("INSERT INTO sunday_school(class,teacher) VALUES(?,?)");
+		$stmt->execute([$class_name,$teacher]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return $dbs->errorInfo();
+		}
+	}
+
+
+	public function sunday_class($member,$class_name)
+	{	
+
+		$dbs = DB();
+		$stmt = $dbs->prepare("INSERT INTO sunday_class(member,class) VALUES(?,?)");
+		$stmt->execute([$member,$class_name]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return $dbs->errorInfo();
+		}
+	}
+
+
+
 
 	public function displayChurchGroup(){
 		$dbs = DBcreate();

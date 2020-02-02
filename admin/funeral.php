@@ -75,19 +75,16 @@
             <div class="container" id="funeral">
                 <div id="response"></div>
                
-               <form  method="post" id="funeral">
-
+               <form  method="post" id="funeral-form">
                  <div class="form-group">
                    <label>Contributor Name</label>
-                   <input type="text" name="test" class="form-control" placeholder="Contributor Name" required="required">
+                   <input type="text" name="person" class="form-control" placeholder="Contributor Name" required="required">
                  </div>
 
                  <div class="form-group">
                    <label>Amount</label>
                    <input type="number" name="amount" class="form-control" placeholder="Amount" required="required">
                  </div>
-
-            
 
                  <div class="form-group">
                    <label>Bereaved Name</label>
@@ -99,9 +96,6 @@
                    <input type="text" name="leader" class="form-control" placeholder="Leader Name">
                  </div>
 
-                
-                
-
                  <button type="submit" class="btn btn-primary">Pay</button>
                </form> 
             </div>
@@ -111,6 +105,12 @@
            
     </div>
     <!-- end of wrapper -->
+
+            
+
+
+                
+                
            
 
           
@@ -132,12 +132,12 @@
         // ajax form submission
         $(document).ready(function(){
 
-          $("#funeral").submit(function(e){
+          $("#funeral-form").submit(function(e){
             e.preventDefault();
             $.ajax({
               type:"post",
               url:"funeral_processing.php",
-              data:$("#funeral").serialize(),
+              data:$("#funeral-form").serialize(),
             })
 
             .done(function(data){
