@@ -72,24 +72,7 @@ $dbh = DB();
 
 </head>
 
-<?php
-  
-  if (isset($_SESSION['msg'])) {
-     ?>
-     <body onload="alert('<?php echo $_SESSION['msg']; ?>');">
-     <?php
-   }
-   else
-   {
-     ?>
-     <body onload="alert('no message');">
-      <?php
 
-
-       
-   }
-
-   ?>
 
 
   
@@ -109,10 +92,7 @@ $dbh = DB();
                     <a href="#" id="addButton">Add Admin</a>
                 </li>
 
-                <li>
-                    <a href="#" id="password_change">Change Password</a>
-                </li>
-
+               
                 <li>
                     <a href="#" id="all_admin">All Admin</a>
                 </li>
@@ -155,75 +135,67 @@ $dbh = DB();
                     <h5>Add Admin</h5>
                <form method="post"  action="add_user.php" id="add_user">
 
-                 <div class="form-group">
+                <div class="form-row">
+                    
+                  <div class="form-group col-md-4">
                    <label for="usernameInput">Username</label>
                    <input type="text" name="username" class="form-control" id="usernameInput" required="required"
                    placeholder="username">
-                 </div>
-                   
-                 <div class="form-group">
-                   <label for="exampleInputPassword1">Password</label>
-                   <input type="password" name="password" class="form-control" id="exampleInputPassword1" required="required" placeholder="password">
-                 </div>
+                    </div>
+
+                <div class="form-group col-md-4">
+                 <label for="usernameInput">FullName</label>
+                 <input type="text" name="fullname" class="form-control" id="usernameInput" required="required"
+                 placeholder="username">
+                  </div>
 
 
-                 <button type="submit" name="add" class="btn btn-primary">Add User</button>
+                  <div class="form-group col-md-4">
+                   <label for="usernameInput">Email</label>
+                   <input type="email" name="email" class="form-control" id="usernameInput" required="required"
+                   placeholder="username">
+                    </div>
+
+                </div>
+                <!-- end of row 1 -->
+
+                <!--  row 2 -->
+                <div class="form-row">
+                    
+                  <div class="form-group col-md-6">
+                  <label>Admin Type</label>
+                  <select class="form-control" name="admin_type" required="required">
+                    <option>Super Admin</option>
+                    <option>Branch Admin</option>
+                    <option>Group Admin</option>
+                  </select>
+                    </div>
+
+                <div class="form-group col-md-6">
+                 <label>Date</label>
+                 <input class="form-control" name="date_a" type="date" id="example-date-input" required="required">
+                  </div>
+
+
+                
+
+                </div>
+                <!-- end of row 2 -->
+
+
+                 <button type="submit" class="btn btn-primary">Add User</button>
 
                </form> 
             </div>
+                      
+
 
                   
 
-
-                
-
-                
-              <!-- start here -->
-              <!--where is the login script?-->
-            <div class="container" id="changePassword">
-             
-
-              <!-- <div id="response"></div> -->
-                <h5>Change Password</h5>
-               <form method="post" action="change_password.php" id="change_password">
-
-                <div class="form-group">
-                  <label>Old Password</label>
-                  <input type="password" name="pwd3" class="form-control" required="required" id="myoldpass"
-                  placeholder="New Password">
-                </div>
-
-                <div class="form-group">
-                  <label>New Password</label>
-                  <input type="password" name="pwd1" class="form-control" required="required" id="mypass"
-                  placeholder="New Password">
-                </div>
-
-                <div class="form-group">
-                  <label>Confirm Password</label>
-                  <input type="password" name="pwd2" class="form-control" required="required" id="yourpass" 
-                  placeholder="Confirm Password">
-                </div>
-                  
-
-                <div class="form-group row">
-                    
-                <button type="submit" class="btn btn-primary" id="change">Change Password</button>
-                <button type="submit" class="btn btn-primary" id="discard">Discard</button>
-
-                </div>
-                     
-               </form>
-
-            </div>
-
-            <!-- end here -->
-
-
-              <div class="container" id="admin_table">
+          <div class="container" id="admin_table">
               <h5>Administrators</h5>
               
-                  <table class="table">
+                  <table class="table" id="my_table">
 
                     <thead>
                       <tr>
@@ -286,11 +258,6 @@ $dbh = DB();
           });
         });
 
-        $(document).ready(function(){
-          $("#password_change").click(function(){
-              $("#changePassword").show();
-          });
-        });
 
         $(document).ready(function(){
           $("#all_admin").click(function(){
@@ -339,6 +306,47 @@ $dbh = DB();
           });
           // end of form submission
         });
+
+
+        // ajax code for displaying admins
+        $(document).ready(function(){
+
+              $.ajax({
+                url:"adminajax.php",
+                type:"get",
+                dataType:"JSON",
+                success:function(response){
+                  // console.log(response);
+                    var len = response.length;
+                    for (var i = 0; i < len; i++) {
+
+
+                        var username = response[i]["username"];
+                        var fullname = response[i]["fullname"];
+                        var email = response[i]["email"];
+                        var my_date = response[i]["admin_date"];
+
+                        var table_str = "<tr>" +
+                                     "<td>" + username + "</td>" +
+                                     "<td>" + fullname + "</td>" +
+                                     "<td>" + email + "</td>" +
+                                     "<td>" + my_date + "</td>" +
+                                     "</tr>";
+
+
+                             $("#my_table tbody").append(table_str);
+
+                       
+                    }
+                },
+                error:function(response){
+                    console.log("Error: "+ response);
+                }
+              });
+
+        });
+
+
          
     </script>
 </body>

@@ -137,12 +137,11 @@ class Church{
 		
 	}
 
-	public function addAdmin($username,$password){
+	public function addAdmin($username,$fullname,$email,$admin_type,$admin_date){
 		$dbh = DB();
-		$join_date = date("Y/m/d"); 
-		$hashed = password_hash($password, PASSWORD_BCRYPT);
-		$stmt = $dbh->prepare("INSERT INTO admins(username,password,date_added) VALUES(?,?,?)");
-		$stmt->execute([$username,$hashed,$join_date]);
+		$stmt = $dbh->prepare("INSERT INTO admins(username,fullname,email,admin_type,date_added) 
+			VALUES(?,?,?,?,?)");
+		$stmt->execute([$username,$fullname,$email,$admin_type,$admin_date]);
 		$added = $stmt->rowCount();
 		if ($added>0) {
 			return true;
@@ -708,6 +707,21 @@ class Church{
 
 		$stmt = $dbs->prepare("INSERT INTO church_group(group_name,description) VALUES(?,?)");
 		$stmt->execute([$group_name,$description]);
+		$inserted = $stmt->rowCount();
+		if ($inserted>0) {
+			return true;
+		}else {
+			return $dbs->errorInfo();
+		}
+	}
+
+	public function addMembertoChGroup($member,$group)
+	{	
+
+		$dbs = DB();
+
+		$stmt = $dbs->prepare("INSERT INTO churchgroupmember(member,group_name) VALUES(?,?)");
+		$stmt->execute([$member,$group]);
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;

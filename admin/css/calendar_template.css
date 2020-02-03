@@ -46,11 +46,8 @@
 
 
    #calendar {
-    /*margin: 0 auto;*/
-    /*margin-left: -40%;*/
-      		/*float: left; */
-     /*margin: 0 auto;*/
-     /*margin-left:50%;*/
+    margin: 0 5%;
+    
      width: 900px;
      background-color: #FFFFFF;
      border-radius: 6px;

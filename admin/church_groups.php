@@ -112,9 +112,9 @@
            
 
             <div class="container" id="add_member">
-              <div id="message"></div>
+              <div id="msg"></div>
               <header>Add member to group</header>
-              <form method="post">
+              <form method="post" id="member_group">
 
                 <div class="form-group">
                   <label>Member Name</label>
@@ -170,45 +170,56 @@
             })
         })
 
-                // ajax form submission
-                $("#chgroup").submit(function(e){
-                  e.preventDefault();
-                  $.ajax({
-                    type:"post",
-                    url:"chgroups_process.php",
-                    data:$("#chgroup").serialize(),
-                  })
-        
-                  .done(function(data){
-                    $("#response").html(data);
-                    console.log("hello");
-                  })
-                  .fail(function(data){
-                    $("#response").html(data);
-                    console.log("hi");
+                // ajax form submission for creating group
+                $(document).ready(function(){
+                  $("#chgroup").submit(function(e){
+                    e.preventDefault();
+                    $.ajax({
+                      type:"post",
+                      url:"chgroups_process.php",
+                      data:$("#chgroup").serialize(),
+                    })
+                  
+                    .done(function(data){
+                      $("#response").html(data);
+                      console.log("hello");
+                    })
+                    .fail(function(data){
+                      $("#response").html(data);
+                      console.log("hi");
+
+                    });
 
                   });
-
                 });
 
-                    // ajax form submission
-                    $("#memberchgroup").submit(function(e){
-                      e.preventDefault();
-                      $.ajax({
-                        type:"post",
-                        url:"memberchgroup.php.php",
-                        data:$("#memberchgroup").serialize(),
-                      })
-                    
-                      .done(function(data){
-                        $("#msg").html(data);
-                      })
-                      .fail(function(data){
-                        $("#msg").html(data);
+                    // ajax form submission fir adding member to group
+                    $(document).ready(function(){
 
+                      $("#member_group").submit(function(e){
+                        e.preventDefault();
+                        $.ajax({
+                          type:"post",
+                          url:"memberchgroup.php",
+                          data:$("#member_group").serialize(),
+                        })
+                      
+                        .done(function(data){
+                          $("#msg").html(data);
+                        })
+                        .fail(function(data){
+                          $("#msg").html(data);
+
+                        });
+
+                      $("#member_group").find('input').val(" ");
                       });
 
                     });
+
+                   
+
+
 
 
 
