@@ -46,12 +46,7 @@ $dbh = DB();
                 display: none;
             }
 
-        #changePassword{
-                background-color:rgb(255, 255, 255);
-                height: 350px;
-                padding-top: 3%;
-                display: none;
-            }
+     
 
         #admin_table{
 
@@ -86,15 +81,18 @@ $dbh = DB();
                 <h3>Bootstrap Sidebar</h3>
             </div>
 
+            <!-- storing div name in hidden input -->
+            <input type="hidden" name="" id="tempDivName">
+
             <ul class="list-unstyled components">
 
                 <li>
-                    <a href="#" id="addButton">Add Admin</a>
+                    <a href="#" id="addButton"  onclick="MyFunction('addUser')">Add Admin</a>
                 </li>
 
                
                 <li>
-                    <a href="#" id="all_admin">All Admin</a>
+                    <a href="#" id="all_admin"  onclick="MyFunction('admin_table')">All Admin</a>
                 </li>
                
             </ul>
@@ -176,18 +174,18 @@ $dbh = DB();
                  <input class="form-control" name="date_a" type="date" id="example-date-input" required="required">
                   </div>
 
-
-                
-
                 </div>
                 <!-- end of row 2 -->
-
 
                  <button type="submit" class="btn btn-primary">Add User</button>
 
                </form> 
             </div>
                       
+                
+
+
+
 
 
                   
@@ -252,33 +250,47 @@ $dbh = DB();
             });
         });
 
-        $(document).ready(function(){
-          $("#addButton").click(function(){
-              $("#addUser").show();
-          });
-        });
+        // this function is used to display div based 
+        // link clicked
+      function MyFunction(divName){
+
+        //hidden val
+        var hiddenVal = document.getElementById("tempDivName"); 
+
+        //hide old
+        if(hiddenVal.Value != undefined){
+            var oldDiv = document.getElementById(hiddenVal.Value); 
+            oldDiv.style.display = 'none'; 
+        }
+
+        //show div
+            var tempDiv = document.getElementById(divName); 
+            tempDiv.style.display = 'block';              
+
+        //save div ID
+            hiddenVal.Value = document.getElementById(divName).getAttribute("id");
+
+        }
+
+        // $(document).ready(function(){
+        //   $("#addButton").click(function(){
+        //       $("#addUser").show();
+        //   });
+        // });
 
 
-        $(document).ready(function(){
-          $("#all_admin").click(function(){
-              $("#admin_table").show();
-          });
-        });
+        // $(document).ready(function(){
+        //   $("#all_admin").click(function(){
+        //       $("#admin_table").show();
+        //   });
+        // });
+
         // end of show/hide div upon  clicking
 
      
 
-        $(document).ready(function(){
-          $("#discard").click(function(){
-            $(".changePassword").remove();
-          });
-        });
-
-        $(document).ready(function(){
-          $("#clear").click(function(){
-            $("#admin_table").remove();
-          });
-        });
+       
+       
 
 
       // ajax form submission
@@ -317,6 +329,7 @@ $dbh = DB();
                 dataType:"JSON",
                 success:function(response){
                   // console.log(response);
+                    var action = '<a><i class="fa fa-trash" aria-hidden="true"></i></a>';
                     var len = response.length;
                     for (var i = 0; i < len; i++) {
 
@@ -326,7 +339,8 @@ $dbh = DB();
                         var email = response[i]["email"];
                         var my_date = response[i]["admin_date"];
 
-                        var table_str = "<tr>" +
+                        var table_str = "<tr>" 
+                                     "<td>" +  action + "</td>" +
                                      "<td>" + username + "</td>" +
                                      "<td>" + fullname + "</td>" +
                                      "<td>" + email + "</td>" +

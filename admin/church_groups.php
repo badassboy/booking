@@ -18,7 +18,8 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 
     <style type="text/css">
-        #church_group {
+
+        .church_group {
 
             background-color:rgb(255, 255, 255);
             height: 350px;
@@ -28,12 +29,16 @@
 
       
 
-        #add_member {
+        .add_member {
 
             background-color:rgb(255, 255, 255);
             height: 350px;
             padding-top: 3%;
             display: none;
+        }
+
+        .show {
+          display: block;
         }
 
 
@@ -51,12 +56,12 @@
             <ul class="list-unstyled components">
                
                 <li>
-                    <a href="#" id="create_group">Create Group</a>
+                    <a href="#" id="create_group" data-target="church_group" class="item">Create Group</a>
                 </li>
                
                
                 <li>
-                    <a href="#" id="group">Add member to group</a>
+                    <a href="#" id="group" data-target="add_member" class="item">Add member to group</a>
                 </li>
 
 
@@ -88,7 +93,7 @@
             </nav>
 
             <h2>Church Group</h2>
-            <div class="container" id="church_group">
+            <div class="container church_group show" id="church_group">
                 <div id="response"></div>
                 <form method="post" action="chgroups_process.php" id="chgroup">
 
@@ -111,7 +116,7 @@
 
            
 
-            <div class="container" id="add_member">
+            <div class="container add_member" id="add_member">
               <div id="msg"></div>
               <header>Add member to group</header>
               <form method="post" id="member_group">
@@ -155,67 +160,71 @@
             });
         });
 
-        // hide and show divs based on element clicked
-        $(document).ready(function(){
-            $("#create_group").click(function(){
-                $("#church_group").show();
-            })
-        })
+        // this whole code is about displaying div based on the link clicked
+        // returns an array of child elements of a given class name
+        // const links = document.getElementsByClassName('item');
+        const links = [...document.getElementsByClassName("item")];
+
+        // looping through the array and calling a function to execute
+        links.forEach(link => link.onclick = toggleVisible);
+
+        function toggleVisible(){
+
+          document.getElementsByClassName('show')[0].classList.remove('show');
+           const id = this.dataset.target;
+           
+           document.getElementById(id).classList.add('show');
+        }
+
 
      
 
+        // ajax form submission for creating group
         $(document).ready(function(){
-            $("#group").click(function(){
-                $("#add_member").show();
+          $("#chgroup").submit(function(e){
+            e.preventDefault();
+            $.ajax({
+              type:"post",
+              url:"chgroups_process.php",
+              data:$("#chgroup").serialize(),
             })
-        })
+          
+            .done(function(data){
+              $("#response").html(data);
+              console.log("hello");
+            })
+            .fail(function(data){
+              $("#response").html(data);
+              console.log("hi");
 
-                // ajax form submission for creating group
-                $(document).ready(function(){
-                  $("#chgroup").submit(function(e){
-                    e.preventDefault();
-                    $.ajax({
-                      type:"post",
-                      url:"chgroups_process.php",
-                      data:$("#chgroup").serialize(),
-                    })
-                  
-                    .done(function(data){
-                      $("#response").html(data);
-                      console.log("hello");
-                    })
-                    .fail(function(data){
-                      $("#response").html(data);
-                      console.log("hi");
+            });
 
-                    });
+          });
+        });
 
-                  });
-                });
+        // ajax form submission fir adding member to group
+        $(document).ready(function(){
 
-                    // ajax form submission fir adding member to group
-                    $(document).ready(function(){
+          $("#member_group").submit(function(e){
+            e.preventDefault();
+            $.ajax({
+              type:"post",
+              url:"memberchgroup.php",
+              data:$("#member_group").serialize(),
+            })
+          
+            .done(function(data){
+              $("#msg").html(data);
+            })
+            .fail(function(data){
+              $("#msg").html(data);
 
-                      $("#member_group").submit(function(e){
-                        e.preventDefault();
-                        $.ajax({
-                          type:"post",
-                          url:"memberchgroup.php",
-                          data:$("#member_group").serialize(),
-                        })
-                      
-                        .done(function(data){
-                          $("#msg").html(data);
-                        })
-                        .fail(function(data){
-                          $("#msg").html(data);
+            });
 
-                        });
+          $("#member_group").find('input').val(" ");
+          });
 
-                      $("#member_group").find('input').val(" ");
-                      });
-
-                    });
+        });
 
                    
 
@@ -223,34 +232,34 @@
 
 
 
-                    // ajax for getting displaying groupsin select form
-                    $(document).ready(function(){
+      // ajax for getting displaying groupsin select form
+      $(document).ready(function(){
 
-                          $.ajax({
-                            url:"chgroupajax.php",
-                            type:"get",
-                            dataType:"JSON",
-                            success:function(response){
-                              console.log(response);
-                                var len = response.length;
-                                for (var i = 0; i < len; i++) {
+            $.ajax({
+              url:"chgroupajax.php",
+              type:"get",
+              dataType:"JSON",
+              success:function(response){
+                console.log(response);
+                  var len = response.length;
+                  for (var i = 0; i < len; i++) {
 
 
-                                    var my_groups = response[i]["created_group"];
+                      var my_groups = response[i]["created_group"];
 
-                                    var option_string = "<option>" + my_groups + "</option>";
+                      var option_string = "<option>" + my_groups + "</option>";
 
-                                     $("#existing_groups").append(option_string);
+                       $("#existing_groups").append(option_string);
 
-                                   
-                                }
-                            },
-                            error:function(response){
-                                console.log("Error: "+ response);
-                            }
-                          });
+                     
+                  }
+              },
+              error:function(response){
+                  console.log("Error: "+ response);
+              }
+            });
 
-                    });
+      });
 
                
 

@@ -49,6 +49,10 @@
             display: none;
         }
 
+        .show {
+          display: block;
+        }
+
 
     </style>
     
@@ -67,22 +71,19 @@
                 <p>Dummy Heading</p>
 
 
-                <li>
-                    <a href="#" id="appointment">Preaching Appointment</a>
-                </li>
+            <li>
+                <a href="#" id="appointment" data-target="one" class="test">Preaching Appointment</a>
+            </li>
 
-                <li>
-                    <a href="#" id="event">Event to attend</a>
-                </li>
+            <li>
+                <a href="#" id="event" data-target="two" class="test">Event to attend</a>
+            </li>
 
-               <!--  <li>
-                    <a href="#" id="visit">People to visit</a>
-                </li> -->
-
-                <li>
-                    <a href="#" id="counselling">Counselling Appointment</a>
-                </li>
-               
+         
+            <li>
+                <a href="#" id="counselling" data-target="three" class="test">Counselling Appointment</a>
+            </li>
+           
 
 
             </ul>
@@ -113,7 +114,7 @@
 
             <h2>Pastor Page</h2>
 
-            <div class="container appointment">
+            <div class="container appointment show" id="one">
               <div id="message"></div>
                 <h5>Preaching Appointment</h5>
                <form method="post" id="appoint">
@@ -149,7 +150,7 @@
             </div>
 
 
-             <div class="container event">
+             <div class="container event" id="two">
               <div id="response"></div>
                 <h5>Event to attend</h5>
                <form method="post" id="pastor_event">
@@ -182,7 +183,7 @@
                </form> 
             </div>
                
-             <div class="container counselling">
+             <div class="container counselling" id="three">
               <div id="msg"></div>
                     <h5>Counselling Appointment</h5>
                <form method="post" id="counsel">
@@ -228,31 +229,23 @@
             });
         });
 
-        $(document).ready(function(){
-          $("#appointment").click(function(){
-              $(".appointment").show();
-          });
-        });
+        var links = document.getElementsByClassName("test");
 
-        $(document).ready(function(){
-          $("#event").click(function(){
-              $(".event").show();
-          });
-        });
+     //attach click handler to each
+        for (var i = 0; i < links.length; i++) {
+            links[i].onclick = toggleVisible;
+        }
 
-        $(document).ready(function(){
-          $("#counselling").click(function(){
-              $(".counselling").show();
-          });
-        });
-        // end of show/hide div upon  clicking
-
-       
+        function toggleVisible(){
+                //hide currently shown item
+               document.getElementsByClassName('show')[0].classList.remove('show');
+               var id = this.dataset.target;
+               document.getElementById(id).classList.add('show');
+        }
+              
 
 
-
-
-       // ajax form submission
+        // ajax form submission
            $(document).ready(function(){
 
                $("#appoint").submit(function(e){
