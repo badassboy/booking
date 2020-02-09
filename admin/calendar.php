@@ -3,11 +3,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-require("../database.php");
-$dbh = DB();
 
-$stmt = $dbh->prepare("SELECT * FROM calendar");
-$stmt->execute();
 
 
 
@@ -34,6 +30,30 @@ $stmt->execute();
 
     <!-- Font Awesome JS -->
     <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.css">
+
+    <style type="text/css">
+
+      .calend_form{
+              background-color:rgb(255, 255, 255);
+              height: 500px;
+              display: none;
+              padding-top: 2%;
+          }
+
+          .all_event {
+                  background-color:rgb(255, 255, 255);
+                  height: 300px;
+                  display: none;
+              }
+
+              header {
+                margin-top: -4%;
+              }
+
+      .show {
+        display: block;
+      }
+    </style>
    
 
 </head>
@@ -47,19 +67,18 @@ $stmt->execute();
             </div>
 
             <ul class="list-unstyled components">
-                <p>Dummy Heading</p>
 
                 <li>
-                    <a href="#" id="event">Create Event</a>
+                    <a href="#" id="event" class="test" data-target="one">Create Event</a>
                 </li>
 
                 <li> 
-                    <a href="#" id="total_event">All Event</a>
+                    <a href="#" id="total_event" class="test" data-target="two">All Event</a>
                 </li>
 
+            </ul>
              
 
-            </ul>
                
 
                
@@ -85,29 +104,14 @@ $stmt->execute();
                         <i class="fas fa-align-justify"></i>
                     </button>
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Page</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Page</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Page</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Page</a>
-                            </li>
-                        </ul>
-                    </div>
+                  
                     
                 </div>
             </nav>
 
             <h2>Calendar Page</h2>
 
-            <div class="container calend_form" style="display: none;">
+            <div class="container calend_form show"  id="one">
                 <p id="msg"></p>
                 <header>Create Event</header>
                 <form method="post"  id="calendar">
@@ -170,27 +174,24 @@ $stmt->execute();
 
 
             <!-- see alll events -->
-            <div class="container all_event" style="display: none;">
-              <ul class="list-group">
+            <div class="container all_event"  id="two">
+              <header>All Event</header>
+              <!-- <ul class="list-group"> -->
 
-                <?php while($row = $stmt->fetch(PDO::FETCH_ASSOC)){ ?>
+                <!-- <li class="list-group-item"><a href="event_details.php"></a></li> -->
 
-                <li class="list-group-item">
-                <a href="event_details.php?id=<?php echo $row['id'];?>"><?php echo $row['event_name'];?></a>
-                </li>
+              <!-- </ul> -->
                 
-              </ul>
-
-            <?php } ?>
-               
-              
             </div>
             <!-- see alll events -->
 
-           
-            
         </div>
     </div>
+               
+              
+
+           
+            
 
     <!-- jQuery CDN -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -210,21 +211,60 @@ $stmt->execute();
             });
         });
 
-         $(document).ready(function(){
-          $("#event").on('click',function(){
-              $(".calend_form").show();
-              
-          });
+        // hiding and showing div based on link cliked
+           // creating an array-like based of child nodes on a specified class name
+           var links = document.getElementsByClassName("test");
 
-        });
+        //attach click handler to each
+           for (var i = 0; i < links.length; i++) {
+               links[i].onclick = toggleVisible;
+           }
 
-          $(document).ready(function(){
-           $("#total_event").on('click',function(){
-               $(".all_event").show();
-               
+           function toggleVisible(){
+                   //hide currently shown item
+                  document.getElementsByClassName('show')[0].classList.remove('show');
+                  // getting info from custom data-target  set on the element
+                  var id = this.dataset.target;
+                  // showing div
+                  document.getElementById(id).classList.add('show');
+           }
+
+
+           // ajax for getting displaying all event
+           $(document).ready(function(){
+
+                 $.ajax({
+                   url:"calendarajax.php",
+                   type:"get",
+                   dataType:"JSON",
+                   success:function(response){
+                     // console.log(response);
+                       var len = response.length;
+                       for (var i = 0; i < len; i++) {
+
+
+                           var event_name = response[i]["name_of_event"];
+
+                           var event_string= "<ul class='list-group'>" +
+
+                           "<li class='list-group-item'><a href='event_details.php'>" +event_name+ "</a></li>" +
+
+                           "</ul>";
+
+
+                                $("#two").append(event_string);
+
+                          
+                       }
+                   },
+                   error:function(response){
+                       console.log("Error: "+ response);
+                   }
+                 });
+
            });
 
-         });
+       
 
          
 

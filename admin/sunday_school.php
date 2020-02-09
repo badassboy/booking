@@ -239,7 +239,6 @@
 
 
                         var class_name = response[i]["class"];
-                        // console.log(class_name);
 
                             var option_string = "<option>" + class_name + "</option>";
 

@@ -171,6 +171,7 @@
         function toggleVisible(){
 
           document.getElementsByClassName('show')[0].classList.remove('show');
+          // "this" refer to the element which was clicked
            const id = this.dataset.target;
            
            document.getElementById(id).classList.add('show');

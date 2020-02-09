@@ -22,6 +22,7 @@ while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
 		);
 }
 
+// Echoinh array in json format
 echo json_encode($json);
 
 

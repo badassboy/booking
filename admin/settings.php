@@ -193,7 +193,7 @@ $dbh = DB();
           <div class="container" id="admin_table">
               <h5>Administrators</h5>
               
-                  <table class="table" id="my_table">
+                  <table class="table">
 
                     <thead>
                       <tr>
@@ -205,20 +205,7 @@ $dbh = DB();
                       </tr>
                     </thead>
 
-                    <tbody>
-
-
-                      <tr>
-                        <th scope="row">
-                          <a><i class="fa fa-trash" aria-hidden="true"></i></a>
-                        </th>
-                        <td>hello</td>
-                        <td>hello</td>
-                        <td>hello</td>
-                        <td>hello</td>
-                        
-                      </tr>
-                    </tbody>
+                    <tbody></tbody>
                     
                   </table>
                     
@@ -272,28 +259,8 @@ $dbh = DB();
 
         }
 
-        // $(document).ready(function(){
-        //   $("#addButton").click(function(){
-        //       $("#addUser").show();
-        //   });
-        // });
-
-
-        // $(document).ready(function(){
-        //   $("#all_admin").click(function(){
-        //       $("#admin_table").show();
-        //   });
-        // });
-
-        // end of show/hide div upon  clicking
-
-     
-
-       
-       
-
-
-      // ajax form submission
+      
+        // ajax form submission
         $(document).ready(function(){
 
           $("#add_user").submit(function(e){
@@ -328,19 +295,20 @@ $dbh = DB();
                 type:"get",
                 dataType:"JSON",
                 success:function(response){
-                  // console.log(response);
-                    var action = '<a><i class="fa fa-trash" aria-hidden="true"></i></a>';
+                  console.log(response);
                     var len = response.length;
                     for (var i = 0; i < len; i++) {
 
 
+                        var action = '<a><i class="fa fa-trash" aria-hidden="true"></i></a>';
                         var username = response[i]["username"];
+
                         var fullname = response[i]["fullname"];
                         var email = response[i]["email"];
                         var my_date = response[i]["admin_date"];
 
-                        var table_str = "<tr>" 
-                                     "<td>" +  action + "</td>" +
+                        var table_str = "<tr>" +
+                                     "<td>" + action + "</td>" +
                                      "<td>" + username + "</td>" +
                                      "<td>" + fullname + "</td>" +
                                      "<td>" + email + "</td>" +
@@ -348,7 +316,7 @@ $dbh = DB();
                                      "</tr>";
 
 
-                             $("#my_table tbody").append(table_str);
+                             $(".table tbody").append(table_str);
 
                        
                     }

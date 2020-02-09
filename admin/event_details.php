@@ -4,9 +4,8 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require("../database.php");
-$dbh = DBcreate();
+$dbh = DB();
 
-// $id = $_GET['id'];
 
 if (isset($id)) {
 

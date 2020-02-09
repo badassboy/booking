@@ -229,6 +229,7 @@
             });
         });
 
+        // creating an array-like based of child nodes on a specified class name
         var links = document.getElementsByClassName("test");
 
      //attach click handler to each
@@ -239,7 +240,9 @@
         function toggleVisible(){
                 //hide currently shown item
                document.getElementsByClassName('show')[0].classList.remove('show');
+               // getting info from custom data-target  set on the element
                var id = this.dataset.target;
+               // showing div
                document.getElementById(id).classList.add('show');
         }
               
