@@ -1,49 +1,23 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
 
-html, body, div, span, applet, object, 
-iframe, h1, h2, h3, h4, h5, h6, p, blockquote, 
-pre, a, abbr, acronym, address, big, cite, code, 
-del, dfn, em, img, ins, kbd, q, s, samp, small, 
-strike, strong, sub, sup, tt, var, b, u, i, center, 
-dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed,  figure, figcaption, footer, header, hgroup,  menu, nav, output, ruby, section, summary, time, mark, audio, video {  
-   margin: 0;  
-   padding: 0;  
-   border: 0;  
-   font-size: 100%;  
-   font: inherit;  
-   vertical-align: baseline; 
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+  font-family: 'Raleway', sans-serif;
+
 }
 
 .auth_page {
 	background-color: #f5f5f5;
-	height: 900px;
+	height: 700px;
 }
 
 .auth_page h3 {
-	text-align: center;
+	padding-left:35%;
 	padding-top: 3%;
 	font-weight: bolder;
+	font-size: 2rem;
 }
-
-header{
-	background:#ffffff;
-	height: 80px;
-	width: 100%;
-}
-
-header h1 {
-	padding-top: -20%;
-	padding-left: -3%;
-	font-weight: bolder;
-}
-
-
-
-
 
 .second {
 	background:#ffffff;
@@ -58,27 +32,86 @@ form {
 	padding-top: 15%;
 }
 
+form label {
+	font-weight: bolder;
+	padding-left: 15%;
+}
 header {
-	padding-left: 10%;
+	padding-left: 15%;
 	padding-top: 5%;
 }
 
 input[type=text],input[type=email],input[type=password],input[type=tel]{
 	width: 60%;
 	margin-top: 2%;
+	margin-left: 15%;
+	font-size: 16px;
 }
 
 
 .default {
-	background-color: green;
-	color: white;
+	background-color: #e6e600;
+	color:#ffffff;
 	width: 60%;
 	height: 40px;
-	border: 1px solid green;
+	border: 1px solid  #e6e600;
+	font-weight: bolder;
+	font-size: 20px;
+	margin-left: 15%;
 }
 
 .next {
 	margin-top: 3%;
-	padding-left: 10%;
+	padding-left: 15%;
 	font-size: 17px;
 }
+
+
+@media screen and (max-width: 576px){
+	.auth_page {
+		height: 450px;
+		background-color: #f5f5f5;
+	}
+
+	.auth_page h3 {
+		padding-left:35%;
+		padding-top: 3%;
+		padding-bottom: 3%;
+		font-weight: bolder;
+		font-size: 1rem;
+	}
+
+
+	.second {
+		width: 80%;
+		height: 350px;
+	}
+
+	input[type=email],input[type=password]{
+		width: 80%;
+		margin-top: 2%;
+		margin-left: 10%;
+		font-size: 16px;
+	}
+
+
+	form {
+		margin-top: -15%;
+		margin-left: 10%;
+		padding-top: 10%;
+	}
+
+
+
+	.default {
+		background-color: #e6e600;
+		color:#ffffff;
+		width: 80%;
+		height: 40px;
+		border: 1px solid  #e6e600;
+		font-weight: bolder;
+		font-size: 20px;
+		margin-left: 10%;
+	}
+}
+

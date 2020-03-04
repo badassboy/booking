@@ -1,7 +1,7 @@
 <?php
 
 require("functions.php");
-$ch = new Church();
+$booking = new Booking();
 
 $msg = "";
 
@@ -17,11 +17,12 @@ if (isset($_POST['submit'])) {
 		$msg = "fields required";
 	}else {
 
-		$registered_user = $ch->registerUser($username,$email,$tel,$password);
+		$registered_user = $booking->registerUser($username,$email,$tel,$password);
 		if ($registered_user) {
-			$msg = "registration successful";
+			header("Location: homepage.php");
 		}else {
-			$msg = "registration failed";
+			$msg = '<div class="alert alert-danger" role="alert">signup failed</div>';
+			
 		}
 	}
 
@@ -37,25 +38,40 @@ if (isset($_POST['submit'])) {
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title></title>
+
+	<link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.css">
+	<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
 	<style type="text/css">
+
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: 'Raleway', sans-serif;
+		}
 
 		.register {
 
 
 				background-color:#f2f2f2;
-				height: 600px;
-					display: flex;
-				   flex-direction: row;
-				   flex-wrap: wrap;
-				   justify-content: center;
-				   align-items: center;
+				height: 700px;
+				display: flex;
+			   flex-direction: row;
+			   flex-wrap: wrap;
+			   justify-content: center;
+			   align-items: center;
+			   font-family: 'Raleway', sans-serif;
 		}
 
 		.registration {
 				height: 600px;
 			   background-color:hsl(0, 0%, 100%);
-			   width: 50%; 
+			   width: 50%;
 		}
 
 		.registration h3 {
@@ -67,19 +83,62 @@ if (isset($_POST['submit'])) {
 		 input[type=text],input[type=password],input[type=email],input[type=tel] {
 			width: 40%;
 			margin-left: 30%;
+			font-size: 17px;
 		}
 
 		form label {
 			padding-left: 30%;
+			font-weight: bolder;
 		}
 
-		.btn-secondary {
+		.btn-default {
 			width: 40%;
 			height: 40px;
 			margin-left: 30%;
-			border: 2px solid #47d147;
+			background-color: #e6e600;
+			color: #ffffff;
 			font-weight: bolder;
 			font-size: 20px;
+		}
+
+		.next_action{
+			padding-left: 31%;
+			padding-top: 2%;
+			font-size: 17px;
+		}
+
+		@media screen and (max-width: 576px){
+
+			.registration {
+				width: 80%;
+				height: 530px;
+			}
+
+			.registration h3 {
+				margin-left: -49%;
+			}
+
+			 input[type=text],input[type=password],input[type=email],input[type=tel] {
+				width: 70%;
+				margin-left: 15%;
+				font-size: 17px;
+			}
+
+
+			form label {
+				padding-left: 15%;
+				font-weight: bolder;
+			}
+
+			.btn-default {
+				width: 70%;
+				margin-left: 15%;
+				
+			}
+
+			
+
+
 		}
 
 
@@ -93,8 +152,6 @@ if (isset($_POST['submit'])) {
 	</style>
 </head>
 <body>
-
-	<?php include("navbar.php"); ?>
 
 	<div class="container-fluid register">
 
@@ -112,33 +169,36 @@ if (isset($_POST['submit'])) {
 
 			  <div class="form-group">
 			    <label for="usernameInput">Username</label>
-			    <input type="text" name="username" class="form-control" id="usernameInput" placeholder="Enter username" required="required">
+			    <input type="text" name="username" class="form-control" id="usernameInput" placeholder="Enter username" required="required"  data-toggle="tooltip" data-placement="top" title="Username">
 			  </div>
 
 			  <div class="form-group">
 			      <label for="exampleFormControlInput1">Email address</label>
-			      <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter email" required="required">
+			      <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter email" required="required"  data-toggle="tooltip" data-placement="top" title="Email">
 			    </div>
 
 			   
 
 			    <div class="form-group">
 			      <label for="usernameInput">Telephone</label>
-			      <input class="form-control" name="tel" type="tel" id="example-tel-input" placeholder="telephone" required="required">
+			      <input class="form-control" name="tel" type="tel" id="example-tel-input" placeholder="telephone" required="required"  data-toggle="tooltip" data-placement="top" title="telephone">
 			    </div>
 			    
 
 			  <div class="form-group">
 			    <label for="exampleInputPassword1">Password</label>
-			    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required="required">
+			    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password" required="required"  data-toggle="tooltip" data-placement="top" title="Paasword">
 			  </div>
+
+			  <input type="submit" name="submit" class="btn-default" value="Register">
+
+				<p class="next_action">Already registerd?<a href="login.php">Login</a></p>
 
 
 
 			 
 
 			
-			  <input type="submit" name="submit" class="btn btn-secondary" value="Register" style="background-color:#47d147;">
 			</form>
 		</div>
 		
@@ -148,6 +208,7 @@ if (isset($_POST['submit'])) {
 
 
 
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript" src="bootstrap/dist/js/bootstrap.js"></script>
 </body>
 </html>

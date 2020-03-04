@@ -5,8 +5,8 @@ define('HOST', 'localhost');
 define('USER', 'root');
 // user password
 define('PASSWORD', '');
-// database name
-define('DATABASE', 'church');
+// database localhost name
+define('DATABASE', 'booking');
 
 function DB()
 {

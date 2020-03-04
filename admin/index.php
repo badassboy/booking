@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require_once("../functions.php");
-$ch = new Church();
+$ch = new Booking();
 
 $info = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -20,14 +20,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$_SESSION['email']=$email;
 			$_SESSION['adimn_pass']=$pwd;
 			header("Location: homepage.php");
-			// return;
 		}else{
-			$info = "login failed";
+			$info = '<div class="alert alert-danger" role="alert">Login failed</div>';
 		}
 
 	}else {
 
-		$info = "fields are required";	
+		$info = '<div class="alert alert-danger" role="alert">Fields Required</div>';	
 		
 		
 
@@ -55,40 +54,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	<link rel="stylesheet" type="text/css" href="../bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/admin-index.css">
+
+	<!-- custom google font -->
+	<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <!-- login page here -->
 	<div class="container-fluid auth_page">
 
-		<header>
-			<h1>ADMIN LOGIN</h1>
-		</header>
-
-
-				
-			 
-
-			    	<h3>LOGIN HERE</h3>
+		<h3>Admin Login</h3>
+		
 			    <div class="second">
-			    	
+			    	<?php
+
+			    	if (isset($info)) {
+			    		echo $info;
+			    	}
+
+			    	?>
 			    	<form method="post" action="index.php">
-			    		<?php
-
-			    		if (isset($info)) {
-			    			echo $info;
-			    		}
-
-			    		?>
+			    		
 			    	  <div class="form-group">
-			    	      <label for="exampleInputEmail1">Email address</label>
-			    	      <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
+			    	      <label>Email address</label>
+			    	      <input type="email" name="email" class="form-control" placeholder="Email" 
+			    	      data-toggle="tooltip" data-placement="top" title="Email">
 			    	      
 			    	    </div>
 
 			    	  <div class="form-group">
-			    	    <label for="exampleInputPassword1">Password</label>
-			    	    <input type="password" name="pwd" class="form-control" id="exampleInputPassword1" placeholder="Password" required="required">
+			    	    <label>Password</label>
+			    	    <input type="password" name="pwd" class="form-control"  placeholder="Password" required="required" data-toggle="tooltip" data-placement="top" title="Password">
 			    	  </div>
 
 			    	  
@@ -96,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			    	 <input type="submit" name="login" class="default" value="Login">
 
 			    	  <br>
-			    	  <p class="next">Not Registered?<a href="admin-signup.php" style="color: #009933;"> Register Now</a></p>
+			    	  <p class="next">Forget Password?<a href="reset_email.php" style="font-weight: bolder; color: #000000; ">Click Here</a></p>
 			    	</form>
 			    </div>
 

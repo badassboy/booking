@@ -1,26 +1,32 @@
 <?php
-session_start();
-include("functions.php");
-$ch = new Church();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+require("functions.php");
+$booking = new Booking();
 
 $msg = "";
 if (isset($_POST['loginBtn'])) {
 	
-	$username = $_POST['username'];
+	$email = $_POST['email'];
 	
 	$password = $_POST['pwd'];
 
-	if (empty($username) || empty($password)) {
-		$msg = "fields required";
+	if (empty($email) || empty($password)) {
+		$msg = '<div class="alert alert-danger" role="alert">Fields required</div>';
 	}else{
-		$user = $ch->login_user($username,$password);
+		$user = $booking->login_user($email,$password);
 		if ($user) {
 
 			$_SESSION['username'] = $user;
+			$_SESSION['email'] = $email;
+			$_SESSION['pwd'] = $password;
 			
-			header("Location: members_page.php");
+			header("Location: homepage.php");
 
-			session_write_close();
+			// session_write_close();
+		}else {
+			$msg = '<div class="alert alert-danger" role="alert">Login failed</div>';
 		}
 	}
 
@@ -34,11 +40,23 @@ if (isset($_POST['loginBtn'])) {
 ?>
 
 
-<html>
+<html lang="en">
 	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title></title>
 
+		<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.css">
+
 		<style type="text/css">
+
+			*{
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: 'Raleway', sans-serif;
+			}
 
 			
 
@@ -52,7 +70,6 @@ if (isset($_POST['loginBtn'])) {
 			   justify-content: center;
 			   align-items: center;
 
-				/*background-color: yellow;*/
 			}
 
 			.myForm {
@@ -64,35 +81,78 @@ if (isset($_POST['loginBtn'])) {
 
 
 			.myForm h3 {
-				text-align: center;
-				padding-top: 10%;
+				padding-top: 7%;
+				padding-left: 30%;
+				padding-bottom: 1%;
 				font-weight: bolder;
 			}
-
-			 input[type=text],input[type=password] {
-				width: 40%;
-				margin-left: 30%;
+	 input[type=email],input[type=password] {
+				width: 55%;
+				margin-left: 20%;
+				font-size: 20px;
 			}
 
 			form label {
-				padding-left: 30%;
+				padding-left: 20%;
+				font-weight: bolder;
 			}
 
 
 			.btn-secondary {
-				width: 40%;
+				width: 55%;
 				height: 40px;
-				margin-left: 30%;
-				border: 2px solid #47d147;
+				margin-left: 20%;
+				border: 2px solid ##e6e600;
 				font-weight: bolder;
-				font-size: 20px;
 			}
+		
 
 			.next_action {
 
-				padding-left: 30%;
+				padding-left: 20%;
 				padding-top: 2%;
 				font-size: 20px;
+			}
+
+			@media screen  and (max-width: 576px){
+
+				.login_page {
+					height: 450px;
+				}
+
+				.myForm {
+					width: 90%;
+					height: 350px;
+					margin-top: -10%;
+				}
+
+				.myForm h3 {
+					padding-left: 15%;
+					font-size: 17px;
+					font-weight: bold;
+				}
+
+				 input[type=email],input[type=password] {
+							width: 70%;
+							margin-left: 15%;
+							font-size: 16px;
+				}
+
+				.btn-secondary {
+					width: 70%;
+					height: 40px;
+					margin-left: 15%;
+					border: 2px solid ##e6e600;
+					font-weight: bolder;
+				}
+
+				.next_action{
+					padding-left: 12%;
+				}
+
+				form label {
+					padding-left: 15%;
+				}
 			}
 			
 			
@@ -104,9 +164,7 @@ if (isset($_POST['loginBtn'])) {
 	</head>
 
 	<body>
-
-		<?php include("navbar.php"); ?>
-
+		
 			<div class="container-fluid login_page">
 				
 				<div class="myForm">
@@ -118,23 +176,24 @@ if (isset($_POST['loginBtn'])) {
 
 					?>
 					<h3>LOGIN</h3>
-					<form method="post" action="">
+					<form method="post" action="login.php">
 
-					  <div class="form-group">
-					    <label for="usernameInput">Username</label>
-					    <input type="text" name="username" class="form-control" id="usernameInput"  placeholder="Enter username" required="required">
-					  </div>
+					<div class="form-group">
+					   <label>Email address</label>
+					   <input type="email" name="email" class="form-control" aria-describedby="emailHelp" placeholder="Email" data-toggle="tooltip" data-placement="top" title="Email">
+					 </div>
+					  
 					    
 
 					  <div class="form-group">
 					    <label for="exampleInputPassword1">Password</label>
-					    <input type="password" name="pwd" class="form-control" id="exampleInputPassword1" placeholder="Password" required="required">
+					    <input type="password" name="pwd" class="form-control" id="exampleInputPassword1" placeholder="Password" required="required" data-toggle="tooltip" data-placement="top" title="Password">
 					  </div>
 
 					 
-					  <button type="submit" name="loginBtn" class="btn btn-secondary" style="background-color:#47d147;">Login</button>
+					  <button type="submit" name="loginBtn" class="btn btn-secondary" style="background-color:#e6e600; color:#ffffff; font-weight: bolder; font-size: 20px;">Login</button>
 
-					  <p class="next_action">Dont have an account ?<a href="signup.php">Register</a></p>
+					  <p class="next_action">Forget Password?<a href="reset_user_email.php">Click Here</a></p>
 
 					</form>
 				</div>
@@ -143,6 +202,8 @@ if (isset($_POST['loginBtn'])) {
 
 
 		<?php include("footer.php"); ?>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript" src="bootstrap/dist/js/bootstrap.js"></script>
 
 	</body>
 </html>

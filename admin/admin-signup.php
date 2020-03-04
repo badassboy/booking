@@ -2,26 +2,21 @@
 // this is the signup page
 //require("../database.php");
 include("../functions.php");
-$ch = new Church();
+$ch = new Booking();
 
 $msg = "";
 
 if (isset($_POST['signup'])) {
 
 
-	$fullName = trim($_POST['full_name']);
-	$church = trim($_POST['ch_name']);
-	$short_name = trim($_POST['short_name']);
-	$location = trim($_POST['ch_location']);
+	$name = trim($_POST['username']);
 	$email = trim($_POST['email']);
 	$mobile = trim($_POST['tel']);
-	$name = trim($_POST['username']);
 	$password = trim($_POST['password']);
 	$password2 = trim($_POST['password2']);
 
 
-	if (!empty($fullName) || !empty($church) || !empty($short_name) || !empty($location) || !empty($email) || !empty($mobile)
-		|| !empty($name) || !empty($password) || !empty($password2)) {
+	if (!empty($name) || !empty($email) || !empty($mobile)|| !empty($password) || !empty($password2)) {
 
 		if (!filter_var($email,FILTER_VALIDATE_EMAIL)) {
 			$msg = "invalid email";
@@ -30,7 +25,7 @@ if (isset($_POST['signup'])) {
 			$msg = "Password does not match";
 		}else {
 
-			$admin_id = $ch->registerChurchAdmin($fullName,$church,$short_name,$location,$email,$mobile,$name,$password);
+			$admin_id = $ch->registerAdmin($name,$email,$mobile,$password);
 
 			
 
@@ -38,40 +33,7 @@ if (isset($_POST['signup'])) {
 
 				$msg = "Registration Successful";
 
-				// $createDatabase = $ch->createDatabase($short_name);
-				// if ($createDatabase==1) {
-				// 	$creatTables = $ch->creatTables($short_name);
-				// 	if ($creatTables==1) {
-				// 		$msg="Account Created Successfully";
-				// 	}
-				// 	else
-				// 	{ 
-				// 		$msg="Error creating tables for database";
-				// 		// print_r($creatTables);
-				// 	}
-
-				// }
-					
-				// else
-				// {
-				// 	$msg="Error creating database";
-				// 	// print_r($createDatabase);
-				// }
-
-				// user activation email sending script
-				/*
-				$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"."activate_email.php?user_id=" . $admin_id;
-				$toEmail = $email;
-				$subject = "User Registration Activation Email";
-				$content = "Click this link to activate your account. <a href='" . $actual_link . "'>" . $actual_link . "</a>";
-				$mailHeaders = "From: Admin\r\n";
-				if (mail($toEmail, $subject, $content,$mailHeaders)) {
-					$msg = "You have registered and the activation mail is sent to your email. Click the activation link to activate you account.";
-				}else{
-					$msg = "email sending failed";
-				}
-				*/
-
+			
 
 
 
@@ -95,7 +57,7 @@ if (isset($_POST['signup'])) {
 
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 
 	<meta charset="utf-8">
@@ -105,11 +67,23 @@ if (isset($_POST['signup'])) {
 	<title></title>
 	<link rel="stylesheet" type="text/css" href="../bootstrap/dist/css/bootstrap.min.css">
 
+	<!-- custom google font -->
+	<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+
 	<style type="text/css">
+
+		*{
+			padding: 0;
+			margin: 0;
+			box-sizing: border-box;
+  			font-family: 'Raleway', sans-serif;
+
+
+		}
 
 		.signup_page {
 			background-color:#f5f5f5;
-			height: 1200px; 
+			height: 770px; 
 		}
 
 		.signup_page h3 {
@@ -130,7 +104,7 @@ if (isset($_POST['signup'])) {
 
 		.signup_form {
 			width: 40%;
-			height: 950px;
+			height: 600px;
 			background-color:rgb(255, 255, 255);
 			margin: 1% auto;
 		}
@@ -139,6 +113,7 @@ if (isset($_POST['signup'])) {
 		input[type=text],input[type=password],input[type=tel],input[type=email]{
 			width: 60%;
 			margin-top: -1%;
+			font-size: 16px;
 		}
 
 		form {
@@ -148,16 +123,55 @@ if (isset($_POST['signup'])) {
 		}
 
 		.default {
-			background-color: green;
-			color: white;
+			background-color: #e6e600;
+			color:#ffffff;
 			width: 60%;
 			height: 40px;
-			border: 1px solid green;
+			border: 1px solid  #e6e600;
+			font-weight: bolder;
+			font-size: 20px;
 		}
 
 		form label {
 			padding-top: 2%;
 			font-weight: bold;
+		}
+
+		.next_action {
+			padding-top: 2%;
+			font-size: 17px;
+		}
+
+		@media screen and (max-width: 576px){
+
+			.signup_form {
+				width: 80%;
+			}
+
+			.signup_page h3 {
+				text-align: center;
+				padding-top: 1%;
+				font-size: 18px;
+			}
+
+			header h2 {
+				padding-top: 1%;
+				padding-left: 4%;
+				font-size: 18px;
+			}
+
+			input[type=text],input[type=password],input[type=tel],input[type=email]{
+				width: 80%;
+				font-size: 16px;
+			}
+
+
+
+			.default {
+				
+				width: 80%;
+				
+			}
 		}
 
 
@@ -171,6 +185,7 @@ if (isset($_POST['signup'])) {
 		<header>
 			<h2>ADMIN SIGNUP</h2>
 		</header>
+
 		<h3>SIGNUP HERE</h3>
 		<div class="signup_form">
 			<?php
@@ -182,67 +197,51 @@ if (isset($_POST['signup'])) {
 			?>
 			<form method="post">
 
-
-				<div class="form-group">
-				  <label>FullName</label>
-				  <input type="text" name="full_name" class="form-control"  placeholder="FullName" required="required">
-				</div>
-
-				<div class="form-group">
-				  <label>Church Name</label>
-				  <input type="text" name="ch_name" class="form-control"  placeholder="Church Name" required="required">
-				</div>
-
-				<div class="form-group">
-				  <label>Church ShortName</label>
-				  <input type="text" name="short_name" class="form-control"  placeholder="Church ShortName" required="required">
-				</div>
-
-				<div class="form-group">
-				  <label>Location of Church</label>
-				  <input type="text" name="ch_location" class="form-control"  placeholder="Church Location" required="required">
-				</div>
-
+			  <div class="form-group">
+			    <label for="usernameInput">Username</label>
+			    <input type="text" name="username" class="form-control" id="usernameInput" placeholder="FullName" required="required" data-toggle="tooltip" data-placement="top" title="Username">
+			  </div>
 
 				<div class="form-group">
 				    <label>Email address</label>
-				    <input type="email" name="email" class="form-control"  placeholder="Email" required="required">
+				    <input type="email" name="email" class="form-control"  placeholder="Email" required="required" data-toggle="tooltip" data-placement="top" title="Email">
 				  </div>
-
 
 				  <div class="form-group">
 				    <label for="example-tel-input" class="col-2 col-form-label">Telephone</label>
-				      <input class="form-control" type="tel" name="tel"  id="example-tel-input">
+				      <input class="form-control" type="tel" name="tel" placeholder="Phone Number"
+				      data-toggle="tooltip" data-placement="top" title="Telephone">
 				  </div>
 
 
-				  <div class="form-group">
-				    <label for="usernameInput">Username</label>
-				    <input type="text" name="username" class="form-control" id="usernameInput" placeholder="FullName" required="required">
-				  </div>
 
 
 				<div class="form-group">
 				  <label>Password</label>
-				  <input type="password" name="password" class="form-control" placeholder="Password" required="required">
+				  <input type="password" name="password" class="form-control" placeholder="Password" required="required" data-toggle="tooltip" data-placement="top" title="Password">
 				</div>
 
 
 				<div class="form-group">
 				  <label>Confirm Password</label>
-				  <input type="password" name="password2" class="form-control" placeholder="Reapeat Password" required="required">
+				  <input type="password" name="password2" class="form-control" placeholder="Reapeat Password" required="required" data-toggle="tooltip" data-placement="top" title="Confirm Password">
 				</div>
 
-				<button type="submit" name="signup" class="default">Register Church</button>
-				<p>Already Registered.<a href="index.php" style="color: #009933"> Login</a></p>
+				<button type="submit" name="signup" class="default">Register</button>
+				<p class="next_action">Already Registered.<a href="index.php"> Login</a></p>
 			</form>
 		</div>
 		
 	</div>
 
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="../bootstrap/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
+				
+
+				
+
+
+
+
