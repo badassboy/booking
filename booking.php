@@ -23,13 +23,19 @@ if (isset($_POST['booking'])) {
 			$booked_user = $booking->createEvent($event_name,$event_date,$guest);
 			if ($booked_user) {
 
-				$email_sent = $booking->sendEmail($event_name,$event_date,$guest);
-				if ($email_sent) {
 					$msg = '<div class="alert alert-success" role="alert">Booking successful</div>';
+
+
+				// $email_sent = $booking->sendEmail($event_name,$event_date,$guest);
+				// if ($email_sent) {
+				// 	$msg = '<div class="alert alert-success" role="alert">Booking successful</div>';
 					
-				}else {
-					$msg = '<div class="alert alert-danger" role="alert">Booking failed</div>';
-				}
+				// }else {
+				// 	$msg = '<div class="alert alert-danger" role="alert">Booking failed</div>';
+				// }
+			}else {
+
+					$msg = '<div class="alert alert-warning" role="alert">Booking successful</div>';
 			}
 
 		
@@ -81,25 +87,25 @@ if (isset($_POST['booking'])) {
 					<form method="post">
 
 					  <div class="form-group">
-					    <label>Event</label>
+					    <label>Event<span style="color: red; font-size: 20px;margin-left: 5%;">*</span></label>
 					    <select class="form-control" name="event_name" id="events" data-toggle="tooltip" data-placement="top" title="select event">
 					         <option>Select</option>
 					     </select>
 					  </div>
 					        
 					 <div class="form-group">
-					   <label>Date</label>
+					   <label>Date<span style="color: red; font-size: 20px;margin-left: 5%;">*</span></label>
 					  <input class="form-control" name="cal_date" type="date"  required="required"
 					  data-toggle="tooltip" data-placement="top" title="date">
 					 </div>
 
 					
-					 <div class="form-group">
-					   <label>Guest List</label>
-					   <textarea class="form-control" name="guest" placeholder="Guest"
-					   data-toggle="tooltip" data-placement="top" title="guest list"></textarea>
-					 </div>
-					 
+				 <div class="form-group">
+				   <label>Guests<span style="color: red; font-size: 20px;margin-left: 5%;">*</span></label>
+				   <textarea class="form-control" name="guest" placeholder="Guest"
+				   data-toggle="tooltip" data-placement="top" title="guest list"></textarea>
+				 </div>
+				 
 
 					  <button type="submit" name="booking" class="btn btn-default">Book Now</button>
 					</form>

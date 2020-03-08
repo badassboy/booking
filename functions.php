@@ -37,6 +37,7 @@ class Booking{
 			if ($user >  0) {
 				return false;
 			}else {
+				
 
 
 				$hashed = password_hash($password,PASSWORD_BCRYPT);
@@ -59,28 +60,39 @@ class Booking{
 		
 }
 
+
+
+
+// logs users into the application
 	public function login_user($email,$password){
 
-		$dbh = DB();
-		$stmt = $dbh->prepare("SELECT id,email,password FROM users WHERE email = ?");
-
+	
+	try{
+		$db = DB();
+		$stmt = $db->prepare("SELECT email,password FROM users WHERE email = ?");
 		$stmt->execute([$email]);
+		if($stmt->rowCount()>0){
+
+		
+
 		$data = $stmt->fetch(PDO::FETCH_ASSOC);
-		$count = $stmt->rowCount();
-		if ($count == 1) {
-			
-			if (password_verify($password, $data['password'])) {
-				$_SESSION['id'] = $data['id'];
-				return true;
-			}else{
-				return false;
-			}
-			
-		}else{
+		
+		if (password_verify($password, $data['password'])) {
+			return $data;
+		}else {
 			return false;
 		}
-		
+
+		}else {
+			return false;
+		}
+			
+	}catch(PDOException $ex){
+		exit($ex->getMessage());
 	}
+}
+
+		
 			
 
 
@@ -91,7 +103,7 @@ class Booking{
 
 
 			
-// this is the signup code to register user
+// this is the signup code to register administrators
 
 	function registerAdmin($username,$email,$tel,$password){
 		
@@ -138,7 +150,7 @@ class Booking{
 		
 	}
 
-		// login function here
+		// login for admin function here
 		public function loginAdmin($email,$password){
 
 		$dbh = DB();
@@ -146,6 +158,7 @@ class Booking{
 
 		$stmt->execute([$email]);
 		$data = $stmt->fetch(PDO::FETCH_ASSOC);
+
 		$count = $stmt->rowCount();
 		if ($count == 1) {
 			
@@ -161,6 +174,8 @@ class Booking{
 		}
 		
 	}
+
+	
 
 	
 
@@ -450,6 +465,13 @@ class Booking{
 
 			}
 		}
+
+
+		public function secureId($id){
+			$string_id = strval($id);
+			return  base64_encode(bin2hex(random_bytes(10)));
+		}
+			
 
 
 				

@@ -58,10 +58,13 @@
 	margin-left: 30%;
 }
 
+
+
 form label{
 	padding-left: 30%;
 	font-weight: bold;
 }
+
 
 .btn-default {
 	width: 40%;
@@ -73,6 +76,8 @@ form label{
 	color: white;
 	font-weight: bold;
 }
+
+
 
 @media screen and (max-width: 576px){
 

@@ -9,10 +9,8 @@ $stmt->execute();
 while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
 
 	$id = $result['id'];
-	// converting id to string
-	// $string_id = strval($id);
-	// echo(gettype($string_id));
-	// $encoded_id = urlencode($string_id); 
+
+	
 
 	$trash = '<a href="delete_eventpromote.php?trash='.$id.'">
 				<i class="fa fa-trash" aria-hidden="true"></i>

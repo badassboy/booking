@@ -3,43 +3,46 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 require("functions.php");
-$booking = new Booking();
+$ch = new Booking();
 
 $msg = "";
-if (isset($_POST['loginBtn'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
 	
 	$email = $_POST['email'];
 	
 	$password = $_POST['pwd'];
 
-	if (empty($email) || empty($password)) {
-		$msg = '<div class="alert alert-danger" role="alert">Fields required</div>';
-	}else{
-		$user = $booking->login_user($email,$password);
-		if ($user) {
+	if (!empty($email) || !empty($password)) {
+		$user = $ch->login_user($email,$password);
+		if (empty($user)) {
+
+
 
 			$_SESSION['username'] = $user;
-			$_SESSION['email'] = $email;
-			$_SESSION['pwd'] = $password;
-			
 			header("Location: homepage.php");
+			
 
-			// session_write_close();
 		}else {
 			$msg = '<div class="alert alert-danger" role="alert">Login failed</div>';
+			// echo "no";
 		}
+	}else{
+			$msg = '<div class="alert alert-danger" role="alert">Field required</div>';
+		
 	}
 
 
 }
 
 
-
-
-
 ?>
 
 
+
+
+
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -98,12 +101,16 @@ if (isset($_POST['loginBtn'])) {
 			}
 
 
-			.btn-secondary {
-				width: 55%;
+
+			.default {
+				background-color: #e6e600;
+				color:#ffffff;
+				width: 60%;
 				height: 40px;
-				margin-left: 20%;
-				border: 2px solid ##e6e600;
+				border: 1px solid  #e6e600;
 				font-weight: bolder;
+				font-size: 20px;
+				margin-left: 15%;
 			}
 		
 
@@ -135,7 +142,7 @@ if (isset($_POST['loginBtn'])) {
 				 input[type=email],input[type=password] {
 							width: 70%;
 							margin-left: 15%;
-							font-size: 16px;
+							font-size: 15px;
 				}
 
 				.btn-secondary {
@@ -183,22 +190,25 @@ if (isset($_POST['loginBtn'])) {
 					   <input type="email" name="email" class="form-control" aria-describedby="emailHelp" placeholder="Email" data-toggle="tooltip" data-placement="top" title="Email">
 					 </div>
 					  
-					    
-
 					  <div class="form-group">
 					    <label for="exampleInputPassword1">Password</label>
 					    <input type="password" name="pwd" class="form-control" id="exampleInputPassword1" placeholder="Password" required="required" data-toggle="tooltip" data-placement="top" title="Password">
 					  </div>
+					    
+			    	 <input type="submit" name="login" class="default" value="Login">
 
-					 
-					  <button type="submit" name="loginBtn" class="btn btn-secondary" style="background-color:#e6e600; color:#ffffff; font-weight: bolder; font-size: 20px;">Login</button>
-
-					  <p class="next_action">Forget Password?<a href="reset_user_email.php">Click Here</a></p>
+				  <p class="next_action">Forget Password?<a href="reset_user_email.php">Click Here</a></p>
 
 					</form>
 				</div>
 
 			</div>
+
+					 
+						
+				
+
+
 
 
 		<?php include("footer.php"); ?>

@@ -173,7 +173,7 @@ if (isset($_POST['submit'])) {
 			  </div>
 
 			  <div class="form-group">
-			      <label for="exampleFormControlInput1">Email address</label>
+			      <label for="exampleFormControlInput1">Email Address</label>
 			      <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="Enter email" required="required"  data-toggle="tooltip" data-placement="top" title="Email">
 			    </div>
 
