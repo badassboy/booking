@@ -13,9 +13,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	
 	$password = $_POST['pwd'];
 
-	if (!empty($email) || !empty($password)) {
+	if (!empty($email) && !empty($password)) {
 		$user = $ch->login_user($email,$password);
-		if (empty($user)) {
+		if ($user !== false) {
 
 
 
