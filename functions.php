@@ -10,10 +10,12 @@ require("database.php");
 
 class Booking{
 
+	
+
 
 	//is this working?
 	// yes but something else
-	public function registerUser($username,$email,$tel,$pass){
+	public function registerUser($username,$email,$password){
 
 		$dbh = DB();
 
@@ -24,9 +26,13 @@ class Booking{
 
 		if (!$valid_email) {
 			return false;
+			// checking for correct username input
 		}elseif (!ctype_alpha($username)) {
 			return false;
-		}elseif (strlen($tel) < 10 && (!ctype_digit($tel))) {
+			// checking for correct mobile number and it's length
+		}
+
+		elseif (strlen($password)<5) {
 			return false;
 		}else {
 
@@ -40,9 +46,9 @@ class Booking{
 				
 
 
-				$hashed = password_hash($password,PASSWORD_BCRYPT);
-				$stmt = $dbh->prepare("INSERT INTO users(username,email,mobile,password) VALUES(?,?,?,?)");
-				$stmt->execute([$username,$valid_email,$tel,$hashed]);
+				$hashed = password_hash($password,PASSWORD_DEFAULT);
+				$stmt = $dbh->prepare("INSERT INTO users(username,email,password) VALUES(?,?,?)");
+				$stmt->execute([$username,$valid_email,$hashed]);
 				$inserted = $stmt->rowCount();
 				if ($inserted>0) {
 					return true;
@@ -54,55 +60,62 @@ class Booking{
 
 
 		}
-
-		
-
-		
 }
+// end here
+
+		
+
+		
 
 
 
-
+// here is the code
 // logs users into the application
-	public function login_user($email,$password){
+		public function login_user($email,$password){
 
-	
-	try{
-		$db = DB();
-		$stmt = $db->prepare("SELECT email,password FROM users WHERE email = ?");
-		$stmt->execute([$email]);
-		if($stmt->rowCount()>0){
+			
+				$db = DB();
 
-		
+				// removing unwanted characters including blank space
+				$sanitized_email = filter_var($email,FILTER_SANITIZE_EMAIL);
+				// validating to check for right email address
+				$valid_email =  filter_var($sanitized_email,FILTER_VALIDATE_EMAIL);
 
-		$data = $stmt->fetch(PDO::FETCH_ASSOC);
-		
-		if (password_verify($password, $data['password'])) {
-			return $data;
-		}else {
-			return false;
+				if (!$valid_email) {
+					return false;
+				}else {
+
+					$stmt = $db->prepare("SELECT email,password FROM users WHERE email = ?");
+					$stmt->execute([$valid_email]);
+					$data = $stmt->fetch(PDO::FETCH_ASSOC);
+					
+					
+					if($stmt->rowCount()>0){
+						if (password_verify($password, $data['password'])) {
+							return true;
+						}else {
+							return false;
+						}
+						//return password_verify($password, $data['password']);
+					}else {
+						return false;
+					}
+				}
 		}
 
-		}else {
-			return false;
-		}
-			
-	}catch(PDOException $ex){
-		exit($ex->getMessage());
-	}
-}
+					
 
+					
+
+				
+					
 		
-			
+				
 
 
 
 
-
-
-
-
-			
+				
 // this is the signup code to register administrators
 
 	function registerAdmin($username,$email,$tel,$password){
@@ -177,22 +190,41 @@ class Booking{
 
 	
 
-	
-
-
-	public function createEvent($event_name,$event_date,$guest)
+	public function registerApplicant(array $studentArray)
 	{	
 
+		// Validate input array keys to avoid potential issues
+    $requiredKeys = ['intention', 'package', 'fullname', 'contact', 'location', 'experience'];
+    foreach ($requiredKeys as $key) {
+        if (!array_key_exists($key, $studentArray)) {
+            // Handle missing key error here
+            return false;
+        }
+    }
+
+
+		$intention = $studentArray['intention'];
+		$course_package = $studentArray['package'];
+		$fullName = $studentArray['fullname'];
+		$contact = $studentArray['contact'];
+		$location = $studentArray['location'];
+		$experience = $studentArray['experience'];
+		// $intention = $studentArray['intention'];
+
 		$dbs = DB();
+		// prepare database operation
+		$stmt = $dbs->prepare("INSERT INTO applicant(intention,package,fullname,contact,
+			location,experience) VALUES(?,?,?,?,?,?)");
 		
-		$stmt = $dbs->prepare("INSERT INTO booked(event_name,event_date,guest) 
-			VALUES(?,?,?)");
-		$stmt->execute([$event_name,$event_date,$guest]);
+		$stmt->execute([$intention,$course_package,$fullName,$contact,$location,$experience]);
+
+		// check for successful operation
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;
 		}else {
-			return $dbs->errorInfo();
+			// return $dbs->errorInfo();
+			return false;
 		}
 	}
 
@@ -213,6 +245,7 @@ class Booking{
 		}
 	}
 
+	// Generate a csv report
 	public function generateCSV(){
 		$dbh = DB();
 		header('Content-Type: text/csv');
@@ -298,7 +331,8 @@ class Booking{
 						$email = $data['email'];
 						$password = password_hash($data['password'], PASSWORD_DEFAULT);
 
-							// generate a unique random token of length 100
+
+						// generate a unique random token of length 100
 						$token = bin2hex(random_bytes(50));
 						// generating a salt from the token
 						$salt = substr(strtr(base64_encode($token), '+', '.'), 0, 36);
@@ -316,33 +350,33 @@ class Booking{
 							
 						// $msg = "Hi there, click on below link to reset your password<br> <a href=\"new_password.php?token=" . $token . "\">link</a>";
 
-							$msg = "Click <a href='www.xsoftgh.com/booking/admin/new_password.php?token=$token' >here</a> to reset your password";
+		$msg = "Click <a href='www.xsoftgh.com/booking/admin/new_password.php?token=$token' >here</a> to reset your password";
 									
 							   
 
-							  
-							   	$headers[] = 'MIME-Version: 1.0';
-							   	$headers[] = 'Content-type: text/html; charset=iso-8859-1';
+		  
+		   	$headers[] = 'MIME-Version: 1.0';
+		   	$headers[] = 'Content-type: text/html; charset=iso-8859-1';
 
-							   
-							   $email_sent = mail($to, $subject, $msg, implode("\r\n", $headers));
-							   if ($email_sent) {
-							   		return true;
-							   		header('Location: new_password.php?email=' . $email);
-							   }else {
-							   	return false;
-							   }
-						}
+		   
+		   $email_sent = mail($to, $subject, $msg, implode("\r\n", $headers));
+		   if ($email_sent) {
+		   		return true;
+		   		header('Location: new_password.php?email=' . $email);
+		   }else {
+		   	return false;
+		   }
+	}
 
-
-					}
-				}catch(ErrorException $ex){
-					echo "Message: ".$ex->getMessage();
-				}
 
 			}
-			// end of else
+		}catch(ErrorException $ex){
+			echo "Message: ".$ex->getMessage();
 		}
+
+	}
+	// end of else
+}
 
 		
 			//Reset Admin password 
@@ -467,10 +501,7 @@ class Booking{
 		}
 
 
-		public function secureId($id){
-			$string_id = strval($id);
-			return  base64_encode(bin2hex(random_bytes(10)));
-		}
+
 			
 
 

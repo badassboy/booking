@@ -5,41 +5,44 @@ error_reporting(E_ALL);
 require("functions.php");
 $ch = new Booking();
 
+
+
 $msg = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-	
-	$email = $_POST['email'];
-	
-	$password = $_POST['pwd'];
+	$email = trim($_POST['email']);
+	$password = trim($_POST['pwd']);
 
-	if (!empty($email) || !empty($password)) {
+	if (!empty($email) && !empty($password)) {
+
 		$user = $ch->login_user($email,$password);
-		if (empty($user)) {
-
-
-
-			$_SESSION['username'] = $user;
-			header("Location: homepage.php");
-			
+		if ($user === true) {
+			header("Location:booking.php");
+			exit;
 
 		}else {
 			$msg = '<div class="alert alert-danger" role="alert">Login failed</div>';
-			// echo "no";
+
 		}
-	}else{
-			$msg = '<div class="alert alert-danger" role="alert">Field required</div>';
-		
+
+
+		}else {
+			$msg = '<div class="alert alert-danger" role="alert">Fields required</div>';
+			// echo "false";
+			// increase the login attempt value
+			// $_SESSION['login_attempt'] = 0;
+			// $_SESSION['login_attempt']++;
+
+			// if ($_SESSION['login_attempt']<=3) {
+			// 	header("Location:reset_user_email.php");
+			// }
+
+
+
+		}
 	}
 
-
-}
-
-
 ?>
-
-
-
 
 
 <!DOCTYPE html>

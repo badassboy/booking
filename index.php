@@ -25,13 +25,6 @@
 	    </div>
 	  </header>
 
-	<!--   <main role="main" class="inner cover">
-	    <h3 style="color:#ffffff; font-size: 3em;">FEEL AT HOME</h3>
-	    <h2 class="cover-heading" style="color:#ffffff; font-size: 3em; font-weight: bold;">AWAY FROM HOME</h2>
-	  </main> -->
-	   
-	   
-
 
 	  <footer class="mastfoot mt-auto">
 	    <div class="inner">
@@ -41,10 +34,13 @@
 	  
 	</div>
 	
-
-
-
+	   
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="bootstrap/dist/js/bootstrap.js"></script>
 </body>
 </html>
+	   
+
+	
+
+

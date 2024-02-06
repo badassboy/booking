@@ -7,24 +7,20 @@ $msg = "";
 
 if (isset($_POST['submit'])) {
 
-	$username = $_POST['username'];
-	$email = $_POST['email'];
-	$tel = $_POST['tel'];
-	$password = $_POST['password'];
+	$username = trim($_POST['username']) ?? "";
+	$email = trim($_POST['email']) ?? "";
+	
+	$password = $_POST['password'] ?? "";
 
-	if (empty($username) || empty($email) || empty($tel) || empty($password)) {
-		
-		$msg = "fields required";
-	}else {
 
-		$registered_user = $booking->registerUser($username,$email,$tel,$password);
+		$registered_user = $booking->registerUser($username,$email,$password);
 		if ($registered_user) {
-			header("Location: homepage.php");
+			header("Location: booking.php");
 		}else {
 			$msg = '<div class="alert alert-danger" role="alert">signup failed</div>';
 			
 		}
-	}
+	
 
 	
 }
@@ -179,10 +175,7 @@ if (isset($_POST['submit'])) {
 
 			   
 
-			    <div class="form-group">
-			      <label for="usernameInput">Telephone</label>
-			      <input class="form-control" name="tel" type="tel" id="example-tel-input" placeholder="telephone" required="required"  data-toggle="tooltip" data-placement="top" title="telephone">
-			    </div>
+			   
 			    
 
 			  <div class="form-group">

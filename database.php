@@ -6,7 +6,7 @@ define('USER', 'root');
 // user password
 define('PASSWORD', '');
 // database localhost name
-define('DATABASE', 'booking');
+define('DATABASE', 'events');
 
 function DB()
 {
@@ -19,20 +19,7 @@ function DB()
 	}
 }
 
-// this is the code for the new database creation
-// function DBcreate()
-// {
-// 	try{
-// 		$dbs = new PDO('mysql:host='.HOST,USER,PASSWORD);
-// 		return $dbs;
-// 	}catch(PDOException $e){
-// 		return "Error: " .$e->getMessage();
-// 		die();
-// 	}
-// }
-
-
-
-
 
 ?>
+
+
