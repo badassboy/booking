@@ -6,7 +6,7 @@ require("../database.php");
 $db = DB();
 $json = array();
 
-$stmt = $db->prepare("SELECT * FROM booked");
+$stmt = $db->prepare("SELECT * FROM applicant");
 $stmt->execute();
 while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
 
@@ -16,9 +16,9 @@ while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
 				<i class="fa fa-trash" aria-hidden="true"></i>
 			  </a>';
 
-	$event = $result['event_name'];
-	$guest = $result['guest'];
-	$date = $result['event_date'];
+	$event = $result['fullname'];
+	$guest = $result['contact'];
+	$date = $result['package'];
 	$delete = $trash;
 	
 

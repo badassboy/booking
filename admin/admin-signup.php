@@ -9,47 +9,31 @@ $msg = "";
 if (isset($_POST['signup'])) {
 
 
-	$name = trim($_POST['username']);
-	$email = trim($_POST['email']);
-	$mobile = trim($_POST['tel']);
-	$password = trim($_POST['password']);
-	$password2 = trim($_POST['password2']);
+	// $name = trim($_POST['username']);
+	$email = trim($_POST['email']) ?? "";
+	
+	$password = trim($_POST['password']) ?? "";
+	
 
-
-	if (!empty($name) || !empty($email) || !empty($mobile)|| !empty($password) || !empty($password2)) {
-
-		if (!filter_var($email,FILTER_VALIDATE_EMAIL)) {
-			$msg = "invalid email";
-		}else if ($password != $password2) {
-
-			$msg = "Password does not match";
-		}else {
-
-			$admin_id = $ch->registerAdmin($name,$email,$mobile,$password);
-
-			
+	$admin_id = $ch->registerAdmin($email,$password);
 
 			if ($admin_id==1) {
+				header("Location:index.php");
+				exit();
 
-				$msg = "Registration Successful";
-
-			
-
-
+				// $msg = "Registration Successful";
 
 			}else{
 				$msg = "Error creating new account";
 				// print_r($adminSignUp);
 			}
 
-		}
+		
 
 		
 
-	}else {
-		$msg = "field are required";
 	}
-}
+
 
 
 
@@ -104,7 +88,7 @@ if (isset($_POST['signup'])) {
 
 		.signup_form {
 			width: 40%;
-			height: 600px;
+			height: 400px;
 			background-color:rgb(255, 255, 255);
 			margin: 1% auto;
 		}
@@ -197,35 +181,21 @@ if (isset($_POST['signup'])) {
 			?>
 			<form method="post">
 
-			  <div class="form-group">
-			    <label for="usernameInput">Username</label>
-			    <input type="text" name="username" class="form-control" id="usernameInput" placeholder="FullName" required="required" data-toggle="tooltip" data-placement="top" title="Username">
-			  </div>
+			 
 
 				<div class="form-group">
 				    <label>Email address</label>
 				    <input type="email" name="email" class="form-control"  placeholder="Email" required="required" data-toggle="tooltip" data-placement="top" title="Email">
 				  </div>
 
-				  <div class="form-group">
-				    <label for="example-tel-input" class="col-2 col-form-label">Telephone</label>
-				      <input class="form-control" type="tel" name="tel" placeholder="Phone Number"
-				      data-toggle="tooltip" data-placement="top" title="Telephone">
-				  </div>
-
-
-
-
+				 
 				<div class="form-group">
 				  <label>Password</label>
 				  <input type="password" name="password" class="form-control" placeholder="Password" required="required" data-toggle="tooltip" data-placement="top" title="Password">
 				</div>
 
 
-				<div class="form-group">
-				  <label>Confirm Password</label>
-				  <input type="password" name="password2" class="form-control" placeholder="Reapeat Password" required="required" data-toggle="tooltip" data-placement="top" title="Confirm Password">
-				</div>
+				
 
 				<button type="submit" name="signup" class="default">Register</button>
 				<p class="next_action">Already Registered.<a href="index.php"> Login</a></p>

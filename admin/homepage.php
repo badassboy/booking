@@ -1,5 +1,8 @@
 <?php
-session_start();
+// session_start();
+
+require_once("../functions.php");
+$book = new Booking();
 
 ?>
 
@@ -97,6 +100,10 @@ session_start();
           font-weight: bold;
         }
 
+        .form-group select{
+          width: 50%;
+        }
+
         .btn-default {
             width: 50%;
             background-color:#e6e600;
@@ -148,16 +155,16 @@ session_start();
             <ul class="list-unstyled components">
                
                 <li>
-                    <a href="#"   id="add"  data-target="one" class="test">Add Data</a>
+                    <a href="#"   id="add"  data-target="one" class="test">Add Student</a>
                 </li>
                
                 <li>
-                    <a href="#"  id="all_booking" data-target="two" class="test">All Bookings</a>
+                    <a href="#"  id="all_booking" data-target="two" class="test">All Students</a>
                 </li>
 
-                <li>
+                <!-- <li>
                     <a href="#"  id="eventpromoters" data-target="three" class="test">Events & Promoters</a>
-                </li>
+                </li> -->
 
                 <li>
                     <a href="admin_logout.php">Logout</a>
@@ -178,21 +185,42 @@ session_start();
             <div class="container appointment show" id="one">
 
               <div id="message"></div>
-                <h5>Add event name and promoter</h5>
-               <form method="post" id="add_form">
+                <h5>Add Student</h5>
+
+                <form method="post" id="add_form">
                   
                   <div class="form-group">
-                    <label>Event Name</label>
-                    <input type="text" name="event_name" class="form-control" placeholder="Event Name" required="required" data-toggle="tooltip" data-placement="top" title="Event Name">
+                    <label>FullName</label>
+                    <input type="text" name="fullname" class="form-control" placeholder="Event Name" required="required" data-toggle="tooltip" data-placement="top" title="Full Name">
                   </div>
                     
                   <div class="form-group">
-                    <label>Promoter</label>
-                    <input type="text" name="promoter" class="form-control" placeholder="Promoter" required="required" data-toggle="tooltip" data-placement="top" title="Promoter">
+                    <label>Contact</label>
+                    <input type="text" name="contact" class="form-control" placeholder="Contact" required="required" data-toggle="tooltip" data-placement="top" title="Promoter">
                   </div>
+
+                   <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" name="location" class="form-control" placeholder="Location" required="required" data-toggle="tooltip" data-placement="top" title="Promoter">
+                  </div>
+
+                   <div class="form-group">
+                    <label>Course package</label>
+                    <select class="form-control" name="package">
+                    <option value="platinum">Platinum</option>
+                    <option value="gold">Gold</option>
+                    <option value="diamond">Diamond</option>
+                    
+                  </select>
+                                 
+                  </div>
+
 
                  <button type="submit" class="btn-default">Add</button>
                </form> 
+
+              
+
             </div>
 
 
@@ -209,23 +237,42 @@ session_start();
               }
 
               ?>
-                <h5>All Bookings</h5>
+                <h5>Student Data</h5>
                 <form method="post" action="csv.php">
-                <button type="submit" name="report" class="btn btn-primary">Generate Report</button>
+                <!-- <button type="submit" name="report" class="btn btn-primary">Generate Report</button> -->
                   
                 </form>
                   
                  <table class="table">
                    <thead>
                      <tr>
-                       <th scope="col">Event</th>
-                       <th scope="col">Guest List</th>
-                       <th scope="col">Date</th>
-                       <th scope="col">Action</th>
+                       <th scope="col">FullName</th>
+                       <th scope="col">Contact</th>
+                       <th scope="col">Package</th>
+                       <th scope="col">Location</th>
+                       <th scope="col">Experience</th>
+                       <!-- <th scope="col">Action</th> -->
                      </tr>
                    </thead>
+
                    <tbody>
+                    <?php
+
+                    $data = $book->displayStudentData();
+                    foreach ($data as $row) {
                     
+                    
+
+                    ?>
+                    <tr>
+                      <td><?php echo $row['fullname'] ?></td>
+                      <td><?php echo $row['contact'] ?></td>
+                      <td><?php echo $row['package'] ?></td>
+                      <td><?php echo $row['location'] ?></td>
+                      <td><?php echo $row['experience'] ?></td>
+                      <!-- <td><?php echo $row['fullname'] ?></td> -->
+                    </tr>
+                    <?php } ?>
                    </tbody>
                  </table>
 
@@ -234,7 +281,7 @@ session_start();
 
 
 
-             <div class="container event_promoters" id="three">
+            <!--  <div class="container event_promoters" id="three">
              
                 <h5>Event & Promoters</h5>
                   
@@ -252,7 +299,7 @@ session_start();
                    </tbody>
                  </table>
 
-            </div>
+            </div> -->
              
                 
 
@@ -340,46 +387,7 @@ session_start();
            // end of event
 
 
-           $(document).ready(function(){
-
-                 $.ajax({
-                   url:"bookingajax.php",
-                   type:"get",
-                   dataType:"JSON",
-                   success:function(response){
-                     // console.log(response);
-                       var len = response.length;
-                       for (var i = 0; i < len; i++) {
-
-
-                           var event = response[i]["one"];
-
-                           // "g" replaces all commas
-                          var guest = response[i]["three"].replace(/,/g, '<br>');
-                           var date = response[i]["four"];
-                           var trash = response[i]['five'];
-
-
-
-                           var table_str = "<tr>" +
-                                        "<td>" + event + "</td>" +
-                                        "<td>" + guest+ "</td>" + 
-                                        "<td>" + date + "</td>" +
-                                        "<td>" + trash + "</td>" +
-                                        "</tr>";
-
-
-                                $(".table tbody").append(table_str);
-
-                          
-                       }
-                   },
-                   error:function(response){
-                       console.log("Error: "+ response);
-                   }
-                 });
-
-           });
+          
 
 
            // showing all event and promoters

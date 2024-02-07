@@ -92,21 +92,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			    	 <input type="submit" name="login" class="default" value="Login">
 
 			    	  <br>
-			    	  <p class="next">Forget Password?<a href="reset_email.php" style="font-weight: bolder; color: #000000; ">Click Here</a></p>
+			    	  <p class="next">Not Registered?<a href="admin-signup.php" style="font-weight: bolder; color: #000000; ">Signup Here</a></p>
 			    	</form>
 			    </div>
 
 			
-
-
-		
-
-
-	</div>
-
-
-
-
+		</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript" src="../bootstrap/dist/js/bootstrap.min.js"></script>

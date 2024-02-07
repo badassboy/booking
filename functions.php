@@ -118,49 +118,21 @@ class Booking{
 				
 // this is the signup code to register administrators
 
-	function registerAdmin($username,$email,$tel,$password){
+	function registerAdmin($email,$password)
+	{
 		
 		$dbh = DB();
 
-		// removing unwanted characters including blank space
-		$sanitized_email = filter_var($email,FILTER_SANITIZE_EMAIL);
-		// validating to check for right email address
-		$valid_email =  filter_var($sanitized_email,FILTER_VALIDATE_EMAIL);
-
-		if (!$valid_email) {
-			return false;
-		}elseif (!ctype_alpha($username)) {
-			return false;
-		}elseif (strlen($tel) < 10 && (!ctype_digit($tel))) {
-			return false;
-		}else {
-
-			// if all validations are met,proceed
-			$stmt = $dbh->prepare("SELECT * FROM admin WHERE email = ?");
-			$stmt->execute([$valid_email]);
-			$user = $stmt->fetch(PDO::FETCH_ASSOC);
-			if ($user >  0) {
-				return false;
-			}else {
-
-
-				$hashed = password_hash($password,PASSWORD_BCRYPT);
-				$stmt = $dbh->prepare("INSERT INTO admin(username,email,telephone,password) VALUES(?,?,?,?)");
-				$stmt->execute([$username,$valid_email,$tel,$hashed]);
-				$inserted = $stmt->rowCount();
-				if ($inserted>0) {
-					return true;
-				}else {
-					return $dbh->errorInfo();
-				}
+	$hashed = password_hash($password,PASSWORD_BCRYPT);
+	$stmt = $dbh->prepare("INSERT INTO admin(email,password) VALUES(?,?)");
+	$stmt->execute([$email,$hashed]);
+	$inserted = $stmt->rowCount();
+	if ($inserted>0) {
+		return true;
+	}else {
+		return false;
+	}
 				
-			}
-
-
-		}
-
-
-		
 	}
 
 		// login for admin function here
@@ -229,20 +201,47 @@ class Booking{
 	}
 
 
-	public function addEventPromoter($event_name,$promoter)
+	public function adminRegisterStudent($fullname,$contact,$location,$package)
 	{	
+		try{
 
-		$dbs = DB();
+			$dbs = DB();
 		
-		$stmt = $dbs->prepare("INSERT INTO eventpromote(event,promoter) 
-			VALUES(?,?)");
-		$stmt->execute([$event_name,$promoter]);
+		$stmt = $dbs->prepare("INSERT INTO applicant(fullname,contact,location,package) 
+			VALUES(?,?,?,?)");
+		$stmt->execute([$fullname,$contact,$location,$package]);
 		$inserted = $stmt->rowCount();
 		if ($inserted>0) {
 			return true;
-		}else {
-			return $dbs->errorInfo();
+		}else{
+			return false;
 		}
+
+		}catch(PDOException $ex){
+			return $ex->getMessage();
+		}
+		
+	}
+		
+	
+
+	public function displayStudentData(){
+		try{
+
+			$dbh = DB();
+		$stmt = $dbh->prepare("SELECT * FROM applicant");
+
+		$stmt->execute();
+		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $data;
+
+
+		}catch(PDOException $ex){
+			return $ex->getMessage();
+		}
+		
+
+
 	}
 
 	// Generate a csv report
